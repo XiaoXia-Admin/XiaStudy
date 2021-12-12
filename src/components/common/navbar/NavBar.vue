@@ -1,17 +1,13 @@
 <template>
   <nav class="navbar sticky-top navbar-expand-lg navbar-light" :style="containerColor">
     <div class="container" >
-      <nav-img></nav-img>
       <slot></slot>
     </div>
   </nav>
 </template>
 
 <script>
-import NavBar from "components/common/navbar/NavBar";
 import NavImg from "components/common/navbar/NavImg";
-import NavContent from "components/common/navbar/NavContent";
-import NavContentBtn from "./NavContentBtn";
 
 export default {
   name: "NavBar",
@@ -21,10 +17,7 @@ export default {
     }
   },
   components: {
-    NavContent,
-    NavImg,
-    NavBar,
-    NavContentBtn
+    NavImg
   },
   computed: {
     containerColor() {

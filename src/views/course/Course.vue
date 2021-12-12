@@ -72,7 +72,6 @@
 
       </transition>
     </div>
-
 <!--    <div class="slide">-->
 <!--      <div class="slide-item"></div>-->
 <!--    </div>-->

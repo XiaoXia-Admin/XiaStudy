@@ -1,5 +1,4 @@
 <template>
-  <!--  :class="{active:isActive}"-->
   <div id="nav-content" class="collapse navbar-collapse position-relative">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item position-relative">
@@ -16,13 +15,9 @@
         <a slot="navContentBtn" class="nav-link ksd-nav-linknav" :class="activeStyle" :style="document ? BgColor : ''" href="/document">官方文档</a>
       </li>
     </ul>
-    <nav-btn></nav-btn>
   </div>
 </template>
 <script>
-import NavBtn from "./NavBtn";
-
-import NavContentBtn from "./NavContentBtn";
 
 export default {
   name: "NavContent",
@@ -46,8 +41,6 @@ export default {
     },
   },
   components: {
-    NavBtn,
-    NavContentBtn
   },
   methods: {},
   computed: {

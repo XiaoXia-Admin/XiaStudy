@@ -2,7 +2,7 @@
   <div id="ksdloginbox">
     <div style="position: relative;top:-2px;">
       <div>
-        <a class="btn btn-sm btn-primary loginbtn layui-layer-btn0" :class="{active:isActive1}" @click="layuiOpen" @mousemove="exchangeColor('1')" @mouseleave="leaveColor" href="javascript:void(0)">
+        <a class="btn btn-sm btn-primary loginbtn layui-layer-btn0" @click="layuiOpen" href="javascript:void(0)">
           <svg style="position: relative;top:1px;" class="bi bi-person-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
           </svg>
@@ -45,7 +45,6 @@ export default {
         area: ['500px','450px'],
         title: false,
         resize: false,
-        closeBtn: 2,
         btn: '',
         anim: 1
       })
@@ -55,9 +54,6 @@ export default {
     }
   }
 }
-layer.config({
-  skin: 'demo-class'
-})
 </script>
 
 <style scoped>
@@ -88,7 +84,7 @@ a {
   background-color: transparent;
 }
 
-.active {
+.btn-primary:hover {
   background-color: #28c58d;
 }
 

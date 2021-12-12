@@ -8,7 +8,6 @@ module.exports = {
         "components": "@/components",
         "network": "@/network",
         "views": "@/views",
-        "src": "@"
       }
     }
   }

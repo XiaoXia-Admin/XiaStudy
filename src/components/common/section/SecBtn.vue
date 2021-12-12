@@ -56,7 +56,9 @@ export default {
 .button-primary {
   border-color: transparent;
 }
-
+.button-primary:hover {
+  background-color: black;
+}
 .fw {
   font-weight: 600 !important;
 }

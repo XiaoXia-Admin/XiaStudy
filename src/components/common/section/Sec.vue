@@ -57,8 +57,6 @@ export default {
       }
       this.flag = num;
       this.flagRecord = this.flag;
-      console.log(this.imgUrl[num]);
-      console.log(num);
       return num;
     }
   },
