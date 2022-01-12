@@ -1,17 +1,17 @@
 <template>
-  <div id="nav-content" class="collapse navbar-collapse position-relative">
+  <div id="nav-content" class="navbar-collapse nav-position-relative">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item position-relative">
-        <a class="nav-link ksd-nav-linknav" :class="activeStyle" :style="this.course ? BgColor : ''" href="/course">课程</a>
+      <li class="nav-item nav-position-relative">
+        <a class="ksd-nav-linknav" :class="activeStyle" :style="this.course ? BgColor : ''" href="/course">课程</a>
         <i class="iconfont  ksd-bgd-left">热门</i>
       </li>
-      <li class="nav-item position-relative">
-        <a slot="navContentBtn" class="nav-link ksd-nav-linknav" :class="activeStyle" :style="bbs ? BgColor : ''" href="/bbs">江湖</a>
+      <li class="nav-item nav-position-relative">
+        <a slot="navContentBtn" class=" ksd-nav-linknav" :class="activeStyle" :style="bbs ? BgColor : ''" href="/bbs">江湖</a>
       </li>
-      <li class="nav-item position-relative">
+      <li class="nav-item nav-position-relative">
         <a slot="navContentBtn" class="nav-link ksd-nav-linknav" :class="activeStyle" :style="download ? BgColor : ''" href="/download">下载</a>
       </li>
-      <li class="nav-item position-relative">
+      <li class="nav-item nav-position-relative">
         <a slot="navContentBtn" class="nav-link ksd-nav-linknav" :class="activeStyle" :style="document ? BgColor : ''" href="/document">官方文档</a>
       </li>
     </ul>
@@ -40,9 +40,6 @@ export default {
       default: '#35a8f0'
     },
   },
-  components: {
-  },
-  methods: {},
   computed: {
     activeStyle() {
       this.flag = this.$route.path.indexOf('/login') !== -1
@@ -61,7 +58,7 @@ export default {
 
 <style scoped>
 
-.position-relative {
+.nav-position-relative {
   position: relative !important;
 }
 
@@ -120,11 +117,6 @@ export default {
   margin: 0 10px;
 }
 
-a {
-  text-decoration: none;
-  background-color: transparent;
-}
-
 .navbar-collapse {
   display: flex !important;
   flex-basis: auto;
@@ -140,4 +132,8 @@ a {
   border-radius: 18px;
 }
 
+a {
+  text-decoration: none;
+  background-color: transparent;
+}
 </style>

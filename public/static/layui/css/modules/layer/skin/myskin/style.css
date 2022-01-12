@@ -1,0 +1,51 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 2805605 */
+  src: url('//at.alicdn.com/t/font_2805605_3su7dugsz42.woff2?t=1640966145836') format('woff2'),
+  url('//at.alicdn.com/t/font_2805605_3su7dugsz42.woff?t=1640966145836') format('woff'),
+  url('//at.alicdn.com/t/font_2805605_3su7dugsz42.ttf?t=1640966145836') format('truetype');
+}
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.icon-weixin1:before {
+  content: "\e65c";
+}
+
+.icon-weixin:before {
+  content: "\e64f";
+}
+
+.login_title {
+  font-family: PingFangSC-Regular;
+  font-size: 24px;
+  color: #666666;
+  letter-spacing: 0;
+  line-height: 40px;
+  text-align: center;
+  font-weight: 600;
+  padding-top: 60px;
+}
+
+.weixin-login-btn {
+  background: #1E9FFF;
+  color: #fff !important;
+  padding: 20px 54px;
+  font-size: 16px;
+  border-radius: 34px;
+  cursor: pointer;
+  transition: 300ms ease-in-out;
+}
+.weixin-login-btn:hover {
+  background: #12a46f !important;
+}
+.wx-qr-code-img {
+  margin: 68px 0 90px;
+  border-radius: 12px;
+  text-align: center;
+}

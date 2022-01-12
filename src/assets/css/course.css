@@ -1,6 +1,6 @@
 /*过度动画*/
 .slide-fade-enter-active {
-  transition: all 2s ease;
+  transition: all 1.5s ease;
 }
 .slide-fade-enter
   /* .slide-fade-leave-active for below version 2.1.8 */ {
@@ -21,7 +21,7 @@
   background-image: url("../../assets/img/coursebg.jpg");
   display: flex;
   margin-bottom: 20px;
-  height: 320px;
+  height: 279px;
   background-position: center;
   filter: hue-rotate(320deg);
   background-size: cover;
@@ -40,7 +40,7 @@
   font-weight: 600;
   color: #fff;
   margin-bottom: 10px;
-  margin-top: 100px;
+  margin-top: 62px;
   text-align: center;
 }
 .course_img_context {
@@ -57,14 +57,16 @@
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
-  margin-left: 167px;
+  margin-left: 130px;
   margin-top: 51px;
 }
 .course_auto {
   margin-right: auto !important;
 }
-.position-relative {
+.course_position_relative {
   position: relative !important;
+  width: 130px;
+  height: 30px;
 }
 .course_nav_item {
   margin: 0 10px;

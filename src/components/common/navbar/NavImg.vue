@@ -1,6 +1,6 @@
 <template>
   <div id="nav-img">
-    <a class="navbar-brand logo" href="/">
+    <a href="/">
       <img v-if="pathCumputed" style="width: 112px;" src="../../../assets/img/index_topleft_logo.png" alt="">
       <img v-else style="width: 112px;" src="../../../assets/img/index_topleft_logo_black.png" alt="">
     </a>
@@ -10,10 +10,6 @@
 <script>
 export default {
   name: "NavImg",
-  data() {
-    return {
-    }
-  },
   computed: {
     pathCumputed() {
       return this.$route.path.indexOf('/login') !== -1

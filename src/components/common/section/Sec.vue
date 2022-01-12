@@ -1,11 +1,10 @@
 <template>
   <div id="sec">
-    <section class="top-section bgImg" :style="{backgroundImage: 'url('+this.imgUrl[this.flag != this.flagRecord ? (this.flagRecord != this.flag ? this.flagRecord.default : this.flagRecord) : this.flag] +')'}">
+    <section class="top-section sec_bg_img" :style="{backgroundImage: 'url('+this.imgUrl[this.flag != this.flagRecord ? (this.flagRecord != this.flag ? this.flagRecord.default : this.flagRecord) : this.flag] +')'}">
       <div class="vertical-middle">
         <SecMessage></SecMessage>
         <SecBtn></SecBtn>
-        <div class="blink" style="position: fixed;left:0;right:0;text-align: center;bottom: -100px;">连按8次【B】键，可以切换背景
-        </div>
+        <div class="blink" style="position: fixed;left:0;right:0;text-align: center;bottom: -100px;">连按8次【B】键，可以切换背景</div>
       </div>
     </section>
   </div>
@@ -14,6 +13,8 @@
 <script>
 import SecMessage from "./SecMessage";
 import SecBtn from "./SecBtn";
+import {randomNum} from "../../../common/utils";
+
 export default {
   name: "Sec",
   components: {
@@ -50,15 +51,7 @@ export default {
     }
   },
   methods: {
-    randomNum(min, max) {
-      let num = Math.floor(Math.random() * (max - min) + min)
-      while (this.flag === num) {
-        num = Math.floor(Math.random() * (max - min) + min)
-      }
-      this.flag = num;
-      this.flagRecord = this.flag;
-      return num;
-    }
+    randomNum
   },
   created() {
     const g = this;
@@ -88,10 +81,12 @@ export default {
   background: transparent;
 
 }
-.bgImg {
+
+.sec_bg_img {
   background-size: cover !important;
   background: rgb(33, 150, 243) url("../../../assets/img/10.png") no-repeat scroll 0% 0%;
 }
+
 section {
   display: block;
 }

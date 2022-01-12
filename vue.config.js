@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 module.exports = {
   //配置别名
   configureWebpack: {
@@ -9,6 +10,19 @@ module.exports = {
         "network": "@/network",
         "views": "@/views",
       }
-    }
+    },
+    plugins: [
+
+      new webpack.ProvidePlugin({
+
+        $:"jquery",
+
+        jQuery:"jquery",
+
+        "windows.jQuery":"jquery"
+
+      })
+
+    ]
   }
 }

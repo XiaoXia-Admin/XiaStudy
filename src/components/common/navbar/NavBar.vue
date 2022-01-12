@@ -1,30 +1,22 @@
 <template>
-  <nav class="navbar sticky-top navbar-expand-lg navbar-light" :style="containerColor">
-    <div class="container" >
+  <nav class="navbar" :style="containerColor">
+    <div class="nav_container" >
       <slot></slot>
     </div>
   </nav>
 </template>
 
 <script>
-import NavImg from "components/common/navbar/NavImg";
+import cookie from "js-cookie";
 
 export default {
   name: "NavBar",
-  data() {
-    return {
-
-    }
-  },
-  components: {
-    NavImg
-  },
   computed: {
     containerColor() {
       let flag = this.$route.path.indexOf('/login') !== -1
       return flag ? {backgroundColor: 'transparent !important'}: {backgroundColor: 'white'}
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>
@@ -39,7 +31,7 @@ export default {
   padding: .5rem 1rem;
 }
 
-.container {
+.nav_container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -51,11 +43,6 @@ export default {
   margin-right: auto;
   margin-left: auto;
   margin-top: -5px;
-}
-
-a {
-  text-decoration: none;
-  background-color: transparent;
 }
 
 </style>

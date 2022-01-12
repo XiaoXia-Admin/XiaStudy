@@ -1,10 +1,12 @@
 <template>
-  <div id="ksdloginbox">
+  <div id="login_box">
     <div style="position: relative;top:-2px;">
       <div>
-        <a class="btn btn-sm btn-primary loginbtn layui-layer-btn0" @click="layuiOpen" href="javascript:void(0)">
-          <svg style="position: relative;top:1px;" class="bi bi-person-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+        <a class="btn btn-size btn-primary" @click="layuiOpen" href="javascript:void(0)">
+          <svg style="position: relative;top:1px;" class="bi bi-person-fill" width="1em" height="1em"
+               viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+                  d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
           </svg>
           登录
         </a>
@@ -14,50 +16,34 @@
 </template>
 
 <script>
-import {exchangeColor,leaveColor} from "../../../common/utils";
-
+import {layuiOpen} from "../../../common/utils";
+import NavUserLogin from "./NavUserLogin";
 export default {
   name: "NavBtn",
+  components: {NavUserLogin},
   data() {
     return {
       isActive1: false,
-      isActive2: false
+      isActive2: false,
+      token: '',
     }
   },
   methods: {
-    exchangeColor,
-    leaveColor,
-    //示范一个公告层
-    layuiOpen() {
-      let index = layer.open({
-        id: 'navOpen',
-        content: `<div class="login_title" >打开微信扫一扫登录/注册</div>
-                            <div class="wx-qr-code-img">
-                                <div class="img">
-                                    <a class="weixin-login weixin-login-btn" >
-                                        <i class="iconfont icon-weixin1"></i>微信扫描注册/登录
-                                    </a>
-                                </div>
-                            </div>
-                    `,
-        skin: 'box',
-        offset: '100px',
-        area: ['500px','450px'],
-        title: false,
-        resize: false,
-        btn: '',
-        anim: 1
-      })
-      layer.style(index, {
-        borderRadius: '15px'
-      });
+    //登录弹窗
+    layuiOpen,
+  },
+  created() {
+    //获取路径里的token
+    this.token = this.$route.query.token
+    if(this.token) {
+
     }
   }
 }
 </script>
 
 <style scoped>
-.btn-sm {
+.btn-size {
   padding: .25rem .5rem;
   font-size: .875rem;
   line-height: 1.5;
@@ -67,6 +53,10 @@ export default {
 .btn-primary {
   color: #fff;
   background-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #28c58d;
 }
 
 .btn {
@@ -82,10 +72,6 @@ export default {
 a {
   text-decoration: none;
   background-color: transparent;
-}
-
-.btn-primary:hover {
-  background-color: #28c58d;
 }
 
 

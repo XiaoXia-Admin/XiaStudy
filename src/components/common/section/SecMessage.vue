@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import {randomNum} from "../../../common/utils";
 export default {
   name: "SecMessage",
   data() {
@@ -30,15 +31,7 @@ export default {
     }
   },
   methods: {
-    randomNum(min, max) {
-      let num = Math.floor(Math.random() * (max - min) + min)
-      while(this.flag === num) {
-        num = Math.floor(Math.random() * (max - min) + min)
-      }
-      this.flag = num;
-      this.flagRecord = this.flag;
-      return num;
-    }
+    randomNum
   }
 }
 </script>

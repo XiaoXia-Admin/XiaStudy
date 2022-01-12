@@ -1,32 +1,17 @@
 <template>
   <div class="sec-btn">
-    <a class="button button-primary fw ksdbtn1" :class="{active:isActive1}" target="_blank" href="/course"  @mouseleave="leaveColor()"
-       @mousemove="exchangeColor('1')"><i
+    <a class="button button-primary fw btn1" target="_blank" href="/course" ><i
       class="layui-icon layui-icon-note"></i>课程</a>
-    <a class="button button-primary fw ksdbtn1 ksdbtn2" :class="{active:isActive2}" target="_blank" href="/bbs"  @mouseleave="leaveColor()"
-       @mousemove="exchangeColor('2')"><i
+    <a class="button button-primary fw btn1 btn2" target="_blank" href="/bbs"><i
       class="iconfont icon-wenzhang"></i>文章</a>
-    <a class="button button-primary fw ksdbtn1 ksdbtn4" :class="{active:isActive3}" target="_blank" href="/message"  @mouseleave="leaveColor()"
-       @mousemove="exchangeColor('3')"><i
+    <a class="button button-primary fw btn1 btn3" target="_blank" href="/message"><i
       class="layui-icon layui-icon-tree"></i>官网文档</a>
   </div>
 </template>
 
 <script>
-import {exchangeColor,leaveColor} from "../../../common/utils";
 export default {
-  name: "SecBtn",
-  data() {
-    return {
-      isActive1: false,
-      isActive2: false,
-      isActive3: false
-    }
-  },
-  methods: {
-    exchangeColor,
-    leaveColor
-  }
+  name: "SecBtn"
 }
 </script>
 
@@ -45,13 +30,6 @@ export default {
   display: inline-block;
 }
 
-.ksdbtn1 {
-  height: 42px;
-  line-height: 42px;
-  background: #28c58d;
-  color: #fff;
-  box-shadow: 0 0 45px #35a8f0;
-}
 
 .button-primary {
   border-color: transparent;
@@ -59,21 +37,25 @@ export default {
 .button-primary:hover {
   background-color: black;
 }
-.fw {
-  font-weight: 600 !important;
-}
 
 i {
   padding-right: 6px;
 }
+.btn1 {
+  height: 42px;
+  line-height: 42px;
+  background: #28c58d;
+  color: #fff;
+  box-shadow: 0 0 45px #35a8f0;
+}
 
-.ksdbtn2 {
+.btn2 {
   background: #4d2b8a;
   color: #fff;
   box-shadow: 0 0 45px #35a8f0;
 }
 
-.ksdbtn4 {
+.btn3 {
   background: #b1149e;
   color: #fff;
   box-shadow: 0 0 45px #35a8f0;
@@ -82,8 +64,5 @@ i {
 .sec-btn{
   text-align: center;
   margin-top: 55px;
-}
-.active {
-  background-color: #0C0C0C;
 }
 </style>

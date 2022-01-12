@@ -5,99 +5,90 @@
         <h2 class="course_img_item_title">KuangStudy,以学相伴，一生相伴</h2>
         <p class="course_img_context">须知少年凌云志，曾许人间第一流</p>
         <ul class="course_nav course_auto">
-          <li class="course_nav_item position-relative">
-            <a class="course_link" href="/course">专题课</a>
+          <li class="course_nav_item course_position_relative">
+            <a class="course_link" href="/course/special" :class="{bgColor:this.specialLanguage}">专题课</a>
           </li>
-          <li class="course_nav_item position-relative">
-            <a class="course_link" href="/bbs">java全栈</a>
+          <li class="course_nav_item course_position_relative">
+            <a class="course_link" href="/course/java" :class="{bgColor:this.javaLanguage}">java全栈</a>
           </li>
-          <li class="course_nav_item position-relative">
-            <a class="course_link" href="/download">前端全栈</a>
+          <li class="course_nav_item course_position_relative">
+            <a class="course_link" href="/course/web" :class="{bgColor:this.webLanguage}">前端全栈</a>
           </li>
-          <li class="course_nav_item position-relative">
-            <a class="course_link" href="/document">Go语言</a>
+          <li class="course_nav_item course_position_relative">
+            <a class="course_link" href="/course/web" :class="{bgColor:this.goLanguage}">Go语言</a>
           </li>
-          <li class="course_nav_item position-relative">
-            <a class="course_link" href="/document">大数据</a>
+          <li class="course_nav_item course_position_relative">
+            <a class="course_link" href="/course/bigdata" :class="{bgColor:this.bigDataLanguage}">大数据</a>
           </li>
-          <li class="course_nav_item position-relative">
-            <a class="course_link" href="/document">C/C++</a>
+          <li class="course_nav_item course_position_relative">
+            <a class="course_link" href="/course/C" :class="{bgColor:this.cLanguage}">C/C++</a>
           </li>
         </ul>
       </div>
     </div>
-    <div class="wrap">
-      <transition name="slide-fade" appear>
-        <div class="courseListBox">
-          <div class="course-row">
-            <div class="course_box_head">
-              <h2>
-                <span class="cro_icon1">1</span>
-                <span>第一阶段:&nbsp;&nbsp;JavaSE</span>
-              </h2>
-            </div>
-          </div>
-          <div class="course_box">
-            <a href="/course/detail/1317500148100386817" target="_blank" title="聊聊编程这条路">
-              <div class="course_box_item">
-                <div class="course-img">
-                  <img src="../../assets/course/01.jpg" data-original="src/assets/course/01.jpg" style="" width="100%"
-                       height="140">
-                  <span class="course_num">1</span>
-                  <span class="course_time">46:58</span>
-                </div>
-              </div>
-              <div class="course_box_content">
-                <h3 title="聊聊编程这条路" class="course_box_title">聊聊编程这条路</h3>
-                <p class="course_box_author">编程到底该如何学习？</p>
-              </div>
-              <div class="course_box_price_wrap">
-                <span
-                  class="course_box_btn">
-                  <svg
-                    class="bi bi-people-fill bipeople"
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    fill-rule="evenodd"
-                    d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"></path>
-                  </svg>93985人学过</span>
-              </div>
-            </a>
-          </div>
-        </div>
 
-      </transition>
-    </div>
-<!--    <div class="slide">-->
-<!--      <div class="slide-item"></div>-->
-<!--    </div>-->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
+
 export default {
   name: "Course",
   data() {
     return {
-      flag: true,
+      javaLanguage: false,
+      specialLanguage: false,
+      goLanguage: false,
+      cLanguage: false,
+      bigDataLanguage: false,
+      webLanguage: false,
+
     }
-  }
+  },
+  methods: {
+
+  },
+  computed: {
+    BgColor() {
+      return {backgroundColor: "#42de8d"}
+    }
+  },
+  created() {
+    this.javaLanguage = this.$route.path.indexOf('/java') !== -1
+    this.specialLanguage = this.$route.path.indexOf('/special') !== -1
+    this.goLanguage = this.$route.path.indexOf('/go') !== -1
+    this.cLanguage = this.$route.path.indexOf('/C') !== -1
+    this.bigDataLanguage = this.$route.path.indexOf('/bigdata') !== -1
+    this.webLanguage = this.$route.path.indexOf('/web') !== -1
+  },
+
+
 }
 </script>
 
 <style scoped>
 @import "../../assets/css/course.css";
 
-.slide {
-
+.course_link:hover {
+  color: #FFFFFF;
+  background-color: cornflowerblue;
+}
+.bgColor {
+  transition: all .3s;
+  background: #42de8d;
+  margin: 0 5px;
+  box-shadow: inset 0 0 1em #5f78e1;
+  color: #fafafa;
+  text-transform: capitalize;
+  font-weight: 500;
+  display: block;
+  border-radius: 4px;
+  padding: 8px 17px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
 }
 
-.slide-item {
-
-}
 
 </style>

@@ -1,0 +1,236 @@
+.xjy-topic-footer {
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  z-index: 10000;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 0 1em #b7b7b7;
+}
+
+.xjy-topic-footer .xjy-back {
+  display: inline-block;
+  width: 128px;
+  text-align: center;
+  height: 56px;
+  line-height: 56px;
+  background: #f1f1f1;
+}
+
+.xjy-back {
+  margin-right: 5px;
+}
+
+.float-left {
+  float: left !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+.xjy-topic-footer .sendbtn {
+  display: inline-block;
+  margin: 10px 24px 10px 0;
+  width: 128px;
+  float: right;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+  background: #37f;
+  cursor: pointer;
+  transition: 100ms;
+}
+
+.xjy-topic-footer .sendbtn:hover {
+  background-color: #4caf50;
+}
+
+.pr-2, .px-2 {
+  padding-right: .5rem !important;
+}
+
+.text {
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 2;
+  overflow: hidden;
+}
+
+/*表单*/
+main {
+  display: block;
+}
+
+.topic-container {
+  width: 99%;
+  margin: 0 auto;
+  position: relative;
+  top: 60px;
+}
+
+.mt-1, .my-1 {
+  margin-top: .25rem !important;
+}
+
+.bg-white {
+  background-color: #fff !important;
+}
+
+.rounded {
+  border-radius: .25rem !important;
+}
+
+.topic-container-row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+/*9:3的比例*/
+.col-md-12 {
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.col-md-9 {
+  -ms-flex: 0 0 75%;
+  flex: 0 0 75%;
+  max-width: 75%;
+}
+
+.col-md-3 {
+  -ms-flex: 0 0 25%;
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+.editormd, .blog-main input, .blog-main select, .blog-main .tagsinput-primary {
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+.editormd, .blog-main input:hover, .blog-main select:hover {
+  font-weight: bolder;
+}
+.editormd, .blog-main input:focus, .blog-main select:focus {
+  font-weight: bolder;
+}
+input[type="text"], input[type="email"], input[type="url"], textarea {
+  border: 1px solid #E9E9E9;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+
+button, input, optgroup, option, select, textarea {
+  font-family: inherit;
+  font-style: inherit;
+}
+
+.custom-control-label::before, .custom-file-label, .custom-select {
+  transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.custom-select {
+  padding: .375rem 1.75rem .375rem .75rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  vertical-align: middle;
+  background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right .75rem center/8px 10px;
+  border-radius: .25rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  transition: outline-color .15s ease-in-out,outline-width .15s ease-in-out;
+}
+.custom-select:focus {
+  outline: 5px solid rgba(30,159,255,0.5);
+}
+.bootstrap-tagsinput {
+  position: relative;
+  padding: 4px 6px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  display: inline-block;
+  padding: 4px 26px;
+  color: #666;
+  vertical-align: middle;
+  max-width: 100%;
+  line-height: 40px;
+  cursor: text;
+  height: 50px;
+  outline: none;
+  font-size: 14px;
+  font-weight: 400;
+  overflow: hidden;
+}
+
+
+.w-100 {
+  width: 100% !important;
+}
+
+.d-block {
+  display: block !important;
+}
+
+.mt-3, .my-3 {
+  margin-top: 1rem !important;
+}
+
+.topic-label {
+  border: 2px solid #F9F9F9;
+  padding: 16px 6px;
+  cursor: text;
+  height: 50px;
+  font-size: 14px;
+  position: relative;
+}
+
+.topic-label input {
+  border: none;
+  box-shadow: none;
+  padding: 0 6px;
+  position: absolute;
+  width: 97%;
+}
+
+.topic-label {
+  background-color: #fff;
+  border: 2px solid #F9F9F9;
+  padding: 16px 6px;
+  color: #666;
+  vertical-align: middle;
+  max-width: 100%;
+  line-height: 40px;
+  cursor: text;
+  height: 50px;
+  outline: none;
+  font-size: 14px;
+  font-weight: 400;
+  overflow: hidden;
+  position: relative;
+}
+
+.topic-label input {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  background-color: transparent;
+  padding: 0 6px;
+  margin: 0;
+  width: auto;
+  max-width: inherit;
+  position: absolute;
+  width: 97%;
+  border: none;
+}
