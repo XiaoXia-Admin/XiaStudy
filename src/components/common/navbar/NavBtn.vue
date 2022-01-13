@@ -26,6 +26,7 @@ export default {
       isActive1: false,
       isActive2: false,
       token: '',
+      loginBtn: true,
     }
   },
   methods: {
@@ -33,11 +34,7 @@ export default {
     layuiOpen,
   },
   created() {
-    //获取路径里的token
-    this.token = this.$route.query.token
-    if(this.token) {
 
-    }
   }
 }
 </script>

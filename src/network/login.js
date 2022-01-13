@@ -2,11 +2,13 @@ import request from './request'
 
 export default {
   //登录的方法
-  submitLoginUser(userInfo) {
+  accountGetUserInfo(account) {
     return request({
-      url: `/educenter/member/login`,
+      url: `/api/ulogin/account/userInfo`,
       method: 'post',
-      data: userInfo
+      params: {
+        "account": account
+      }
     })
   },
 

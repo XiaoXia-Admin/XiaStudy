@@ -49,3 +49,108 @@
   border-radius: 12px;
   text-align: center;
 }
+
+.form-bottom {
+  margin: 85px auto 0;
+}
+.wx-qr-code p {
+  font-family: "Microsoft YaHei", "微软雅黑", Helvetica, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", Helvetica, Tahoma, "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
+  font-size: 18px;
+  color: #666666;
+  letter-spacing: 0;
+  line-height: 14px;
+  text-align: center;
+}
+
+.weixin-text {
+  margin-top: 20px;
+}
+
+
+.form-bottom p a {
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  color: #1E9FFF;
+  letter-spacing: 0;
+  line-height: 14px;
+  text-decoration: none;
+  transition: ls linear;
+}
+
+.form-bottom p a:hover {
+  font-family: "Microsoft YaHei", "微软雅黑", Helvetica, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", Helvetica, Tahoma, "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.form-login {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+}
+
+.form-login .usernameBox {
+  width: 380px;
+  height: 65px;
+  display: flex;
+  flex-direction: column;
+}
+.goLogin {
+  width: 380px;
+  height: 40px;
+  background: #1E9FFF;
+  border-radius: 8px;
+  font-family: PingFangSC-Regular;
+  font-size: 16px;
+  color: #FFFFFF;
+  letter-spacing: 0;
+  line-height: 14px;
+  cursor: pointer;
+  border: none;
+}
+.login-content {
+  padding-left: 37px;
+  padding-right: 60px;
+}
+.goLogin:hover {
+  background: #18c184;
+}
+button, input {
+  overflow: visible;
+}
+.form-login .usernameBox .form-control {
+  width: 380px;
+  height: 40px;
+  line-height: 40px;
+  background: #F5F5F5;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+  transition: 150ms linear;
+  border: none;
+  padding-left: 20px;
+  box-sizing: border-box;
+  line-height: 40px;
+  /*transition: outline-color .15s ease-in-out,outline-width .15s ease-in-out;*/
+}
+.form-login .usernameBox .form-control:hover {
+  font-size: 16px;
+  font-weight: bold;
+}
+.form-login .usernameBox .form-control:focus {
+  font-size: 16px;
+  font-weight: bold;
+  outline: 5px solid rgba(30,159,255,0.5);
+}
+.weixin-text {
+  margin-top: 20px;
+}
+.form-bottom p {
+  font-family: PingFangSC-Regular;
+  font-size: 14px;
+  color: #666666;
+  letter-spacing: 0;
+  line-height: 14px;
+  text-align: center;
+}

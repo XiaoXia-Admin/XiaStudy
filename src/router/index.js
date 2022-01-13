@@ -48,6 +48,9 @@ const routes = [
   {
     path: '/login',
     component: Home,
+    meta: {
+      title: '首页'
+    }
   },
   {
     path: '/course',
@@ -81,19 +84,31 @@ const routes = [
         path: 'go',
         component: GoCourse
       }
-    ]
+    ],
+    meta: {
+      title: '课程'
+    }
   },
   {
     path: '/bbs',
-    component: Bbs
+    component: Bbs,
+    meta: {
+      title: '江湖'
+    }
   },
   {
     path: '/topic',
     component: Message,
+    meta: {
+      title: '发布文章'
+    }
   },
   {
     path: '/message',
-    component: Document
+    component: Document,
+    meta: {
+      title: '官方文档'
+    }
   },
   {
     path: '/user',
@@ -185,7 +200,10 @@ const routes = [
         path: 'talk',
         component: TalkAbout
       }
-    ]
+    ],
+    meta: {
+      title: '个人中心'
+    }
   },
   {
     path: '/download',
@@ -211,7 +229,10 @@ const routes = [
         path: 'code',
         component: Code
       }
-    ]
+    ],
+    meta: {
+      title: '下载'
+    }
   }
 ]
 
@@ -220,4 +241,8 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to,from ,next) => {
+  document.title = to.matched[0].meta.title
+  next();
+})
 export default router;

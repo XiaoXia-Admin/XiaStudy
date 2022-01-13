@@ -35,7 +35,7 @@
           <div class="bbs-article-title bbs-title-article-link list-card animated fadeIn delay-1s"
                data-href="bbs/1363074625050828802">
             <span class="iconfont icon-zhiding ksd-iconzhiding"></span>
-            <a target="_blank" href="bbs/1363074625050828802" class="hlink">
+            <a target="_blank" href="/bbs" class="hlink">
               <h1>个人中心换肤的尝试</h1>
             </a>
             <a target="_blank" href="bbs/1363074625050828802" class="hlink2">

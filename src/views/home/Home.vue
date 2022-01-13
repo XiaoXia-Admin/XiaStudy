@@ -5,7 +5,7 @@
 </template>
 <script>
 
-import Sec from "components/common/section/Sec";
+import Sec from "../../components/common/section/Sec";
 
 export default {
   name: "Home",
