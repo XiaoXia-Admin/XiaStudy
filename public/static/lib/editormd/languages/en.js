@@ -76,12 +76,12 @@
                     formatNotAllowed : "Error: only allows to upload pictures file, upload allowed image file format:"
                 },
                 preformattedText : {
-                    title             : "Preformatted text / Codes", 
+                    title             : "Preformatted text / Codes",
                     emptyAlert        : "Error: Please fill in the Preformatted text or content of the codes.",
                     placeholder       : "coding now...."
                 },
                 codeBlock : {
-                    title             : "Code block",         
+                    title             : "Code block",
                     selectLabel       : "Languages: ",
                     selectDefaultText : "select a code language...",
                     otherLanguage     : "Other languages",
@@ -97,33 +97,33 @@
                 }
             }
         };
-        
+
         exports.defaults.lang = lang;
     };
-    
-	// CommonJS/Node.js
+
+	// CommonJS/Node.utils
 	if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
-    { 
+    {
         module.exports = factory;
     }
-	else if (typeof define === "function")  // AMD/CMD/Sea.js
+	else if (typeof define === "function")  // AMD/CMD/Sea.utils
     {
-		if (define.amd) { // for Require.js
+		if (define.amd) { // for Require.utils
 
 			define(["editormd"], function(editormd) {
                 factory(editormd);
             });
 
-		} else { // for Sea.js
+		} else { // for Sea.utils
 			define(function(require) {
                 var editormd = require("../editormd");
                 factory(editormd);
             });
 		}
-	} 
+	}
 	else
 	{
         factory(window.editormd);
 	}
-    
+
 })();

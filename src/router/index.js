@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from 'vue-router'
+import store from "../store/index"
 
 Vue.use(VueRouter);
 
@@ -100,7 +101,7 @@ const routes = [
     path: '/topic',
     component: Message,
     meta: {
-      title: '发布文章'
+      title: '发布文章',
     }
   },
   {
@@ -202,7 +203,7 @@ const routes = [
       }
     ],
     meta: {
-      title: '个人中心'
+      title: '个人中心',
     }
   },
   {
@@ -231,7 +232,7 @@ const routes = [
       }
     ],
     meta: {
-      title: '下载'
+      title: '下载',
     }
   }
 ]
@@ -241,8 +242,8 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to,from ,next) => {
+router.beforeEach((to, from, next) => {
   document.title = to.matched[0].meta.title
-  next();
+  next()
 })
 export default router;

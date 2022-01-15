@@ -9,7 +9,7 @@
   else // Plain browser env
     mod(CodeMirror, "plain");
 })(function(CodeMirror, env) {
-  if (!CodeMirror.modeURL) CodeMirror.modeURL = "../mode/%N/%N.js";
+  if (!CodeMirror.modeURL) CodeMirror.modeURL = "../mode/%N/%N.utils";
 
   var loading = {};
   function splitCallback(cont, n) {

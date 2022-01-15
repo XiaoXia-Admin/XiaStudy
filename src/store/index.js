@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import {layuiOpen} from "../common/utils";
 
 //安装插件
 Vue.use(Vuex)
@@ -13,11 +14,15 @@ const store = new Vuex.Store({
       avatar: '',
       mobile: '',
       nickname: '',
-      sex: ''
-    }
+      sex: '',
+      account: '',
+      sign: '',
+      gmt_create: '',
+      address: ' '
+    },
+    token: ' '
   },
   mutations: {
-
   },
   actions: {
 

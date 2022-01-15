@@ -1,6 +1,6 @@
 //获取随机数，不与之前的重复
 import cookie from "js-cookie";
-
+import store from "../store";
 export function randomNum(min, max) {
   let num = Math.floor(Math.random() * (max - min) + min)
   while (this.flag === num) {
@@ -220,16 +220,19 @@ export function layuiBack(btn1, btn2, path) {
 }
 
 export function layuiDownload(btn1, btn2) {
-
-  layer.confirm(`<span style="margin:auto 97px">点击下载将会扣除对应K币,且K币不会退还!</span>`, {
-    btn: [btn1, btn2] //按钮
-  }, function () {
-    layer.msg('正在请求资源', {icon: 1});
-  }, function () {
-    layer.msg('已取消下载', {
-      time: 5000, //20s后自动关闭
+  if(typeof store.state.token == 'undefined'){
+    layuiOpen()
+  } else {
+    layer.confirm(`<span style="margin:auto 97px">点击下载将会扣除对应K币,且K币不会退还!</span>`, {
+      btn: [btn1, btn2] //按钮
+    }, function () {
+      layer.msg('正在请求资源', {icon: 1});
+    }, function () {
+      layer.msg('已取消下载', {
+        time: 5000, //20s后自动关闭
+      });
     });
-  });
+  }
 }
 
 export function cancelSign() {
@@ -255,5 +258,13 @@ export function loginOut() {
 
   });
 
+}
+// <span style="margin:auto 97px">点击下载将会扣除对应K币,且K币不会退还!</span>
+export function exchangeAvatar() {
+  layer.confirm(`<p>一旦修改为默认头像，则无法切换为微信头像！<br><span style="margin: 80px">是否确认此操作?</span></p>`, {btnAlign:'c'},function () {
+    layer.msg('修改成功');
+  }, function () {
+
+  });
 }
 

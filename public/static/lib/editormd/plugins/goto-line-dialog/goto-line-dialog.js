@@ -1,7 +1,7 @@
 /*!
  * Goto line dialog plugin for Editor.md
  *
- * @file        goto-line-dialog.js
+ * @file        goto-line-dialog.utils
  * @author      pandao
  * @version     1.2.1
  * @updateTime  2015-06-09
@@ -73,8 +73,8 @@
 
 			dialogLang.error += dialogLang.label + " 1-" + lineCount;
 
-			if (editor.find("." + dialogName).length < 1) 
-			{			
+			if (editor.find("." + dialogName).length < 1)
+			{
 				var dialogContent = [
 					"<div class=\"editormd-form\" style=\"padding: 10px 0;\">",
 					"<p style=\"margin: 0;\">" + dialogLang.label + " 1-" + lineCount +"&nbsp;&nbsp;&nbsp;<input type=\"number\" class=\"number-input\" style=\"width: 60px;\" value=\"1\" max=\"" + lineCount + "\" min=\"1\" data-line-number /></p>",
@@ -111,7 +111,7 @@
                             return false;
                         }],
 
-                        cancel : [lang.buttons.cancel, function() {                                   
+                        cancel : [lang.buttons.cancel, function() {
                             this.hide().lockScreen(false).hideMask();
 
                             return false;
@@ -128,27 +128,27 @@
 		};
 
 	};
-    
-	// CommonJS/Node.js
+
+	// CommonJS/Node.utils
 	if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
-    { 
+    {
         module.exports = factory;
     }
-	else if (typeof define === "function")  // AMD/CMD/Sea.js
+	else if (typeof define === "function")  // AMD/CMD/Sea.utils
     {
-		if (define.amd) { // for Require.js
+		if (define.amd) { // for Require.utils
 
 			define(["editormd"], function(editormd) {
                 factory(editormd);
             });
 
-		} else { // for Sea.js
+		} else { // for Sea.utils
 			define(function(require) {
                 var editormd = require("./../../editormd");
                 factory(editormd);
             });
 		}
-	} 
+	}
 	else
 	{
         factory(window.editormd);

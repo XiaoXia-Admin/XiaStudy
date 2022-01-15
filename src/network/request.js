@@ -1,6 +1,6 @@
 import axios from 'axios'
 import cookie from 'js-cookie'
-
+import {layuiOpen} from "../common/utils";
 //创建axios实例
 const instance1 = axios.create({
   baseURL: 'http://localhost:8160',

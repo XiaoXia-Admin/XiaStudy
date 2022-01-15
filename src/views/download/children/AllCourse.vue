@@ -16,6 +16,7 @@
 <script>
 import {layuiDownload} from "../../../common/utils";
 
+import cookie from 'js-cookie'
 export default {
   name: "AllCourse",
   methods: {
@@ -25,5 +26,7 @@ export default {
 </script>
 
 <style scoped>
+@import "../../../../public/static/layui/css/layui.css";
+@import "../../../../public/static/layui/css/modules/layer/default/layer.css";
 @import "../../../assets/css/download.css";
 </style>

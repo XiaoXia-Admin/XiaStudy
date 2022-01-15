@@ -41,6 +41,7 @@
 </template>
 
 <script>
+
 export default {
   name: "Download",
   data() {
@@ -86,7 +87,6 @@ export default {
 
 <style scoped>
 @import "../../assets/css/download.css";
-
 .btn-dark-active {
   color: #fff;
   background-color: #6bd7b0;

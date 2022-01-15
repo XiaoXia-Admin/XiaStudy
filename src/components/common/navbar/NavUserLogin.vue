@@ -4,15 +4,15 @@
     <a href="/user" class="ksd-home pr tp2" :style="userHead"><i
         class="iconfont icon-home pr pr-1"></i>进入主页</a>
     <a class="ksd-user-info" href="javascript:void(0);"
-       :class="{'dropdown-toggle':after,'dropdown-toggle-other':!after}" :title="this.loginInfo.nickname" data-vip="1"
+       :class="{'dropdown-toggle':after,'dropdown-toggle-other':!after}" :title="this.$store.state.loginInfo.nickname" data-vip="1"
        id="navbarDropdown">
             <span class="pr">
                 <img class="ksd-avatar2 ksd-avatar-img"
-                     :src="this.loginInfo.avatar"
+                     :src="this.$store.state.loginInfo.avatar"
                      alt="">
             </span>
       &nbsp;
-      <span class="ksd-text" :style="userTextColor">{{ this.loginInfo.nickname }}</span>
+      <span class="ksd-text" :style="userTextColor">{{ this.$store.state.loginInfo.nickname }}</span>
     </a>
     <div class="ksd-login-items">
       <div class="ksd-header-items mt-3" :class="{'xjy-header-items': after}">

@@ -1,7 +1,7 @@
 /*!
  * Image (upload) dialog plugin for Editor.md
  *
- * @file        image-dialog.js
+ * @file        image-dialog.utils
  * @author      pandao
  * @version     1.3.4
  * @updateTime  2015-06-09
@@ -256,20 +256,20 @@
 
   };
 
-  // CommonJS/Node.js
+  // CommonJS/Node.utils
   if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
   {
     module.exports = factory;
   }
-  else if (typeof define === "function")  // AMD/CMD/Sea.js
+  else if (typeof define === "function")  // AMD/CMD/Sea.utils
   {
-    if (define.amd) { // for Require.js
+    if (define.amd) { // for Require.utils
 
       define(["editormd"], function(editormd) {
         factory(editormd);
       });
 
-    } else { // for Sea.js
+    } else { // for Sea.utils
       define(function(require) {
         var editormd = require("./../../editormd");
         factory(editormd);

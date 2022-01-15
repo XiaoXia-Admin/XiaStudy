@@ -1,7 +1,7 @@
 /*!
  * Link dialog plugin for Editor.md
  *
- * @file        link-dialog.js
+ * @file        link-dialog.utils
  * @author      pandao
  * @version     1.2.1
  * @updateTime  2015-06-09
@@ -41,12 +41,12 @@
             }
             else
             {
-                var dialogHTML = "<div class=\"" + classPrefix + "form\">" + 
-                                        "<label>" + linkLang.url + "</label>" + 
+                var dialogHTML = "<div class=\"" + classPrefix + "form\">" +
+                                        "<label>" + linkLang.url + "</label>" +
                                         "<input type=\"text\" value=\"http://\" data-url />" +
-                                        "<br/>" + 
-                                        "<label>" + linkLang.urlTitle + "</label>" + 
-                                        "<input type=\"text\" value=\"" + selection + "\" data-title />" + 
+                                        "<br/>" +
+                                        "<label>" + linkLang.urlTitle + "</label>" +
+                                        "<input type=\"text\" value=\"" + selection + "\" data-title />" +
                                         "<br/>" +
                                     "</div>";
 
@@ -78,13 +78,13 @@
                                 alert(linkLang.titleEmpty);
                                 return false;
                             }*/
-                            
+
                             var str = "[" + title + "](" + url + " \"" + title + "\")";
-                            
+
                             if (title == "")
                             {
                                 str = "[" + url + "](" + url + ")";
-                            }                                
+                            }
 
                             cm.replaceSelection(str);
 
@@ -93,7 +93,7 @@
                             return false;
                         }],
 
-                        cancel : [lang.buttons.cancel, function() {                                   
+                        cancel : [lang.buttons.cancel, function() {
                             this.hide().lockScreen(false).hideMask();
 
                             return false;
@@ -104,27 +104,27 @@
 		};
 
 	};
-    
-	// CommonJS/Node.js
+
+	// CommonJS/Node.utils
 	if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
-    { 
+    {
         module.exports = factory;
     }
-	else if (typeof define === "function")  // AMD/CMD/Sea.js
+	else if (typeof define === "function")  // AMD/CMD/Sea.utils
     {
-		if (define.amd) { // for Require.js
+		if (define.amd) { // for Require.utils
 
 			define(["editormd"], function(editormd) {
                 factory(editormd);
             });
 
-		} else { // for Sea.js
+		} else { // for Sea.utils
 			define(function(require) {
                 var editormd = require("./../../editormd");
                 factory(editormd);
             });
 		}
-	} 
+	}
 	else
 	{
         factory(window.editormd);

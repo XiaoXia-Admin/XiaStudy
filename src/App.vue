@@ -4,7 +4,7 @@
       <nav-img></nav-img>
       <nav-content active-color="white" active-bg-color="#EFF3F5"></nav-content>
       <nav-btn v-if="this.isActive"></nav-btn>
-      <nav-user-login v-else :login-info="loginInfo" :is-active="isActive"></nav-user-login>
+      <nav-user-login v-else :is-active="isActive"></nav-user-login>
     </nav-bar>
     <message v-if="messageShow"></message>
     <router-view v-if="!messageShow"></router-view>
@@ -26,15 +26,6 @@ export default {
   name: 'App',
   data() {
     return {
-      token: '',
-      loginInfo: {
-        id: '',
-        age: '',
-        avatar: '',
-        mobile: '',
-        nickname: '',
-        sex: ''
-      },
       index: '',
       account: '',
       isActive: true,
@@ -44,19 +35,19 @@ export default {
     wxLogin() {
       //把token放入cookie中
       if(!cookie.get("wx_token")) {
-        cookie.set('wx_token', this.token,{domain:'localhost',expires:15})
+        cookie.set('wx_token', this.$store.state.token,{domain:'localhost',expires:15})
         cookie.set('wx_login', {domain:'localhost'})
       }
       loginApi.getLoginUserInfo()
         .then(response => {
-          this.loginInfo = response.data.data.userInfo
-          cookie.set('wx_login',this.loginInfo, {domain: 'localhost'})
+          this.$store.state.loginInfo = response.data.data.userInfo
+          cookie.set('wx_login',this.$store.state.loginInfo, {domain: 'localhost'})
       })
 
     },
     userAccountLogin(){
       loginApi.accountGetUserInfo(this.account).then(response => {
-        this.loginInfo = response.data.data.userInfo
+        this.$store.state.loginInfo = response.data.data.userInfo
         this.isActive = false;
       })
 
@@ -82,10 +73,10 @@ export default {
     }
     this.$router.onReady(() => {
       //获取路径里的token
-      this.token = this.$route.query.token
+      this.$store.state.token = this.$route.query.token
       this.index = this.$route.query.index
       this.account = this.$route.query.account
-      if(this.token || cookie.get("wx_token")) {
+      if(this.$store.state.token || cookie.get("wx_token")) {
         this.isActive = false
         this.wxLogin()
       } else if (this.index) {

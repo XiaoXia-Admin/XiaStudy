@@ -1,7 +1,7 @@
 /*!
  * Help dialog plugin for Editor.md
  *
- * @file        help-dialog.js
+ * @file        help-dialog.utils
  * @author      pandao
  * @version     1.2.0
  * @updateTime  2015-03-08
@@ -27,7 +27,7 @@
 			var dialogLang  = lang.dialog.help;
 
 			if (editor.find("." + dialogName).length < 1)
-			{			
+			{
 				var dialogContent = "<div class=\"markdown-body\" style=\"font-family:微软雅黑, Helvetica, Tahoma, STXihei,Arial;height:390px;overflow:auto;font-size:14px;border-bottom:1px solid #ddd;padding:0 20px 20px 0;\"></div>";
 
 				dialog = this.createDialog({
@@ -44,9 +44,9 @@
 						backgroundColor : settings.dialogMaskBgColor
 					},
 					buttons    : {
-						close : [lang.buttons.close, function() {      
+						close : [lang.buttons.close, function() {
 							this.hide().lockScreen(false).hideMask();
-							
+
 							return false;
 						}]
 					}
@@ -61,39 +61,39 @@
 
 			var helpContent = dialog.find(".markdown-body");
 
-			if (helpContent.html() === "") 
+			if (helpContent.html() === "")
 			{
 				$.get(path + "help.md", function(text) {
 					var md = exports.$marked(text);
 					helpContent.html(md);
-                    
+
                     helpContent.find("a").attr("target", "_blank");
 				});
 			}
 		};
 
 	};
-    
-	// CommonJS/Node.js
+
+	// CommonJS/Node.utils
 	if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
-    { 
+    {
         module.exports = factory;
     }
-	else if (typeof define === "function")  // AMD/CMD/Sea.js
+	else if (typeof define === "function")  // AMD/CMD/Sea.utils
     {
-		if (define.amd) { // for Require.js
+		if (define.amd) { // for Require.utils
 
 			define(["editormd"], function(editormd) {
                 factory(editormd);
             });
 
-		} else { // for Sea.js
+		} else { // for Sea.utils
 			define(function(require) {
                 var editormd = require("./../../editormd");
                 factory(editormd);
             });
 		}
-	} 
+	}
 	else
 	{
         factory(window.editormd);

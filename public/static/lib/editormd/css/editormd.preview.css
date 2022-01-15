@@ -1,8 +1,8 @@
 /*
  * Editor.md
  *
- * @file        editormd.preview.css 
- * @version     v1.5.0 
+ * @file        editormd.preview.css
+ * @version     v1.5.0
  * @description Open source online markdown editor.
  * @license     MIT License
  * @author      Pandao
@@ -2402,8 +2402,8 @@
 .editormd-logo-7x:before,
 .editormd-logo-8x:before {
   content: "\e1987";
-  /* 
-  HTML Entity &#xe1987; 
+  /*
+  HTML Entity &#xe1987;
   example: <span class="editormd-logo">&#xe1987;</span>
   */
 }
@@ -3191,7 +3191,7 @@
   font-family: "YaHei Consolas Hybrid", Consolas, "Microsoft YaHei", "Malgun Gothic", "Segoe UI", Helvetica, Arial !important;
 }
 
-/*! Pretty printing styles. Used with prettify.js. */
+/*! Pretty printing styles. Used with prettify.utils. */
 /* SPAN elements with the classes below are added by prettyprint. */
 .pln {
   color: #000;

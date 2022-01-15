@@ -1,7 +1,7 @@
 /*!
  * Link dialog plugin for Editor.md
  *
- * @file        link-dialog.js
+ * @file        link-dialog.utils
  * @author      pandao
  * @version     1.2.0
  * @updateTime  2015-03-07
@@ -13,7 +13,7 @@
 
     var factory = function (exports) {
 
-		var $            = jQuery;           // if using module loader(Require.js/Sea.js).
+		var $            = jQuery;           // if using module loader(Require.utils/Sea.utils).
 
 		var langs = {
 			"zh-cn" : {
@@ -82,27 +82,27 @@
 		};
 
 	};
-    
-	// CommonJS/Node.js
+
+	// CommonJS/Node.utils
 	if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
-    { 
+    {
         module.exports = factory;
     }
-	else if (typeof define === "function")  // AMD/CMD/Sea.js
+	else if (typeof define === "function")  // AMD/CMD/Sea.utils
     {
-		if (define.amd) { // for Require.js
+		if (define.amd) { // for Require.utils
 
 			define(["editormd"], function(editormd) {
                 factory(editormd);
             });
 
-		} else { // for Sea.js
+		} else { // for Sea.utils
 			define(function(require) {
                 var editormd = require("./../../editormd");
                 factory(editormd);
             });
 		}
-	} 
+	}
 	else
 	{
         factory(window.editormd);

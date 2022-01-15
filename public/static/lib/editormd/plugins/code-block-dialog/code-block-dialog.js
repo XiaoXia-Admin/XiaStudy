@@ -1,7 +1,7 @@
 /*!
  * Code block dialog plugin for Editor.md
  *
- * @file        code-block-dialog.js
+ * @file        code-block-dialog.utils
  * @author      pandao
  * @version     1.2.0
  * @updateTime  2015-03-07
@@ -14,7 +14,7 @@
     var factory = function (exports) {
 		var cmEditor;
 		var pluginName    = "code-block-dialog";
-    
+
 		// for CodeBlock dialog select
 		var codeLanguages = exports.codeLanguages = {
 			asp           : ["ASP", "vbscript"],
@@ -80,8 +80,8 @@
                 this.dialogLockScreen();
                 dialog.show();
             }
-            else 
-            {      
+            else
+            {
                 var dialogHTML = "<div class=\"" + classPrefix + "code-toolbar\">" +
                                         dialogLang.selectLabel + "<select><option selected=\"selected\" value=\"\">" + dialogLang.selectDefaultText + "</option></select>" +
                                     "</div>" +
@@ -129,7 +129,7 @@
 
                             return false;
                         }],
-                        cancel : [lang.buttons.cancel, function() {                                   
+                        cancel : [lang.buttons.cancel, function() {
                             this.hide().lockScreen(false).hideMask();
 
                             return false;
@@ -140,7 +140,7 @@
 
 			var langSelect = dialog.find("select");
 
-			if (langSelect.find("option").length === 1) 
+			if (langSelect.find("option").length === 1)
 			{
 				for (var key in codeLanguages)
 				{
@@ -150,9 +150,9 @@
 
 				langSelect.append("<option value=\"other\">" + dialogLang.otherLanguage + "</option>");
 			}
-			
+
 			var mode   = langSelect.find("option:selected").attr("mode");
-		
+
 			var cmConfig = {
 				mode                      : (mode) ? mode : "text/html",
 				theme                     : settings.theme,
@@ -173,17 +173,17 @@
 				showTrailingSpace         : true,
 				highlightSelectionMatches : true
 			};
-			
+
 			var textarea = dialog.find("textarea");
 			var cmObj    = dialog.find(".CodeMirror");
 
-			if (dialog.find(".CodeMirror").length < 1) 
+			if (dialog.find(".CodeMirror").length < 1)
 			{
 				cmEditor = exports.$CodeMirror.fromTextArea(textarea[0], cmConfig);
 				cmObj    = dialog.find(".CodeMirror");
 
 				cmObj.css({
-					"float"   : "none", 
+					"float"   : "none",
 					margin    : "8px 0",
 					border    : "1px solid #ddd",
 					fontSize  : settings.fontSize,
@@ -194,8 +194,8 @@
 				cmEditor.on("change", function(cm) {
 					textarea.val(cm.getValue());
 				});
-			} 
-			else 
+			}
+			else
 			{
 
 				cmEditor.setValue(cm.getSelection());
@@ -208,27 +208,27 @@
 		};
 
 	};
-    
-	// CommonJS/Node.js
+
+	// CommonJS/Node.utils
 	if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
-    { 
+    {
         module.exports = factory;
     }
-	else if (typeof define === "function")  // AMD/CMD/Sea.js
+	else if (typeof define === "function")  // AMD/CMD/Sea.utils
     {
-		if (define.amd) { // for Require.js
+		if (define.amd) { // for Require.utils
 
 			define(["editormd"], function(editormd) {
                 factory(editormd);
             });
 
-		} else { // for Sea.js
+		} else { // for Sea.utils
 			define(function(require) {
                 var editormd = require("./../../editormd");
                 factory(editormd);
             });
 		}
-	} 
+	}
 	else
 	{
         factory(window.editormd);

@@ -1,7 +1,7 @@
 /*
  * Editor.md
  *
- * @file        editormd.js
+ * @file        editormd.utils
  * @version     v1.5.0
  * @description Open source online markdown editor.
  * @license     MIT License
@@ -13,20 +13,20 @@
 ;(function(factory) {
     "use strict";
 
-	// CommonJS/Node.js
+	// CommonJS/Node.utils
 	if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
     {
         module.exports = factory;
     }
-	else if (typeof define === "function")  // AMD/CMD/Sea.js
+	else if (typeof define === "function")  // AMD/CMD/Sea.utils
 	{
-        if (define.amd) // for Require.js
+        if (define.amd) // for Require.utils
         {
-            /* Require.js define replace */
+            /* Require.utils define replace */
         }
         else
         {
-		    define(["jquery"], factory);  // for Sea.js
+		    define(["jquery"], factory);  // for Sea.utils
         }
 	}
 	else
@@ -36,7 +36,7 @@
 
 }(function() {
 
-    /* Require.js assignment replace */
+    /* Require.utils assignment replace */
 
     "use strict";
 
@@ -169,8 +169,8 @@
                                                // Support FontAwesome icon emoji :fa-xxx: > Using fontAwesome icon web fonts;
                                                // Support Editor.md logo icon emoji :editormd-logo: :editormd-logo-1x: > 1~8x;
         tex                  : false,          // TeX(LaTeX), based on KaTeX
-        flowChart            : false,          // flowChart.js only support IE9+
-        sequenceDiagram      : false,          // sequenceDiagram.js only support IE9+
+        flowChart            : false,          // flowChart.utils only support IE9+
+        sequenceDiagram      : false,          // sequenceDiagram.utils only support IE9+
         previewCodeHighlight : true,
 
         toolbar              : true,           // show/hide toolbar
@@ -3397,8 +3397,8 @@
             taskList             : false,          // Enable Github Flavored Markdown task lists
             emoji                : false,          // :emoji: , Support Twemoji, fontAwesome, Editor.md logo emojis.
             tex                  : false,          // TeX(LaTeX), based on KaTeX
-            flowChart            : false,          // flowChart.js only support IE9+
-            sequenceDiagram      : false,          // sequenceDiagram.js only support IE9+
+            flowChart            : false,          // flowChart.utils only support IE9+
+            sequenceDiagram      : false,          // sequenceDiagram.utils only support IE9+
         };
 
         var settings        = $.extend(defaults, options || {});
