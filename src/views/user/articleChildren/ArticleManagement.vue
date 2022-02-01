@@ -5,7 +5,7 @@
         <a href="/topic" style="display: block;text-align: right;" target="_blank">Hi,今天又学到新知识了吗？快快记录下来吧，<span
           style="text-decoration: underline;color:#4caf50;">点击发表文章!</span></a>
       </div>
-      <div id="ksd-topic-cube-list">
+      <div id="ksd-topic-cube-list" class="xjy-left">
         <div class="media text-muted ksd-topic-items" id="delete-topicid-1473650657826283521">
           <div class="media-body load-topics-page pr">
             <h3 style="font-size:16px;padding:10px 0;">

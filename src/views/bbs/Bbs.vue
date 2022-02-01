@@ -35,10 +35,10 @@
           <div class="bbs-article-title bbs-title-article-link list-card animated fadeIn delay-1s"
                data-href="bbs/1363074625050828802">
             <span class="iconfont icon-zhiding ksd-iconzhiding"></span>
-            <a target="_blank" href="/bbs" class="hlink">
+            <a target="_blank" href="/bbs/preview" class="hlink">
               <h1>个人中心换肤的尝试</h1>
             </a>
-            <a target="_blank" href="bbs/1363074625050828802" class="hlink2">
+            <a target="_blank" href="bbs/preview" class="hlink2">
               <p>这个功能很久前就开发了，终于想起来要玩起来！</p>
             </a>
             <div class="bbs-title-msg">
@@ -66,17 +66,266 @@
                         </span>
             </div>
           </div>
+          <div class="bbs-article-title bbs-title-article-link list-card animated fadeIn delay-1s"
+               data-href="bbs/1363074625050828802">
+            <span class="iconfont icon-zhiding ksd-iconzhiding"></span>
+            <a target="_blank" href="/bbs/preview" class="hlink">
+              <h1>个人中心换肤的尝试</h1>
+            </a>
+            <a target="_blank" href="bbs/preview" class="hlink2">
+              <p>这个功能很久前就开发了，终于想起来要玩起来！</p>
+            </a>
+            <div class="bbs-title-msg">
+              <span>
+                 <a href="/user/4d694f8625c44aef9ff7a04424c1ca12" target="_blank" title="狂神说">
+                   <img
+                     src="https://thirdwx.qlogo.cn/mmopen/vi_32/xsX5nr5cD3hmQJ76ypehicz2DbQNhEwC0duolhfo3o6z3xlWnPM0KGqgFT5RJI8qBImfuZ6eECtZp3eCRzOAOgw/132"
+                     data-original="https://thirdwx.qlogo.cn/mmopen/vi_32/xsX5nr5cD3hmQJ76ypehicz2DbQNhEwC0duolhfo3o6z3xlWnPM0KGqgFT5RJI8qBImfuZ6eECtZp3eCRzOAOgw/132"
+                     class="ksd-avatar" alt="" style="">
+                   &nbsp;&nbsp;
+                     <span class="mx-1">狂神说</span></a>
+                    &nbsp;&nbsp;
+                    <span class="svipIcon"><i class="iconfont1 icon-svip3"></i></span>
+                &nbsp;&nbsp;
+              </span>
+              <span class="pr-2 pl-2 ksd-screen-time-no"><label
+                class="fw">时间：</label><span>2021/02/20 18:34</span></span>
+              &nbsp;&nbsp;
+              <span class="pr-2 none"><label class="fw">评论数：</label><span>96</span></span>
+              &nbsp;&nbsp;
+              <span class=" pr-2"><label class="fw">浏览：</label><span>12416</span></span>
+              &nbsp;&nbsp;
+              <span><label class="fw">分类：</label>
+                            <a href="/bbs?uid=&amp;from=&amp;cid=3" class="ksd-topic-tags">教程</a>
+                        </span>
+            </div>
+          </div>
+          <div class="bbs-article-title bbs-title-article-link list-card animated fadeIn delay-1s"
+               data-href="bbs/1363074625050828802">
+            <span class="iconfont icon-zhiding ksd-iconzhiding"></span>
+            <a target="_blank" href="/bbs/preview" class="hlink">
+              <h1>个人中心换肤的尝试</h1>
+            </a>
+            <a target="_blank" href="bbs/preview" class="hlink2">
+              <p>这个功能很久前就开发了，终于想起来要玩起来！</p>
+            </a>
+            <div class="bbs-title-msg">
+              <span>
+                 <a href="/user/4d694f8625c44aef9ff7a04424c1ca12" target="_blank" title="狂神说">
+                   <img
+                     src="https://thirdwx.qlogo.cn/mmopen/vi_32/xsX5nr5cD3hmQJ76ypehicz2DbQNhEwC0duolhfo3o6z3xlWnPM0KGqgFT5RJI8qBImfuZ6eECtZp3eCRzOAOgw/132"
+                     data-original="https://thirdwx.qlogo.cn/mmopen/vi_32/xsX5nr5cD3hmQJ76ypehicz2DbQNhEwC0duolhfo3o6z3xlWnPM0KGqgFT5RJI8qBImfuZ6eECtZp3eCRzOAOgw/132"
+                     class="ksd-avatar" alt="" style="">
+                   &nbsp;&nbsp;
+                     <span class="mx-1">狂神说</span></a>
+                    &nbsp;&nbsp;
+                    <span class="svipIcon"><i class="iconfont1 icon-svip3"></i></span>
+                &nbsp;&nbsp;
+              </span>
+              <span class="pr-2 pl-2 ksd-screen-time-no"><label
+                class="fw">时间：</label><span>2021/02/20 18:34</span></span>
+              &nbsp;&nbsp;
+              <span class="pr-2 none"><label class="fw">评论数：</label><span>96</span></span>
+              &nbsp;&nbsp;
+              <span class=" pr-2"><label class="fw">浏览：</label><span>12416</span></span>
+              &nbsp;&nbsp;
+              <span><label class="fw">分类：</label>
+                            <a href="/bbs?uid=&amp;from=&amp;cid=3" class="ksd-topic-tags">教程</a>
+                        </span>
+            </div>
+          </div>
+          <div class="bbs-article-title bbs-title-article-link list-card animated fadeIn delay-1s"
+               data-href="bbs/1363074625050828802">
+            <span class="iconfont icon-zhiding ksd-iconzhiding"></span>
+            <a target="_blank" href="/bbs/preview" class="hlink">
+              <h1>个人中心换肤的尝试</h1>
+            </a>
+            <a target="_blank" href="bbs/preview" class="hlink2">
+              <p>这个功能很久前就开发了，终于想起来要玩起来！</p>
+            </a>
+            <div class="bbs-title-msg">
+              <span>
+                 <a href="/user/4d694f8625c44aef9ff7a04424c1ca12" target="_blank" title="狂神说">
+                   <img
+                     src="https://thirdwx.qlogo.cn/mmopen/vi_32/xsX5nr5cD3hmQJ76ypehicz2DbQNhEwC0duolhfo3o6z3xlWnPM0KGqgFT5RJI8qBImfuZ6eECtZp3eCRzOAOgw/132"
+                     data-original="https://thirdwx.qlogo.cn/mmopen/vi_32/xsX5nr5cD3hmQJ76ypehicz2DbQNhEwC0duolhfo3o6z3xlWnPM0KGqgFT5RJI8qBImfuZ6eECtZp3eCRzOAOgw/132"
+                     class="ksd-avatar" alt="" style="">
+                   &nbsp;&nbsp;
+                     <span class="mx-1">狂神说</span></a>
+                    &nbsp;&nbsp;
+                    <span class="svipIcon"><i class="iconfont1 icon-svip3"></i></span>
+                &nbsp;&nbsp;
+              </span>
+              <span class="pr-2 pl-2 ksd-screen-time-no"><label
+                class="fw">时间：</label><span>2021/02/20 18:34</span></span>
+              &nbsp;&nbsp;
+              <span class="pr-2 none"><label class="fw">评论数：</label><span>96</span></span>
+              &nbsp;&nbsp;
+              <span class=" pr-2"><label class="fw">浏览：</label><span>12416</span></span>
+              &nbsp;&nbsp;
+              <span><label class="fw">分类：</label>
+                            <a href="/bbs?uid=&amp;from=&amp;cid=3" class="ksd-topic-tags">教程</a>
+                        </span>
+            </div>
+          </div>
+          <div class="bbs-article-title bbs-title-article-link list-card animated fadeIn delay-1s"
+               data-href="bbs/1363074625050828802">
+            <span class="iconfont icon-zhiding ksd-iconzhiding"></span>
+            <a target="_blank" href="/bbs/preview" class="hlink">
+              <h1>个人中心换肤的尝试</h1>
+            </a>
+            <a target="_blank" href="bbs/preview" class="hlink2">
+              <p>这个功能很久前就开发了，终于想起来要玩起来！</p>
+            </a>
+            <div class="bbs-title-msg">
+              <span>
+                 <a href="/user/4d694f8625c44aef9ff7a04424c1ca12" target="_blank" title="狂神说">
+                   <img
+                     src="https://thirdwx.qlogo.cn/mmopen/vi_32/xsX5nr5cD3hmQJ76ypehicz2DbQNhEwC0duolhfo3o6z3xlWnPM0KGqgFT5RJI8qBImfuZ6eECtZp3eCRzOAOgw/132"
+                     data-original="https://thirdwx.qlogo.cn/mmopen/vi_32/xsX5nr5cD3hmQJ76ypehicz2DbQNhEwC0duolhfo3o6z3xlWnPM0KGqgFT5RJI8qBImfuZ6eECtZp3eCRzOAOgw/132"
+                     class="ksd-avatar" alt="" style="">
+                   &nbsp;&nbsp;
+                     <span class="mx-1">狂神说</span></a>
+                    &nbsp;&nbsp;
+                    <span class="svipIcon"><i class="iconfont1 icon-svip3"></i></span>
+                &nbsp;&nbsp;
+              </span>
+              <span class="pr-2 pl-2 ksd-screen-time-no"><label
+                class="fw">时间：</label><span>2021/02/20 18:34</span></span>
+              &nbsp;&nbsp;
+              <span class="pr-2 none"><label class="fw">评论数：</label><span>96</span></span>
+              &nbsp;&nbsp;
+              <span class=" pr-2"><label class="fw">浏览：</label><span>12416</span></span>
+              &nbsp;&nbsp;
+              <span><label class="fw">分类：</label>
+                            <a href="/bbs?uid=&amp;from=&amp;cid=3" class="ksd-topic-tags">教程</a>
+                        </span>
+            </div>
+          </div>
+          <div class="bbs-article-title bbs-title-article-link list-card animated fadeIn delay-1s"
+               data-href="bbs/1363074625050828802">
+            <span class="iconfont icon-zhiding ksd-iconzhiding"></span>
+            <a target="_blank" href="/bbs/preview" class="hlink">
+              <h1>个人中心换肤的尝试</h1>
+            </a>
+            <a target="_blank" href="bbs/preview" class="hlink2">
+              <p>这个功能很久前就开发了，终于想起来要玩起来！</p>
+            </a>
+            <div class="bbs-title-msg">
+              <span>
+                 <a href="/user/4d694f8625c44aef9ff7a04424c1ca12" target="_blank" title="狂神说">
+                   <img
+                     src="https://thirdwx.qlogo.cn/mmopen/vi_32/xsX5nr5cD3hmQJ76ypehicz2DbQNhEwC0duolhfo3o6z3xlWnPM0KGqgFT5RJI8qBImfuZ6eECtZp3eCRzOAOgw/132"
+                     data-original="https://thirdwx.qlogo.cn/mmopen/vi_32/xsX5nr5cD3hmQJ76ypehicz2DbQNhEwC0duolhfo3o6z3xlWnPM0KGqgFT5RJI8qBImfuZ6eECtZp3eCRzOAOgw/132"
+                     class="ksd-avatar" alt="" style="">
+                   &nbsp;&nbsp;
+                     <span class="mx-1">狂神说</span></a>
+                    &nbsp;&nbsp;
+                    <span class="svipIcon"><i class="iconfont1 icon-svip3"></i></span>
+                &nbsp;&nbsp;
+              </span>
+              <span class="pr-2 pl-2 ksd-screen-time-no"><label
+                class="fw">时间：</label><span>2021/02/20 18:34</span></span>
+              &nbsp;&nbsp;
+              <span class="pr-2 none"><label class="fw">评论数：</label><span>96</span></span>
+              &nbsp;&nbsp;
+              <span class=" pr-2"><label class="fw">浏览：</label><span>12416</span></span>
+              &nbsp;&nbsp;
+              <span><label class="fw">分类：</label>
+                            <a href="/bbs?uid=&amp;from=&amp;cid=3" class="ksd-topic-tags">教程</a>
+                        </span>
+            </div>
+          </div>
+          <div class="bbs-article-title bbs-title-article-link list-card animated fadeIn delay-1s"
+               data-href="bbs/1363074625050828802">
+            <span class="iconfont icon-zhiding ksd-iconzhiding"></span>
+            <a target="_blank" href="/bbs/preview" class="hlink">
+              <h1>个人中心换肤的尝试</h1>
+            </a>
+            <a target="_blank" href="bbs/preview" class="hlink2">
+              <p>这个功能很久前就开发了，终于想起来要玩起来！</p>
+            </a>
+            <div class="bbs-title-msg">
+              <span>
+                 <a href="/user/4d694f8625c44aef9ff7a04424c1ca12" target="_blank" title="狂神说">
+                   <img
+                     src="https://thirdwx.qlogo.cn/mmopen/vi_32/xsX5nr5cD3hmQJ76ypehicz2DbQNhEwC0duolhfo3o6z3xlWnPM0KGqgFT5RJI8qBImfuZ6eECtZp3eCRzOAOgw/132"
+                     data-original="https://thirdwx.qlogo.cn/mmopen/vi_32/xsX5nr5cD3hmQJ76ypehicz2DbQNhEwC0duolhfo3o6z3xlWnPM0KGqgFT5RJI8qBImfuZ6eECtZp3eCRzOAOgw/132"
+                     class="ksd-avatar" alt="" style="">
+                   &nbsp;&nbsp;
+                     <span class="mx-1">狂神说</span></a>
+                    &nbsp;&nbsp;
+                    <span class="svipIcon"><i class="iconfont1 icon-svip3"></i></span>
+                &nbsp;&nbsp;
+              </span>
+              <span class="pr-2 pl-2 ksd-screen-time-no"><label
+                class="fw">时间：</label><span>2021/02/20 18:34</span></span>
+              &nbsp;&nbsp;
+              <span class="pr-2 none"><label class="fw">评论数：</label><span>96</span></span>
+              &nbsp;&nbsp;
+              <span class=" pr-2"><label class="fw">浏览：</label><span>12416</span></span>
+              &nbsp;&nbsp;
+              <span><label class="fw">分类：</label>
+                            <a href="/bbs?uid=&amp;from=&amp;cid=3" class="ksd-topic-tags">教程</a>
+                        </span>
+            </div>
+          </div>
+          <div class="page-navigator">
+            <nav aria-label="Page navigation example" class="mt-4">
+              <ul class="pagination justify-content-center pagination-sm">
+                <li class="page-item" :class="{show:this.page < 5}">
+                  <a class="page-link" href="/bbs?pageNo=0" tabindex="">首页</a>
+                </li>
+                <li class="page-item" :class="{disabled: this.page<5}">
+                  <a class="page-link" :href="'/bbs?uid=&amp;from=&amp;cid=&amp;isrecommend=&amp;searchKey=&amp;pageNo='+ (Number(this.page) - Number(1))" tabindex=""><i class="iconfont icon-xiangzuo1 fz22"></i></a>
+                </li>
+
+                <ul v-for="pageNum in pageList" :key="pageNum">
+                  <li class="page-item" :class="{active: pageNum == page}">
+                    <a class="page-link" :href="'/bbs?pageNo='+pageNum">{{pageNum}}</a>
+                  </li>
+                </ul>
+<!--                <li class="page-item" :class="{active: two}">-->
+<!--                  <a class="page-link" href="/bbs?uid=&amp;from=&amp;cid=&amp;isrecommend=&amp;searchKey=&amp;pageNo=2">2</a>-->
+<!--                </li>-->
+<!--                <li class="page-item" :class="{active: three}">-->
+<!--                  <a class="page-link" href="/bbs?uid=&amp;from=&amp;cid=&amp;isrecommend=&amp;searchKey=&amp;pageNo=3">3</a>-->
+<!--                </li>-->
+<!--                <li class="page-item" :class="{active: four}">-->
+<!--                  <a class="page-link" href="/bbs?uid=&amp;from=&amp;cid=&amp;isrecommend=&amp;searchKey=&amp;pageNo=4">4</a>-->
+<!--                </li>-->
+<!--                <li class="page-item" :class="{active: five}">-->
+<!--                  <a class="page-link" href="/bbs?uid=&amp;from=&amp;cid=&amp;isrecommend=&amp;searchKey=&amp;pageNo=5">5</a>-->
+<!--                </li>-->
+                <li class="page-item">
+                  <a class="page-link" :href="'/bbs?uid=&amp;from=&amp;cid=&amp;isrecommend=&amp;searchKey=&amp;pageNo='+ (Number(this.page) +Number(1))"><i class="iconfont icon-xiangyou1 fz22"></i></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="/bbs?uid=&amp;from=&amp;cid=&amp;isrecommend=&amp;searchKey=&amp;pageNo=807">尾页</a>
+                </li>
+                <li class="page-item">
+                  <input type="text" value="1" ref="jumpNumber" id="ksd-page-link-pno" class="page-link inputheight" style="text-align: center;width:48px;">
+                </li>
+                <li class="page-item">
+                  <a class="page-link ksd-page-go" @click="toPage">跳转</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="javascript:void(0);">1/807</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
       </div>
-      <div class="layui-col-md3 layui-col-lg3 animated fadeIn">
-        <div class="send-article">
+      <div class="layui-col-md3 layui-col-lg3 animated fadeIn" :class="{'ksd-fixed':this.slide}">
+        <div class="send-article" >
           <a href="/topic"
              class="layui-btn nav-link-down nav-link-login layui-btn-normal" style="width: 100%;">
             <span class="layui-icon layui-icon-edit"></span>
             发布文章
           </a>
         </div>
-        <div class="slide-card mb-3 position-relative animated fadeIn" style="border:none;border-radius: 6px;">
+        <div v-show="!this.slide" class="slide-card mb-3 position-relative animated fadeIn" style="border:none;border-radius: 6px;">
           <div class="p-3">
             <div class="slide-card-row mx-0 text-center pb-2">
               <div class="slide-card-col px-0">
@@ -216,23 +465,61 @@
           </ul>
         </div>
       </div>
+
     </div>
+    <ul v-show="this.slide" class="layui-fixbar" style="display: block;">
+      <li @click="backToTop('slide_bottom')" class="layui-icon layui-fixbar-top" lay-type="top" style="display: list-item;"></li>
+    </ul>
   </div>
+
 </template>
 
 <script>
 import Message from "./children/Message";
+import {slideTop, backToTop,easeInOutQuad} from "../../common/utils";
 export default {
   name: "Bbs",
+  data() {
+    return {
+      slide: false,
+      pageList: [1,2,3,4,5], // 页码列表
+      page: 1, // 当前页码
+      pageMax: 7, // 最大页数
+      pageMin: 1, //首页
+    }
+  },
   components: {Message},
+  methods:{
+    slideTop,
+    backToTop,
+    easeInOutQuad,
+    toPage() {
+      window.location = 'http://localhost:8080/bbs?pageNo=' + this.$refs.jumpNumber.value
+    }
+  },
+  created() {
+    if(!this.$route.query.pageNo || this.$route.query.pageNo == 0) {
+
+      this.page = 1;
+    } else if(this.$route.query.pageNo >= 5) {
+      let array = this.pageList.slice(3)
+      let newArray = [6,7,8,9]
+      this.pageList = array.concat(newArray)
+      this.page = this.$route.query.pageNo
+    } else {
+      this.page = this.$route.query.pageNo
+    }
+
+  },
   mounted() {
+    window.addEventListener('scroll', this.slideTop);
     $(function() {
       let editor = editormd("editor", {
         height : 440,
         path   : "./static/lib/editormd/lib/"
       });
     });
-  }
+  },
 }
 </script>
 
@@ -292,5 +579,96 @@ input {
   overflow: visible;
 }
 
+.ksd-fixed{
+  position: fixed;
+  margin-left: 900px;
+  width: 285px;
+}
 
+/*分页*/
+.page-navigator {
+  padding: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  display: inherit;
+  margin-bottom: 32px;
+}
+.justify-content-center {
+  -webkit-box-pack: center !important;
+  justify-content: center !important;
+}
+.pagination {
+  display: -ms-flexbox;
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  border-radius: .25rem;
+}
+.pagination .page-item {
+  margin-right: 4px;
+  min-width: 40px;
+  height: 40px;
+  line-height: 40px;
+  float: left;
+  color: #555;
+  margin-right: 10px;
+}
+.pagination .page-item a:hover {
+  color: white;
+  background-color: #1E9FFF;
+}
+.pagination .page-item .inputheight:hover {
+  color: black;
+  background-color: #e9ecef;
+}
+.pagination-sm .page-item:first-child .page-link {
+  border-top-left-radius: .2rem;
+  border-bottom-left-radius: .2rem;
+}
+.page-item.disabled .page-link {
+  color: #6c757d;
+  pointer-events: none;
+  cursor: auto;
+  background-color: #fff;
+  border-color: #dee2e6;
+}
+.page-item:first-child .page-link {
+  margin-left: 0;
+  border-top-left-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
+.pagination-sm .page-link {
+  padding: .25rem 0.8rem;
+  font-size: .875rem;
+}
+.page-link {
+  color: #99a1a7;
+  font-style: normal;
+  font-size: 14px;
+  height: 40px;
+  line-height: 36px;
+  display: block;
+  text-align: center;
+  display: block;
+  background: #ffffff;
+  border-radius: 2px;
+}
+.fz22 {
+  font-size: 22px !important;
+}
+.page-item.active .page-link {
+   z-index: 3;
+   color: #fff;
+   background-color: #007bff;
+   border-color: #007bff;
+ }
+.ksd-page-go:hover {
+  color: #fff !important;
+}
+.ksd-page-go {
+  color: #007bff !important;
+  cursor: pointer;
+}
 </style>
+

@@ -1,6 +1,8 @@
 //获取随机数，不与之前的重复
 import cookie from "js-cookie";
 import store from "../store";
+import E from "wangeditor";
+
 export function randomNum(min, max) {
   let num = Math.floor(Math.random() * (max - min) + min)
   while (this.flag === num) {
@@ -37,7 +39,6 @@ export function backToTop(item) {
   let backPosition
   let i = 0;
   let distanceY = window.pageYOffset;
-  console.log('distance' + distanceY);
   if ("slide_bottom" === item) {
     backPosition = 95;
   } else {
@@ -220,7 +221,7 @@ export function layuiBack(btn1, btn2, path) {
 }
 
 export function layuiDownload(btn1, btn2) {
-  if(typeof store.state.token == 'undefined'){
+  if (typeof store.state.token == 'undefined') {
     layuiOpen()
   } else {
     layer.confirm(`<span style="margin:auto 97px">点击下载将会扣除对应K币,且K币不会退还!</span>`, {
@@ -248,7 +249,7 @@ export function loginOut() {
     btn: ['点击离开', '继续学习']
   }, function () {
     cookie.remove('wx_token')
-    location.href="/login";
+    location.href = "/login";
     //触发后禁止浏览器的后退键
     history.pushState(null, null, document.URL);
     window.addEventListener("popstate", function (e) {
@@ -259,12 +260,229 @@ export function loginOut() {
   });
 
 }
-// <span style="margin:auto 97px">点击下载将会扣除对应K币,且K币不会退还!</span>
-export function exchangeAvatar() {
-  layer.confirm(`<p>一旦修改为默认头像，则无法切换为微信头像！<br><span style="margin: 80px">是否确认此操作?</span></p>`, {btnAlign:'c'},function () {
-    layer.msg('修改成功');
-  }, function () {
 
-  });
+// <span style="margin:auto 97px">点击下载将会扣除对应K币,且K币不会退还!</span>
+export function exchangeAvatar(avatar) {
+  // console.log(e.target.dataset)
+  layer.confirm(`<p>一旦修改为默认头像，则无法切换为微信头像！<br><span style="margin: 80px">是否确认此操作?</span></p>`,
+    {
+      btnAlign: 'c',
+      data: {
+        _this: this,
+        ava: avatar
+      }
+    }, function (index) {
+      // console.log(e.target.dataset.img)
+      this.data._this.$store.commit("editAvatar", this.data.ava)
+      layer.msg('修改成功');
+      layer.close(index);
+    }, function () {
+
+    });
 }
 
+export function openEmail() {
+  // let index = layer.load(2, {time: 1000}); //又换了种风格，并且设定最长等待10秒
+  let index = layer.open({
+    id: 'navOpen',
+    data: {
+      _this: this,
+      flag: 'haa'
+    },
+    content: `
+         <div class="the-content" style="padding: 10px">
+          <div class="the-forms">
+              <div class="overflow-hidden">
+                  <input type="text" class="login_ipt error" id="add_update_email" maxlength="200" value="" placeholder="请输入您的邮箱...">
+              </div>
+              <div class="updateBtn" id="updateBtn">
+                  <button type="button">修改邮箱</button>
+              </div>
+          </div>
+         </div>
+            <script>
+               $(function () {
+                   $("#updateBtn").click(function () {
+                      let value = $("#add_update_email").val()
+                      let reg = /^\\w+@[a-z0-9]+\\.[a-z]{2,4}$/
+                      if(value == '') {
+                        layer.tips('请输入邮箱', '#add_update_email', {
+                          tips: [1, 'black'],
+                          time: 2000
+                        });
+                      } else if(!reg.test(value)) {
+                          layer.tips('请输入正确的邮箱', '#add_update_email', {
+                          tips: [1, 'black'],
+                          time: 2000
+                        });
+                      } else {
+                          // alert(value)
+                          document.getElementById('ksd-bg-email').innerText = value
+                          layer.close(100001)
+                          // alert(this.$store.state.email);
+                          // this.data._this.email = value
+
+                          // this.$store.commit("updateFlag")
+                      }
+                  })
+               })
+            </script>
+        `,
+    area: ['400px', '160px'],
+    skin: 'box',
+    title: false,
+    resize: false,
+    btn: '',
+    anim: 1,
+    scrollbar: false,
+  })
+}
+
+export function editorBtn() {
+  if (!this.$refs.pwdinput.value) {
+    layer.msg("请输入密码");
+  } else if (this.$refs.pwdinput.value.length < 6) {
+    layer.msg("密码最少六位")
+  } else {
+    let index = layer.confirm(`
+            &nbsp;&nbsp;&nbsp;&nbsp是否确认此操作?
+      `, {
+      title: '提示',
+      data: {
+        _this: this
+      }
+    }, function (index) {
+      this.data._this.pwdFlag = true;
+      this.data._this.pwd = $('#updatepwd').val();
+      layer.close(index); //如果设定了yes回调，需进行手工关闭
+    });
+  }
+}
+
+
+export function indexOfFlag(str) {
+  return this.$route.path.indexOf(str) !== -1;
+}
+
+export function pathHop(path) {
+  this.me = false
+  this.friend = false
+  this.system = false
+  this.replay = false
+  this.course = false
+  if (path == '/msg') {
+    this.me = true
+  } else if (path == '/msg/friend') {
+    this.friend = true
+  } else if (path == '/msg/replay') {
+    this.replay = true
+  } else if (path == '/msg/system') {
+    this.system = true
+  } else if (path == '/msg/course') {
+    this.course = true
+  }
+  this.$router.push(path)
+}
+
+
+export function slideTop() {
+  // 页面滚动距顶部距离
+  let scrollTop = window.pageYOffset || document.documentElement.scrollTop ||
+    document.body.scrollTop
+  if (scrollTop > 70) {
+    this.slide = true;
+  } else {
+    this.slide = false;
+  }
+}
+
+export function bottomExchange(path) {
+  this.home = false;
+  this.article = false;
+  this.special = false;
+  this.study = false;
+  this.talk = false;
+  this.setting = false;
+  if (path == 'home') {
+    this.home = true
+  } else if (path == 'article') {
+    this.article = true;
+  } else if (path == 'special') {
+    this.special = true;
+  } else if (path == 'study') {
+    this.study = true;
+  } else if (path == 'talk') {
+    this.talk = true;
+  } else if (path == 'setting') {
+    this.setting = true;
+  }
+}
+
+export function userPage(path) {
+  this.bottomExchange(path);
+  this.$router.push('/user/' + path);
+}
+
+export function userPreviewPage(path) {
+  this.bottomExchange(path);
+  this.$router.push('/other/user/other' + path);
+}
+
+export function createEditor() {
+  const SINA_URL_PATH = 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal'
+  const editor = new E("#commentarea")
+  editor.config.menus = [
+    'bold',
+    'list',
+    'emoticon',
+  ]
+  editor.config.emotions = [
+    {
+      title: '新浪', // tab 的标题
+      type: 'image', // 'emoji' 或 'image' ，即 emoji 形式或者图片形式
+      content: [
+        {alt: '[坏笑]', src: `${SINA_URL_PATH}/50/pcmoren_huaixiao_org.png`},
+        {alt: '[舔屏]', src: `${SINA_URL_PATH}/40/pcmoren_tian_org.png`},
+        {alt: '[污]', src: `${SINA_URL_PATH}/3c/pcmoren_wu_org.png`},
+      ]
+    },
+    {
+      title: 'emoji',  // tab 的标题
+      type: 'emoji', // 'emoji' / 'image'
+      // emoji 表情，content 是一个数组即可
+      content: '😀 😃 😄 😁 😆 😅 😂 😊 😇 🙂 🙃 😉 😓 😪 😴 🙄 🤔 😬 🤐'.split(/\s/),
+    }
+  ]
+  editor.config.placeholder = '嘿大神~，别默默看了快来评论一下吧!'
+  editor.config.focus = false
+  //修改光标初始位置
+  editor.config.width = 1050
+  editor.config.height = 200
+  editor.config.showFullScreen = false
+  editor.create()
+}
+
+export function init(id) {
+  (async () => {
+    await this.fetchScript('./static/lib/editormd/lib/marked.min.js')
+    await this.fetchScript('./static/lib/editormd/lib/prettify.min.js')
+    await this.fetchScript('./static/lib/editormd/lib/raphael.min.js')
+    await this.fetchScript('./static/lib/editormd/lib/underscore.min.js')
+    await this.fetchScript('./static/lib/editormd/lib/sequence-diagram.min.js')
+    await this.fetchScript('./static/lib/editormd/lib/flowchart.min.js')
+    await this.fetchScript('./static/lib/editormd/lib/jquery.flowchart.min.js')
+    await this.fetchScript('./static/lib/editormd/editormd.min.js')
+    await this.$nextTick(() => {
+      this.editor = window.editormd.markdownToHTML(id, {
+        htmlDecode: "style,script,iframe",  // you can filter tags decode
+        emoji: true,
+        taskList: true,
+        tex: true,  // 默认不解析
+        flowChart: true,  // 默认不解析
+        sequenceDiagram: true,  // 默认不解析
+      })
+    })
+
+  })()
+
+}

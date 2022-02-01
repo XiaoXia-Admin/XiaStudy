@@ -76,25 +76,6 @@ input[type="search"] {
   outline-offset: -2px;
   -webkit-appearance: none;
 }
-input::-webkit-input-placeholder { /* WebKit browsers */
-  color: #393D49;
-  font-size: 13px;
-}
-
-input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  color: #393D49;
-  font-size: 13px;
-}
-
-input::-moz-placeholder { /* Mozilla Firefox 19+ */
-  color: #393D49;
-  font-size: 13px;
-}
-
-input:-ms-input-placeholder { /* Internet Explorer 10+ */
-  color: #393D49;
-  font-size: 13px;
-}
 
 .download_box_right_btn {
   font-size: 12px;

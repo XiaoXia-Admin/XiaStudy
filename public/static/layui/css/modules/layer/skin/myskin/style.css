@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2805605 */
-  src: url('//at.alicdn.com/t/font_2805605_2rsdhp4m31q.woff2?t=1642167382146') format('woff2'),
-  url('//at.alicdn.com/t/font_2805605_2rsdhp4m31q.woff?t=1642167382146') format('woff'),
-  url('//at.alicdn.com/t/font_2805605_2rsdhp4m31q.ttf?t=1642167382146') format('truetype');
+  src: url('//at.alicdn.com/t/font_2805605_x1nfrjtkw5a.woff2?t=1643460231049') format('woff2'),
+  url('//at.alicdn.com/t/font_2805605_x1nfrjtkw5a.woff?t=1643460231049') format('woff'),
+  url('//at.alicdn.com/t/font_2805605_x1nfrjtkw5a.ttf?t=1643460231049') format('truetype');
 }
 .iconfont {
   font-family: "iconfont" !important;
@@ -12,7 +12,17 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-xiaoxi:before {
+  content: "\e628";
+}
 
+.icon-xiaoxi1:before {
+  content: "\e633";
+}
+
+.icon-huiyuan2:before {
+  content: "\e646";
+}
 .icon-weixin1:before {
   content: "\e65c";
 }
@@ -153,4 +163,37 @@ button, input {
   letter-spacing: 0;
   line-height: 14px;
   text-align: center;
+}
+/*email*/
+
+.the-content input.login_ipt {
+  width: 100%;
+  border-radius: 5px;
+  background: #fff;
+  text-indent: 20px;
+  border: 1px solid #1E9FFF;
+  float: left;
+}
+.the-content input {
+  float: left;
+  border: none;
+  outline: none;
+  padding: 10px 0;
+  margin: 5px auto;
+}
+.updateBtn {
+  overflow: hidden;
+  width: 100%;
+}
+.updateBtn button {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 0;
+  text-align: center;
+  background: #1E9FFF;
+  color: #fff;
+  border: none;
+  margin: 5px auto;
+  outline: none;
+  letter-spacing: 2px;
 }

@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
+  <div class="container" style="text-align: left;">
     <div class="ksd-main-content">
       <div id="page-video" class="wrapper" style="background: #fff;">
         <div class="container pt-3 pb-5">
-          <div class="col-md-12 blog-main" style="margin-top: 20px;padding:0 10px;overflow: hidden;position: relative">
+          <div class="col-md-12 blog-main" :class="{show: this.otherTalk}" style="margin-top: 20px;padding:0 10px;overflow: hidden;position: relative">
             <div class="col-md-12 mb-3">
               <div id="say-content">
                 <textarea id="sayContent-textarea" placeholder="请输入此时此刻的心情，字数少于400" maxlength="400" name="sayContent"
@@ -31,9 +31,9 @@
                 <span class="float-right">
                     <span>&nbsp;&nbsp;</span>
                     <a href="javascript:void(0);" data-opid="155fd581af5141f5b48a07b844c47b39" data-hidden="1"
-                       class="ksd-say-updatelink"><i class="iconfont icon-yinsi"></i>设为隐私(已公开)</a>
+                       class="ksd-say-updatelink talk-show"><i class="iconfont icon-yinsi"></i>设为隐私(已公开)</a>
                     <span>&nbsp;&nbsp;</span>
-                    <a href="javascript:void(0);" class="ksd-say-del" data-opid="155fd581af5141f5b48a07b844c47b39"><i
+                    <a href="javascript:void(0);" class="talk-show ksd-say-del" data-opid="155fd581af5141f5b48a07b844c47b39"><i
                       class="iconfont icon-shanchu"></i>删除</a>
                     <span>&nbsp;&nbsp;</span>
                     <span>
@@ -47,12 +47,11 @@
                   <div class="bullet green"></div>
                   <div class="desc">
                     <h4>今天又是美好的一天</h4>
-                    <p class="pt-1">
-                <span class="float-right ksd-say-buttons">
-
-                    <a href="javascript:void(0);" class="ksd-say-updatelink mr-3" data-hidden="0"
+                    <p class="pt-1 xjy-right">
+                <span>
+                    <a href="javascript:void(0);" class="talk-show ksd-say-updatelink mr-3" data-hidden="0"
                        data-opid="b567c87cacf94f36928771edce437da9"><i class="iconfont iconunlock"></i>设为公开(已隐藏)</a>
-                    <a href="javascript:void(0);" class="ksd-say-del mr-3" data-opid="b567c87cacf94f36928771edce437da9"><i
+                    <a href="javascript:void(0);" class="talk-show ksd-say-del mr-3" data-opid="b567c87cacf94f36928771edce437da9"><i
                       class="iconfont icondel1"></i>删除</a>
                     <span><i class="iconfont icon-shijian mr-1 pr tp1"></i><span>2022-01-02 13:17</span></span>
                 </span>
@@ -83,7 +82,13 @@
 
 <script>
 export default {
-  name: "HomePage"
+  name: "HomePage",
+  props: {
+    otherTalk: {
+      type: Boolean,
+      default: false
+    }
+  }
 }
 </script>
 
@@ -94,7 +99,9 @@ export default {
   min-height: 400px;
 }
 
-
+.ksd-say-items:hover {
+  background-color: #EFF3F5;
+}
 .pb-5, .py-5 {
   padding-bottom: 3rem !important;
 }
@@ -108,7 +115,13 @@ export default {
   flex: 0 0 100%;
   max-width: 100%;
 }
+.talk-show {
+  visibility: hidden;
+}
 
+/*.ksd-say-ullist:hover .ksd-say-items:hover .talk-show:hover {*/
+/*  visibility: hidden;*/
+/*}*/
 textarea.form-control {
   height: 186px;
 }

@@ -13,7 +13,7 @@
               </div>
             </div>
           </div>
-          <div class="main-content ksd-topic-content">
+          <div class="main-content ksd-topic-content xjy-left">
             <router-view></router-view>
           </div>
         </div>

@@ -146,6 +146,7 @@ li {
   margin-bottom: 15px;
   border-radius: 6px;
   overflow: hidden;
+  text-align: left;
 }
 .slide-column ul li a {
   padding: 3px 10px;

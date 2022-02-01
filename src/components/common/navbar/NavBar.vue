@@ -1,27 +1,37 @@
 <template>
-  <nav class="navbar" :style="containerColor">
-    <div class="nav_container" >
+  <nav class="navbar" :class="{shadow:!this.indexOfFlag('login')} " :style="containerColor">
+    <div class="nav_container">
       <slot></slot>
     </div>
   </nav>
 </template>
 
 <script>
-import cookie from "js-cookie";
+import {indexOfFlag} from "../../../common/utils";
 
 export default {
   name: "NavBar",
+  data() {
+    return {
+      loginFlag: true
+    }
+  },
+  methods: {
+    indexOfFlag
+  },
   computed: {
     containerColor() {
-      let flag = this.$route.path.indexOf('/login') !== -1
-      return flag ? {backgroundColor: 'transparent !important'}: {backgroundColor: 'white'}
+      let flag = this.indexOfFlag('login')
+      return flag ? {backgroundColor: 'transparent !important'} : {backgroundColor: 'white'}
     },
-  },
+
+  }
 }
 </script>
 <style scoped>
 .navbar {
-  box-shadow: none !important;
+  z-index: 100;
+
   position: fixed;
   right: 0;
   left: 0;
@@ -29,6 +39,10 @@ export default {
   z-index: 30;
   height: 54px;
   padding: .5rem 1rem;
+}
+
+.shadow {
+  box-shadow: 0 0 1em #e6ecef;
 }
 
 .nav_container {

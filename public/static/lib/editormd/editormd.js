@@ -376,7 +376,7 @@
 
             this.id              = id;
             this.lang            = settings.lang;
-
+a
             var classNames       = this.classNames   = {
                 textarea : {
                     html     : classPrefix + "html-textarea",
@@ -3367,10 +3367,10 @@
     };
 
     // Emoji graphics files url path
-    editormd.emoji     = {
-        path  : "https://www.webpagefx.com/tools/emoji-cheat-sheet/graphics/emojis/",
-        ext   : ".png"
-    };
+  editormd.emoji = {
+    path  : "./static/lib/editormd/plugins/emoji-dialog/emoji/",
+    ext   : ".png"
+  };
 
     // Twitter Emoji (Twemoji)  graphics files url path
     editormd.twemoji = {

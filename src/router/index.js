@@ -41,6 +41,22 @@ const FootPrint = () => import("../views/user/studyChildren/FootPrint");
 const Modify = () => import("../views/user/settingChildren/Modify");
 const Security = () => import("../views/user/settingChildren/Security");
 const Editor = () => import("../views/user/settingChildren/Editor");
+const Preview = () => import("../views/bbs/children/Preview");
+const Special = () => import("../views/user/special/Special");
+const Information = () => import("../views/msg/Information");
+const Friend = () => import("../views/msg/children/Friend");
+const System = () => import("../views/msg/children/System");
+const Myself = () => import("../views/msg/children/Myself");
+const CourseInformation = () => import("../views/msg/children/CourseInformation");
+const Replay = () => import("../views/msg/children/Replay");
+const Detail = () => import("../views/course/children/Detail");
+const UserPreview = () => import("../views/userPreview/UserPreview");
+const OtherTalk = () => import("../views/userPreview/children/OtherTalk");
+const OtherArticle = () => import("../views/userPreview/children/OtherArticle");
+const OtherStudy = () => import("../views/userPreview/children/OtherStudy");
+const OtherSpecial = () => import("../views/userPreview/children/OtherSpecial");
+const OtherHome = () => import("../views/userPreview/children/OtherHome");
+
 const routes = [
   {
     path: '/',
@@ -91,6 +107,40 @@ const routes = [
     }
   },
   {
+    path: '/other/user',
+    component: UserPreview,
+    children: [
+      {
+        path: '',
+        redirect: 'othertalk'
+      },
+      {
+        path: 'othertalk',
+        component: OtherTalk
+      },
+      {
+        path: 'otherarticle',
+        component: OtherArticle
+      },
+      {
+        path: 'otherhome',
+        component: OtherHome
+      },
+      {
+        path: 'otherstudy',
+        component: OtherStudy
+      },
+      {
+        path: 'otherspecial',
+        component: OtherSpecial
+      }
+    ]
+  },
+  {
+    path: '/course/detail',
+    component: Detail
+  },
+  {
     path: '/bbs',
     component: Bbs,
     meta: {
@@ -98,11 +148,19 @@ const routes = [
     }
   },
   {
+    path: '/zl',
+    component: Special
+  },
+  {
     path: '/topic',
     component: Message,
     meta: {
       title: '发布文章',
     }
+  },
+  {
+    path: '/bbs/preview',
+    component: Preview
   },
   {
     path: '/message',
@@ -234,6 +292,36 @@ const routes = [
     meta: {
       title: '下载',
     }
+  },
+  {
+    path: '/msg',
+    component: Information,
+    children: [
+      {
+        path: '',
+        redirect: 'me'
+      },
+      {
+        path: 'me',
+        component: Myself
+      },
+      {
+        path: 'friend',
+        component: Friend
+      },
+      {
+        path: 'replay',
+        component: Replay
+      },
+      {
+        path: 'system',
+        component: System
+      },
+      {
+        path: 'course',
+        component: CourseInformation
+      }
+    ],
   }
 ]
 

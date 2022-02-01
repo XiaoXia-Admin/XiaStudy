@@ -1,11 +1,19 @@
 <template>
   <form id="xjy-topic-form" class="needs-validation">
     <div class="xjy-topic-footer">
-      <a href="javascript:void(0);" class="xjy-back float-left" @click="layuiBack('返回文章','继续操作','/bbs')"><i class="iconfont icon-fanhui pr tp1"></i>返回</a>
-      <span class="sendbtn" id="xjy-sendbtn-submit"><i class="iconfont icon-tianjia pr-2" ></i><span
+      <a href="javascript:void(0);" class="xjy-back float-left" @click="layuiBack('返回文章','继续操作','/bbs')"><i
+        class="iconfont icon-fanhui pr tp1"></i>返回</a>
+      <span class="sendbtn" id="xjy-sendbtn-submit"><i class="iconfont icon-tianjia pr-2"></i><span
         class="text">发布文章</span><span class="xjy-timer-bac"></span></span>
-      <span class="sendbtn" id="xjy-sendbtn-submit2" style="background: #4caf50;"><i
-        class="iconfont icon-tianjia pr-2"></i><span class="text">保存草稿</span></span>
+      <span class="sendbtn" id="xjy-sendbtn-submit2" style="background: #4caf50;">
+        <i class="iconfont icon-tianjia pr-2"></i><span class="text">保存草稿</span></span>
+      <a href="/bbs/preview">
+        <span class="sendbtn" id="xjy-sendbtn-yulan" @click="preview">
+          <i class="iconfont icon-icon_yulan pr-2"></i>
+          <span class="text">预览</span>
+          <span class="xjy-timer-bac"></span>
+        </span>
+      </a>
     </div>
     <main class="topic-container mt-1 p-3 bg-white rounded">
       <div class="topic-container-row">
@@ -64,11 +72,12 @@
 
 import EditorMarkdown from "./EditorMarkdown";
 import {layuiBack} from "../../../common/utils";
+
 export default {
   name: "Message",
   components: {EditorMarkdown},
   methods: {
-    layuiBack
+    layuiBack,
   }
 }
 </script>

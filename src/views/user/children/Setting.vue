@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container xjy-left" >
     <div class="ksd-main-content">
       <div id="page-video" class="wrapper" style="background: #fff;">
         <div class="col-full clearfix" >

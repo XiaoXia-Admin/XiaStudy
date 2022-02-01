@@ -5,9 +5,8 @@
         <div class="row mx-0 ">
           <div class="col-12 col-md-9 content_box blog-main bg-white mb-3 pb-4 pt-3"
                style="box-shadow: 0 1px 4px 0 rgba(0,0,0,.05)">
-            <div id="doc-content" class="markdown-body editormd-html-preview">
-              <textarea style="display:none;" placeholder="markdown">请到个人设置中完善主页内容...</textarea>
-              <p>请到个人设置中完善主页内容…</p>
+            <div id="doc-content" style="text-align: left" class="markdown-body editormd-html-preview">
+              <textarea  style="display:none;" v-model="this.markdownVale" placeholder="markdown"></textarea>
             </div>
           </div>
           <div id="ucenterapp2" class="col-md-3 pr-0 ucenter_right_box" style="padding-left: 15px;">
@@ -18,84 +17,7 @@
                   class="iconfont iconbianzu11 pr-1"></i>VIP权限已过期</a>
               </div>
             </div>
-            <div class="bg-white mb-3 position-relative" style="box-shadow: 0 1px 4px 0 rgba(0,0,0,.05)">
-              <div class="pb-4 pt-4">
-                <div class="bg-white row mx-0 text-center">
-                  <div class="col">
-                    <div class="pb-2  ksd-user-center-count-size">0</div>
-                    <div class="mb-0 small text-muted">文章数</div>
-                  </div>
-                  <div class="col">
-                    <div class="pb-2  ksd-user-center-count-size">1</div>
-                    <div class=" mb-0 small text-muted">评论数</div>
-                  </div>
-                  <div class="col">
-                    <div class="pb-2  ksd-user-center-count-size">22</div>
-                    <div class=" mb-0 small text-muted">学习数</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="bg-white mb-3 position-relative" style="box-shadow: 0 1px 4px 0 rgba(0,0,0,.05)">
-              <div class="py-3 px-3"><span style="font-size: 1.2rem;">账号信息</span></div>
-              <div class="pb-4 px-3">
-                <div class="py-2">
-                  <svg class="bi bi-shield-lock" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                       xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                          d="M5.443 1.991a60.17 60.17 0 0 0-2.725.802.454.454 0 0 0-.315.366C1.87 7.056 3.1 9.9 4.567 11.773c.736.94 1.533 1.636 2.197 2.093.333.228.626.394.857.5.116.053.21.089.282.11A.73.73 0 0 0 8 14.5c.007-.001.038-.005.097-.023.072-.022.166-.058.282-.111.23-.106.525-.272.857-.5a10.197 10.197 0 0 0 2.197-2.093C12.9 9.9 14.13 7.056 13.597 3.159a.454.454 0 0 0-.315-.366c-.626-.2-1.682-.526-2.725-.802C9.491 1.71 8.51 1.5 8 1.5c-.51 0-1.49.21-2.557.491zm-.256-.966C6.23.749 7.337.5 8 .5c.662 0 1.77.249 2.813.525a61.09 61.09 0 0 1 2.772.815c.528.168.926.623 1.003 1.184.573 4.197-.756 7.307-2.367 9.365a11.191 11.191 0 0 1-2.418 2.3 6.942 6.942 0 0 1-1.007.586c-.27.124-.558.225-.796.225s-.526-.101-.796-.225a6.908 6.908 0 0 1-1.007-.586 11.192 11.192 0 0 1-2.417-2.3C2.167 10.331.839 7.221 1.412 3.024A1.454 1.454 0 0 1 2.415 1.84a61.11 61.11 0 0 1 2.772-.815z"></path>
-                    <path d="M9.5 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"></path>
-                    <path
-                      d="M7.411 8.034a.5.5 0 0 1 .493-.417h.156a.5.5 0 0 1 .492.414l.347 2a.5.5 0 0 1-.493.585h-.835a.5.5 0 0 1-.493-.582l.333-2z"></path>
-                  </svg>
-                  用户ID：<span>904489</span>
-                </div>
-                <div class="py-2">
-                  <svg class="bi bi-person-circle" width="1em" height="1em" viewBox="0 0 16 16"
-                       fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"></path>
-                    <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
-                    <path fill-rule="evenodd"
-                          d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"></path>
-                  </svg>
-                  昵称：<span>夏金宇</span>
-                </div>
-                <div class="py-2">
-                  <svg class="bi bi-graph-up" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                       xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0 0h1v16H0V0zm1 15h15v1H1v-1z"></path>
-                    <path fill-rule="evenodd"
-                          d="M14.39 4.312L10.041 9.75 7 6.707l-3.646 3.647-.708-.708L7 5.293 9.959 8.25l3.65-4.563.781.624z"></path>
-                    <path fill-rule="evenodd"
-                          d="M10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4h-3.5a.5.5 0 0 1-.5-.5z"></path>
-                  </svg>
-                  等级：<span class="ksd-user-exp" data-exp="2155">Lv1</span>
-                </div>
-                <div class="py-2">
-                  <svg class="bi bi-credit-card" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                       xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                          d="M14 3H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2z"></path>
-                    <rect width="3" height="3" x="2" y="9" rx="1"></rect>
-                    <path d="M1 5h14v2H1z"></path>
-                  </svg>
-                  K币：<span>5291</span>
-                </div>
-                <div class="py-2">
-                  <svg class="bi bi-clock-history" width="1em" height="1em" viewBox="0 0 16 16"
-                       fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                          d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"></path>
-                    <path fill-rule="evenodd"
-                          d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"></path>
-                    <path fill-rule="evenodd"
-                          d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"></path>
-                  </svg>
-                  注册时间：<span>2021-04-29</span>
-                </div>
-              </div>
-            </div>
+            <home-slide></home-slide>
           </div>
         </div>
       </div>
@@ -104,8 +26,407 @@
 </template>
 
 <script>
+import HomeSlide from "../common/HomeSlide";
+import {init} from "../../../common/utils";
+import scriptjs from "scriptjs";
 export default {
-  name: "HomePage"
+  name: "HomePage",
+  data() {
+    return {
+      editor: null,
+      markdownVale: `### 主要特性
+
+- 支持“标准”Markdown / CommonMark和Github风格的语法，也可变身为代码编辑器；
+- 支持实时预览、图片（跨域）上传、预格式文本/代码/表格插入、代码折叠、搜索替换、只读模式、自定义样式主题和多语言语法高亮等功能；
+- 支持ToC（Table of Contents）、Emoji表情、Task lists、@链接等Markdown扩展语法；
+- 支持TeX科学公式（基于KaTeX）、流程图 Flowchart 和 时序图 Sequence Diagram;
+- 支持识别和解析HTML标签，并且支持自定义过滤标签解析，具有可靠的安全性和几乎无限的扩展性；
+- 支持 AMD / CMD 模块化加载（支持 Require.js & Sea.js），并且支持自定义扩展插件；
+- 兼容主流的浏览器（IE8+）和Zepto.js，且支持iPad等平板设备；
+- 支持自定义主题样式；
+
+# Editor.md
+
+![](https://pandao.github.io/editor.md/images/logos/editormd-logo-180x180.png)
+
+![](https://img.shields.io/github/stars/pandao/editor.md.svg) ![](https://img.shields.io/github/forks/pandao/editor.md.svg) ![](https://img.shields.io/github/tag/pandao/editor.md.svg) ![](https://img.shields.io/github/release/pandao/editor.md.svg) ![](https://img.shields.io/github/issues/pandao/editor.md.svg) ![](https://img.shields.io/bower/v/editor.md.svg)
+
+**目录 (Table of Contents)**
+
+[TOCM]
+
+[TOC]
+
+# Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6
+# Heading 1 link [Heading link](https://github.com/pandao/editor.md "Heading link")
+## Heading 2 link [Heading link](https://github.com/pandao/editor.md "Heading link")
+### Heading 3 link [Heading link](https://github.com/pandao/editor.md "Heading link")
+#### Heading 4 link [Heading link](https://github.com/pandao/editor.md "Heading link") Heading link [Heading link](https://github.com/pandao/editor.md "Heading link")
+##### Heading 5 link [Heading link](https://github.com/pandao/editor.md "Heading link")
+###### Heading 6 link [Heading link](https://github.com/pandao/editor.md "Heading link")
+
+#### 标题（用底线的形式）Heading (underline)
+
+This is an H1
+=============
+
+This is an H2
+-------------
+
+### 字符效果和横线等
+
+----
+
+~~删除线~~ <s>删除线（开启识别HTML标签时）</s>
+*斜体字*      _斜体字_
+**粗体**  __粗体__
+***粗斜体*** ___粗斜体___
+
+上标：X<sub>2</sub>，下标：O<sup>2</sup>
+
+**缩写(同HTML的abbr标签)**
+
+> 即更长的单词或短语的缩写形式，前提是开启识别HTML标签时，已默认开启
+
+The <abbr title="Hyper Text Markup Language">HTML</abbr> specification is maintained by the <abbr title="World Wide Web Consortium">W3C</abbr>.
+
+### 引用 Blockquotes
+
+> 引用文本 Blockquotes
+
+引用的行内混合 Blockquotes
+
+> 引用：如果想要插入空白换行\`即<br />标签\`，在插入处先键入两个以上的空格然后回车即可，[普通链接](http://localhost/)。
+
+### 锚点与链接 Links
+
+[普通链接](http://localhost/)
+
+[普通链接带标题](http://localhost/ "普通链接带标题")
+
+直接链接：<https://github.com>
+
+[锚点链接][anchor-id]
+
+[anchor-id]: http://www.this-anchor-link.com/
+
+GFM a-tail link @pandao
+
+> @pandao
+
+### 多语言代码高亮 Codes
+
+#### 行内代码 Inline code
+
+执行命令：\`npm install marked\`
+
+#### 缩进风格
+
+即缩进四个空格，也做为实现类似\`<pre>\`预格式化文本(Preformatted Text)的功能。
+
+    <?php
+        echo "Hello world!";
+    ?>
+
+预格式化文本：
+
+    | First Header  | Second Header |
+    | ------------- | ------------- |
+    | Content Cell  | Content Cell  |
+    | Content Cell  | Content Cell  |
+
+#### JS代码　
+
+\`\`\`javascript
+function test(){
+\tconsole.log("Hello world!");
+}
+
+(function(){
+    var box = function(){
+        return box.fn.init();
+    };
+
+    box.prototype = box.fn = {
+        init : function(){
+            console.log('box.init()');
+
+\t\t\treturn this;
+        },
+
+\t\tadd : function(str){
+\t\t\talert("add", str);
+
+\t\t\treturn this;
+\t\t},
+
+\t\tremove : function(str){
+\t\t\talert("remove", str);
+
+\t\t\treturn this;
+\t\t}
+    };
+
+    box.fn.init.prototype = box.fn;
+
+    window.box =box;
+})();
+
+var testBox = box();
+testBox.add("jQuery").remove("jQuery");
+\`\`\`
+
+#### HTML代码 HTML codes
+
+\`\`\`html
+<!DOCTYPE html>
+<html>
+    <head>
+        <mate charest="utf-8" />
+        <title>Hello world!</title>
+    </head>
+    <body>
+        <h1>Hello world!</h1>
+    </body>
+</html>
+\`\`\`
+
+### 图片 Images
+
+Image:
+
+![](https://pandao.github.io/editor.md/examples/images/4.jpg)
+
+> Follow your heart.
+
+![](https://pandao.github.io/editor.md/examples/images/8.jpg)
+
+> 图为：厦门白城沙滩
+
+图片加链接 (Image + Link)：
+
+[![](https://pandao.github.io/editor.md/examples/images/7.jpg)](https://pandao.github.io/editor.md/examples/images/7.jpg "李健首张专辑《似水流年》封面")
+
+> 图为：李健首张专辑《似水流年》封面
+
+----
+
+### 列表 Lists
+
+#### 无序列表（减号）Unordered Lists (-)
+
+- 列表一
+- 列表二
+- 列表三
+
+#### 无序列表（星号）Unordered Lists (*)
+
+* 列表一
+* 列表二
+* 列表三
+
+#### 无序列表（加号和嵌套）Unordered Lists (+)
+
++ 列表一
++ 列表二
+    + 列表二-1
+    + 列表二-2
+    + 列表二-3
++ 列表三
+    * 列表一
+    * 列表二
+    * 列表三
+
+#### 有序列表 Ordered Lists (-)
+
+1. 第一行
+2. 第二行
+3. 第三行
+
+#### GFM task list
+
+- [x] GFM task list 1
+- [x] GFM task list 2
+- [ ] GFM task list 3
+    - [ ] GFM task list 3-1
+    - [ ] GFM task list 3-2
+    - [ ] GFM task list 3-3
+- [ ] GFM task list 4
+    - [ ] GFM task list 4-1
+    - [ ] GFM task list 4-2
+
+----
+
+### 绘制表格 Tables
+
+| 项目        | 价格   |  数量  |
+| --------   | -----:  | :----:  |
+| 计算机      | $1600   |   5     |
+| 手机        |   $12   |   12   |
+| 管线        |    $1    |  234  |
+
+First Header  | Second Header
+------------- | -------------
+Content Cell  | Content Cell
+Content Cell  | Content Cell
+
+| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+
+| Function name | Description                    |
+| ------------- | ------------------------------ |
+| \`help()\`      | Display the help window.       |
+| \`destroy()\`   | **Destroy your computer!**     |
+
+| Left-Aligned  | Center Aligned  | Right Aligned |
+| :------------ |:---------------:| -----:|
+| col 3 is      | some wordy text | $1600 |
+| col 2 is      | centered        |   $12 |
+| zebra stripes | are neat        |    $1 |
+
+| Item      | Value |
+| --------- | -----:|
+| Computer  | $1600 |
+| Phone     |   $12 |
+| Pipe      |    $1 |
+
+----
+
+#### 特殊符号 HTML Entities Codes
+
+&copy; &  &uml; &trade; &iexcl; &pound;
+&amp; &lt; &gt; &yen; &euro; &reg; &plusmn; &para; &sect; &brvbar; &macr; &laquo; &middot;
+
+X&sup2; Y&sup3; &frac34; &frac14;  &times;  &divide;   &raquo;
+
+18&ordm;C  &quot;  &apos;
+
+### Emoji表情 :smiley:
+
+> Blockquotes :star:
+
+#### GFM task lists & Emoji & fontAwesome icon emoji & editormd logo emoji :editormd-logo-5x:
+
+- [x] :smiley: @mentions, :smiley: #refs, [links](), **formatting**, and <del>tags</del> supported :editormd-logo:;
+- [x] list syntax required (any unordered or ordered list supported) :editormd-logo-3x:;
+- [x] [ ] :smiley: this is a complete item :smiley:;
+- [ ] []this is an incomplete item [test link](#) :fa-star: @pandao;
+- [ ] [ ]this is an incomplete item :fa-star: :fa-gear:;
+    - [ ] :smiley: this is an incomplete item [test link](#) :fa-star: :fa-gear:;
+    - [ ] :smiley: this is  :fa-star: :fa-gear: an incomplete item [test link](#);
+
+#### 反斜杠 Escape
+
+\\*literal asterisks\\*
+
+### 科学公式 TeX(KaTeX)
+
+$$E=mc^2$$
+
+行内的公式$$E=mc^2$$行内的公式，行内的$$E=mc^2$$公式。
+
+$$\\(\\sqrt{3x-1}+(1+x)^2\\)$$
+
+$$\\sin(\\alpha)^{\\theta}=\\sum_{i=0}^{n}(x^i + \\cos(f))$$
+
+多行公式：
+
+\`\`\`math
+\\displaystyle
+\\left( \\sum\\_{k=1}^n a\\_k b\\_k \\right)^2
+\\leq
+\\left( \\sum\\_{k=1}^n a\\_k^2 \\right)
+\\left( \\sum\\_{k=1}^n b\\_k^2 \\right)
+\`\`\`
+
+\`\`\`katex
+\\displaystyle
+    \\frac{1}{
+        \\Bigl(\\sqrt{\\phi \\sqrt{5}}-\\phi\\Bigr) e^{
+        \\frac25 \\pi}} = 1+\\frac{e^{-2\\pi}} {1+\\frac{e^{-4\\pi}} {
+        1+\\frac{e^{-6\\pi}}
+        {1+\\frac{e^{-8\\pi}}
+         {1+\\cdots} }
+        }
+    }
+\`\`\`
+
+\`\`\`latex
+f(x) = \\int_{-\\infty}^\\infty
+    \\hat f(\\xi)\\,e^{2 \\pi i \\xi x}
+    \\,d\\xi
+\`\`\`
+
+### 绘制流程图 Flowchart
+
+\`\`\`flow
+st=>start: 用户登陆
+op=>operation: 登陆操作
+cond=>condition: 登陆成功 Yes or No?
+e=>end: 进入后台
+
+st->op->cond
+cond(yes)->e
+cond(no)->op
+\`\`\`
+
+### 绘制序列图 Sequence Diagram
+
+\`\`\`seq
+Andrew->China: Says Hello
+Note right of China: China thinks\\nabout it
+China-->Andrew: How are you?
+Andrew->>China: I am good thanks!
+\`\`\`
+
+### End`,
+    }
+  },
+  components: {HomeSlide},
+  methods:{
+    init() {
+      (async () => {
+        await this.fetchScript('./static/lib/editormd/lib/marked.min.js')
+        await this.fetchScript('./static/lib/editormd/lib/prettify.min.js')
+        await this.fetchScript('./static/lib/editormd/lib/raphael.min.js')
+        await this.fetchScript('./static/lib/editormd/lib/underscore.min.js')
+        await this.fetchScript('./static/lib/editormd/lib/sequence-diagram.min.js')
+        await this.fetchScript('./static/lib/editormd/lib/flowchart.min.js')
+        await this.fetchScript('./static/lib/editormd/lib/jquery.flowchart.min.js')
+        await this.fetchScript('./static/lib/editormd/editormd.min.js')
+        await this.$nextTick(() => {
+          this.editor = window.editormd.markdownToHTML('doc-content', {
+            htmlDecode: "style,script,iframe",  // you can filter tags decode
+            emoji: true,
+            taskList: true,
+            tex: true,  // 默认不解析
+            flowChart: true,  // 默认不解析
+            sequenceDiagram: true,  // 默认不解析
+          })
+        })
+
+      })()
+
+    },
+    fetchScript(url) {
+      return new Promise((resolve) => {
+        scriptjs(url, () => {
+          resolve()
+        })
+      })
+    },
+
+  },
+  mounted() {
+    this.init()
+  }
 }
 </script>
 

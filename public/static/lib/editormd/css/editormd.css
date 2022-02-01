@@ -3381,12 +3381,10 @@
 
 .markdown-body > *:first-child {
   margin-top: 0 !important;
-  font-weight: lighter;
 }
 
 .markdown-body > *:last-child {
   margin-bottom: 0 !important;
-  font-weight: lighter;
 }
 
 .markdown-body .anchor {
@@ -3459,10 +3457,13 @@
 }
 
 .markdown-body h2 {
-  padding-bottom: 0.3em;
-  font-size: 1.75em;
-  line-height: 1.225;
+  font-size: 1.45em;
+  line-height: 1.425;
   border-bottom: 1px solid #eee;
+  background: #cce5ff;
+  padding: 8px 10px;
+  color: #545857;
+  border-radius: 3px;
 }
 
 .markdown-body h2 .anchor {
@@ -3470,7 +3471,7 @@
 }
 
 .markdown-body h3 {
-  font-size: 1.5em;
+  font-size: 1.3em;
   line-height: 1.43;
 }
 
@@ -3840,11 +3841,11 @@
 }
 .editormd-preview-container blockquote, .editormd-html-preview blockquote {
   color: #666;
-  border-left: 4px solid #ddd;
-  padding-left: 20px;
+  border-left: 4px solid #8BC34A;
+  padding: 10px;
   margin-left: 0;
   font-size: 14px;
-  font-style: italic;
+  background: #f8f8f8;
 }
 .editormd-preview-container p code, .editormd-html-preview p code {
   margin-left: 5px;

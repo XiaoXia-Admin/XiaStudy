@@ -5,7 +5,8 @@
 </template>
 
 <script>
-import {defaultConfig,codeThemes} from "../../../config/editor.md";
+import {codeThemes, defaultConfig} from "../../../config/editor.md";
+
 export default {
   name: "EditorMarkdown",
   props: {
@@ -39,6 +40,7 @@ export default {
       editorLoaded: false
     }
   },
+
   methods: {
     getConfig() {
       if (this.config) {

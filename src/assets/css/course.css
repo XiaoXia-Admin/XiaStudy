@@ -57,15 +57,16 @@
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
-  margin-left: 130px;
+  margin-left: 165px;
   margin-top: 51px;
+  width: 70%;
 }
 .course_auto {
   margin-right: auto !important;
 }
 .course_position_relative {
   position: relative !important;
-  width: 130px;
+  width: 104px;
   height: 30px;
 }
 .course_nav_item {
@@ -152,7 +153,10 @@ img:hover {
   max-width: 370px;
   margin: 5px auto 5px;
 }
-
+.course_box_head {
+  width: 20%;
+  margin-left: -26px;
+}
 .course-img {
   position: relative;
 }

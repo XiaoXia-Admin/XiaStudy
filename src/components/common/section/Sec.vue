@@ -46,7 +46,7 @@ export default {
       },
       flagRecord: {
         type: Number,
-        default: 11
+        default: 4
       }
     }
   },

@@ -4,7 +4,7 @@
       合理使用标签可以将文章进行更好的分类管理，点击标签查看自己对应标签下的文章，即文章分类.
     </div>
 
-    <div>
+    <div class="xjy-left">
       <a href="/bbs?from=1&amp;searchKey=jj" class="badge tagscolor mr-2 badge-success" target="_blank"><i class="iconfont icon-biaoqian pr-2 pr tp1"></i><span>jj</span></a>
     </div>
   </div>

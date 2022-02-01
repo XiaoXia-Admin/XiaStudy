@@ -1,13 +1,13 @@
 <template>
   <div id="app">
-    <nav-bar v-if="!messageShow">
+    <nav-bar v-if="!indexOfFlag('/topic')">
       <nav-img></nav-img>
-      <nav-content active-color="white" active-bg-color="#EFF3F5"></nav-content>
+      <nav-content :show-login="showLogin" active-color="white" active-bg-color="#EFF3F5"></nav-content>
       <nav-btn v-if="this.isActive"></nav-btn>
-      <nav-user-login v-else :is-active="isActive"></nav-user-login>
+      <nav-user-login :_this="this"  v-else :is-active="isActive"></nav-user-login>
     </nav-bar>
-    <message v-if="messageShow"></message>
-    <router-view v-if="!messageShow"></router-view>
+    <message v-if="indexOfFlag('/topic')"></message>
+    <router-view v-if="!indexOfFlag('/topic')"></router-view>
   </div>
 </template>
 
@@ -21,6 +21,7 @@ import Message from "./views/bbs/children/Message";
 import NavUserLogin from "./components/common/navbar/NavUserLogin";
 import cookie from 'js-cookie'
 import loginApi from './network/login'
+import {indexOfFlag} from "./common/utils";
 
 export default {
   name: 'App',
@@ -29,6 +30,7 @@ export default {
       index: '',
       account: '',
       isActive: true,
+      showLogin: false
     }
   },
   methods: {
@@ -51,7 +53,8 @@ export default {
         this.isActive = false;
       })
 
-    }
+    },
+    indexOfFlag
   },
   components: {
     NavUserLogin,
@@ -62,12 +65,11 @@ export default {
     NavBar,
     NavContent
   },
-  computed: {
-    messageShow() {
-      return this.$route.path.indexOf('/topic') !== -1;
-    }
-  },
   created() {
+    let ele = document.getElementsByTagName('*');
+    for (let i = 0; i < ele.length; i++) {
+      ele[i].style.userSelect = 'text';
+    }
     if (!cookie.get('wx_token')) {
       this.isActive = true;
     }

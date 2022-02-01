@@ -1,6 +1,7 @@
 <template>
-  <div class="ksd-logindrop" :class="{userlogin:flag,show:!flag,'xjy-header-items': after}" data-vip="1"
-       :style="userLoginBg" @click="userLogin" @mouseleave="exchangeGrade">
+
+  <div class="ksd-logindrop" :class="{userlogin:flag,xjyshow:!flag,'xjy-header-items': after}" data-vip="1"
+       :style="userLoginBg" @click="userLogin"   @mouseleave="exchangeGrade">
     <a href="/user" class="ksd-home pr tp2" :style="userHead"><i
         class="iconfont icon-home pr pr-1"></i>进入主页</a>
     <a class="ksd-user-info" href="javascript:void(0);"
@@ -19,19 +20,19 @@
         <ul>
           <li class="ksd-num-items">
             <a href="/u#topic">
-              <span class="num ksd-num-count6">0</span>
+              <span class="num ksd-num-count6">{{this.$store.state.loginInfo.articleNumber}}</span>
               <span class="ktext">文章</span>
             </a>
           </li>
           <li class="ksd-num-items">
             <a href="/u#fans">
-              <span class="num ksd-num-count1">0</span>
+              <span class="num ksd-num-count1">{{this.$store.state.loginInfo.followNumber}}</span>
               <span class="ktext">关注</span>
             </a>
           </li>
           <li class="ksd-num-items">
             <a href="/u#follow">
-              <span class="num ksd-num-count2">0</span>
+              <span class="num ksd-num-count2">{{this.$store.state.loginInfo.fansNumber}}</span>
               <span class="ktext">粉丝</span>
             </a>
           </li>
@@ -54,18 +55,18 @@
         <li class="items ksdcopylinknum" title="点击复制数字账号" data-clipboard-text="904489">
           <a href="/user/settings" style="width:160px;text-align:left" class="fl ksd-settings2 flitems"><i
               class="iconfont icon-zhanghao"></i>账号</a>
-          <a href="javascript:void(0);" class="fr ksd-settings2 fritems">904489</a>
+          <a href="javascript:void(0);" class="fr ksd-settings2 fritems">{{this.$store.state.loginInfo.account}}</a>
         </li>
-        <li class="items ksd-exp-itemboxs">
+        <li class="items ksd-exp-itemboxs" @mouseover="exchangeExperience"   @mouseleave="leaveExperience">
           <a href="javascript:void(0);" class="fl flitems"><i class="iconfont icon-dengji tp1 pr"></i>等级</a>
-          <a href="javascript:void(0);" class="fr fritems show2 ksd-coin-exp ksd-coin-exp-text" data-exp="2155">Lv1</a>
-          <a href="javascript:void(0);" class="fr fritems ksd-coin-exp show1" data-exp="2155"><span
-              class="ksd-num-exp">2155</span>exp</a>
+          <a href="javascript:void(0);" class="fr fritems ksd-coin-exp ksd-coin-exp-text" data-exp="2155" :class="{show: this.experienceFlag}">Lv1</a>
+          <a href="javascript:void(0);" class="fr fritems ksd-coin-exp show1" data-exp="2155" :class="{show: !this.experienceFlag}"><span
+              class="ksd-num-exp">{{this.$store.state.loginInfo.experience}}</span>exp</a>
         </li>
         <li class="items">
           <a href="javascript:void(0);" class="fl flitems"><i class="iconfont icon-jinbi"></i>K币</a>
           <a href="javascript:void(0);" class="fr fritems ksd-coin-coin" data-coin="5291"><span
-              class="ksd-coin-cointext ksd-num-coin">5291</span><span class="pr ftp2">币</span></a>
+              class="ksd-coin-cointext ksd-num-coin">{{this.$store.state.loginInfo.money}}</span><span class="pr ftp2">币</span></a>
         </li>
         <li class="items" title="订购会员">
           <a href="/vip/pay" style="text-align:left" class="fl ksd-settings2 flitems"><i
@@ -93,37 +94,38 @@
 </template>
 
 <script>
-import cookie from 'js-cookie'
 import {loginOut} from "../../../common/utils";
 
 export default {
   name: "NavUserLogin",
   props: {
-    loginInfo: {
-      id: '',
-      age: '',
-      avatar: '',
-      mobile: '',
-      nickname: '',
-      sex: ''
-    },
+    _this: this,
   },
   data() {
     return {
       flag: false,
       after: true,
+      experienceFlag: true
     }
   },
   methods: {
     //登录弹窗
     userLogin() {
+      this._this.showLogin = !this._this.showLogin
       this.flag = !this.flag;
     },
     exchangeGrade() {
+      this._this.showLogin = false
       this.flag = false;
     },
     //退出登录
     loginOut,
+    exchangeExperience() {
+      this.experienceFlag = true
+    },
+    leaveExperience() {
+      this.experienceFlag = false
+    }
   },
   computed: {
     userHead() {
@@ -158,7 +160,7 @@ export default {
   display: inline;
 }
 
-.ksd-logindrop.show {
+.ksd-logindrop.xjyshow {
   box-shadow: none;
 }
 
@@ -264,7 +266,7 @@ export default {
   color: black;
 }
 
-.ksd-logindrop.show .ksd-login-items {
+.ksd-logindrop.xjyshow .ksd-login-items {
   display: none;
 }
 
@@ -353,7 +355,6 @@ li {
   font-size: 12px;
   padding: 8px;
   cursor: pointer;
-  display: flex;
   transition: 60ms linear;
 }
 
@@ -377,4 +378,5 @@ li {
 .ksd-logindrop .ksd-login-items .items .iconfont {
   padding-right: 0;
 }
+
 </style>

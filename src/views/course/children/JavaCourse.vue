@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="course_box" v-for="item1 in item.boxList" :key="item1.id">
-        <a href="/course/detail/1317500148100386817" target="_blank" :title="item1.title">
+        <a href="/course/detail" target="_blank" :title="item1.title">
           <div class="course_box_item">
             <div class="course-img">
               <img src="../../../assets/course/01.jpg" data-original="src/assets/course/01.jpg" style="" width="100%"

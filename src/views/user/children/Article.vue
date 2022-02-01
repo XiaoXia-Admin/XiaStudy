@@ -6,10 +6,8 @@
           <div class="contribution-sidenav">
             <div class="nav-container playlist-container">
               <div class="contribution-list-container" >
-                <ul class="contribution-list">
-                  <li class="contribution-item ksd-topic-item" :class="{cur:management}" data-type="1"><a href="javascript:void(0);" @click="articlePage('management')" class="text">文章管理</a><span class="num ksd-num-count6 font-weight-bold"></span></li>
-                  <li class="contribution-item ksd-topic-item" :class="{cur:collect}" data-type="3"><a href="javascript:void(0);" @click="articlePage('collect')" class="text">收藏文章</a><span class="num ksd-num-count11 font-weight-bold"></span></li>
-                  <li class="contribution-item ksd-topic-item" :class="{cur:tag}" data-type="4"><a href="javascript:void(0);" @click="articlePage('tag')" class="text router-link-exact-active router-link-active">文章标签</a></li>
+                <ul class="contribution-list" v-for="item in this.slide">
+                  <li class="contribution-item ksd-topic-item":class="{cur:item.flag}"  data-type="1"><a href="javascript:void(0);" @click="articlePage(item.slideArgs)" class="text">{{item.content}}</a><span class="num ksd-num-count6 font-weight-bold"></span></li>
                 </ul>
               </div>
             </div>
@@ -26,11 +24,47 @@
 <script>
 export default {
   name: "Article",
+  props: {
+    slide: {
+      type:Array,
+      default: [
+        {
+          flag: true,
+          content: '文章管理',
+          slideArgs: 'management'
+        },
+        {
+          flag: false,
+          content: '收藏文章',
+          slideArgs: 'collect'
+        },
+        {
+          flag: false,
+          content: '文章标签',
+          slideArgs: 'tag'
+        }
+      ]
+    }
+  },
   data() {
     return {
-      management: true,
-      collect: false,
-      tag: false
+      dataSlide: [
+        {
+          flag: true,
+          content: '文章管理',
+          slideArgs: 'management'
+        },
+        {
+          flag: false,
+          content: '收藏文章',
+          slideArgs: 'collect'
+        },
+        {
+          flag: false,
+          content: '文章标签',
+          slideArgs: 'tag'
+        }
+      ]
     }
   },
   methods: {
@@ -39,16 +73,21 @@ export default {
       this.$router.replace('/user/article/' + path);
     },
     bottomExchange(path) {
-      this.management = false;
-      this.collect = false;
-      this.tag = false;
+      this.slide[0].flag = false;
+      this.slide[1].flag = false;
+      this.slide[2].flag = false;
       if (path == 'management') {
-        this.management = true
+        this.slide[0].flag = true
       } else if (path == 'collect') {
-        this.collect = true;
+        this.slide[1].flag = true;
       } else if (path == 'tag') {
-        this.tag = true;
+        this.slide[2].flag = true;
       }
+    }
+  },
+  created() {
+    if(!this.slide) {
+      this.slide = this.dataSlide
     }
   }
 }
@@ -71,6 +110,7 @@ export default {
   font-size: 14px;
   color: #222;
   box-sizing: border-box;
+  text-align: left;
 }
 .contribution-sidenav .contribution-list-container {
   position: relative;
