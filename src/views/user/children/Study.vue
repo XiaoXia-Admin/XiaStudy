@@ -6,9 +6,9 @@
           <div class="contribution-sidenav">
             <div class="nav-container playlist-container">
               <div class="contribution-list-container" >
-                <ul class="contribution-list">
-                  <li class="contribution-item ksd-topic-item" :class="{cur:footprint}" data-type="1"><a href="javascript:void(0);" @click="studyPage('footprint')" class="text">文章管理</a><span class="num ksd-num-count6 font-weight-bold">22</span></li>
-                  <li class="contribution-item ksd-topic-item" :class="{cur:purchaseCourse}" data-type="3"><a href="javascript:void(0);" @click="studyPage('purchase')" class="text">收藏文章</a><span class="num ksd-num-count11 font-weight-bold">1</span></li>
+                <ul class="contribution-list xjy-left">
+                  <li class="contribution-item ksd-topic-item" :class="{cur:footprint}" data-type="1"><a href="javascript:void(0);" @click="studyPage('footprint')" class="text">学习足迹</a><span class="num ksd-num-count6 font-weight-bold">{{this.total}}</span></li>
+                  <li class="contribution-item ksd-topic-item" :class="{cur:purchaseCourse}" data-type="3"><a href="javascript:void(0);" @click="studyPage('purchase')" class="text">已购课程</a><span class="num ksd-num-count11 font-weight-bold">{{this.buyCourseNumber}}</span></li>
                 </ul>
               </div>
             </div>
@@ -24,24 +24,26 @@
 
 <script>
 export default {
-  name: "HomePage",
+  name: "Study",
   data() {
     return {
+      buyCourseNumber: 1,
+      total: 22,
       footprint: true,
-      purchaseCourse: false
+      purchaseCourse: false,
     }
   },
   methods: {
     studyPage(path) {
       this.footprint = false
       this.purchaseCourse = false
-      if(path == 'footprint'){
+      if (path == 'footprint') {
         this.footprint = true
-      } else if(path == 'purchase') {
+      } else if (path == 'purchase') {
         this.purchaseCourse = true
       }
       this.$router.replace('/user/study/' + path);
-    }
+    },
   }
 }
 </script>

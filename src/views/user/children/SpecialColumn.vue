@@ -2,7 +2,7 @@
   <div class="container">
     <div class="ksd-main-content">
       <div style="padding:15px;background: #fff;">
-        <div id="ksd-topic-cube-list-add" :class="{show: indexOfFlag('otherspecial')}" class="ksd-topic-cube-list">
+        <div id="ksd-topic-cube-list-add" :class="{show: indexOfFlag('other/user')}" class="ksd-topic-cube-list">
           <div class="media text-muted ksd-topic-items-c ksd-topic-items-c-first text-center block"
                id="ksd-topic-items-c-addbox">
             <a href="javascript:void(0);" class="block" @click="createBlock" >
@@ -37,8 +37,8 @@
 
 
         <div id="ksd-topic-cube-list" class="ksd-topic-cube-list">
-          <div :title="item.title"  v-for="(item,index) in this.topicCubeList" class="animated fadeIn text-muted ksd-topic-items-c ksd-topic-item delay-1s" :style="item.color">
-            <a href="/zl" target="_blank" class="text-white font-weight-bold text-decoration-none d-block">
+          <div :title="item.title"  v-for="(item,index) in this.columnList" :key="item.id" class="animated fadeIn text-muted ksd-topic-items-c ksd-topic-item delay-1s" :style="item.color">
+            <a :href="'/zl/'+item.id" target="_blank" class="text-white font-weight-bold text-decoration-none d-block">
               <div class="media-body load-topics-page pr" :title="item.title">
                 <h3 class="zl-title">
                   {{item.title}}
@@ -47,15 +47,12 @@
               <p class="text-right overflow-hidden">
                    <span class="fl fz12">
                        <i class="iconfont icon-icon_yulan mr-1 pr tp1"></i>
-                       {{item.preview}}
+                       {{item.views}}
                    </span>
                 <span class="fr" style="transform: scale(0.82)">
-                        <i class="iconfont icon-yinsi mr-2" :class="{show: indexOfFlag('otherspecial')}"></i>
-                        <i class="pr tp1 iconfont icon-bukejian" :class="{show: !indexOfFlag('otherspecial')}"></i>
-
-                        <span>{{item.secret}}</span>
-
-
+                        <i class="iconfont icon-yinsi mr-2" :class="{show: indexOfFlag('other/user')}"></i>
+                        <i class="pr tp1 iconfont icon-bukejian" :class="{show: !indexOfFlag('other/user')}"></i>
+                        <span>{{item.visibility}}</span>
                    </span>
               </p>
             </a>
@@ -69,66 +66,71 @@
 <script>
 import {indexOfFlag} from "../../../common/utils";
 export default {
-  name: "Article",
+  name: "SpecialColumn",
+  props: {
+    columnList: {
+      type: Array,
+      default: [
+        {
+          id: 1,
+          title: '小夏专栏啊',
+          views: 7,
+          visibility: '尽自己可见',
+          color: 'background-image: linear-gradient(to right, rgb(130, 178, 242) 0%, rgb(51, 51, 51) 100%);'
+        },
+        {
+          id: 2,
+          title: 'xiaoao',
+          views: 'haha',
+          visibility: '所有人可见',
+          color: 'background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);'
+        },
+        {
+          id: 3,
+          title: 'xiaoao',
+          views: 'haha',
+          visibility: '所有人可见',
+          color: 'background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);'
+        },
+        {
+          id: 4,
+          title: '小夏专栏啊',
+          views: 7,
+          visibility: '尽自己可见',
+          color: 'background-image: linear-gradient(to right, rgb(130, 178, 242) 0%, rgb(51, 51, 51) 100%);'
+        },
+        {
+          id: 5,
+          title: 'xiaoao',
+          views: 'haha',
+          visibility: '所有人可见',
+          color: 'background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);'
+        },
+      ]
+    }
+  },
   data() {
     return {
       specialCreate: true,
-      topicCubeList: [
+      visibilityList: [
         {
-          title: '小夏专栏啊',
-          preview: 7,
-          secret: '尽自己可见',
-          color: 'background-image: linear-gradient(to right, rgb(130, 178, 242) 0%, rgb(51, 51, 51) 100%);'
+          visibility: '所有人可见'
         },
         {
-          title: 'xiaoao',
-          preview: 'haha',
-          secret: '所有人可见',
-          color: 'background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);'
+          visibility: '仅对会员可见'
         },
         {
-          title: 'xiaoao',
-          preview: 'haha',
-          secret: '所有人可见',
-          color: 'background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);'
+          visibility: '仅对自己可见'
         },
         {
-          title: '小夏专栏啊',
-          preview: 7,
-          secret: '尽自己可见',
-          color: 'background-image: linear-gradient(to right, rgb(130, 178, 242) 0%, rgb(51, 51, 51) 100%);'
+          visibility: '仅对年会员可见'
         },
         {
-          title: 'xiaoao',
-          preview: 'haha',
-          secret: '所有人可见',
-          color: 'background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);'
-        },
-        {
-          title: 'xiaoao',
-          preview: 'haha',
-          secret: '所有人可见',
-          color: 'background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);'
-        },
-        {
-          title: '小夏专栏啊',
-          preview: 7,
-          secret: '尽自己可见',
-          color: 'background-image: linear-gradient(to right, rgb(130, 178, 242) 0%, rgb(51, 51, 51) 100%);'
-        },
-        {
-          title: 'xiaoao',
-          preview: 'haha',
-          secret: '所有人可见',
-          color: 'background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);'
-        },
-        {
-          title: 'xiaoao',
-          preview: 'haha',
-          secret: '所有人可见',
-          color: 'background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);'
+          visibility: '仅对终身会员可见'
         }
-      ]
+
+      ],
+
     }
   },
   methods: {
@@ -142,11 +144,11 @@ export default {
       this.specialCreate = true
       let item = {
         title: 'xiaoao',
-        preview: 'haha',
-        secret: '所有人可见',
+        views: 'haha',
+        visibility: '所有人可见',
         color: 'background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);'
       }
-      this.topicCubeList.push(item);
+      this.columnList.push(item);
     },
     indexOfFlag
   }
@@ -247,18 +249,6 @@ export default {
 }
 .r, .y, .fr {
   float: right;
-}
-.delay-1s {
-  -webkit-animation-delay: 50ms;
-  animation-delay: 50ms;
-}
-.animated {
-  animation-duration: 1s;
-  animation-fill-mode: both;
-}
-
-.fadeIn {
-  animation-name: fadeIn;
 }
 
 .ksd-topic-item:hover {

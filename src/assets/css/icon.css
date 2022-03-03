@@ -1,9 +1,10 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2805605 */
-  src: url('//at.alicdn.com/t/font_2805605_x1nfrjtkw5a.woff2?t=1643460231049') format('woff2'),
-  url('//at.alicdn.com/t/font_2805605_x1nfrjtkw5a.woff?t=1643460231049') format('woff'),
-  url('//at.alicdn.com/t/font_2805605_x1nfrjtkw5a.ttf?t=1643460231049') format('truetype');
+  src: url('//at.alicdn.com/t/font_2805605_cmznbf7kp05.woff2?t=1645874530455') format('woff2'),
+  url('//at.alicdn.com/t/font_2805605_cmznbf7kp05.woff?t=1645874530455') format('woff'),
+  url('//at.alicdn.com/t/font_2805605_cmznbf7kp05.ttf?t=1645874530455') format('truetype');
 }
+
 
 .iconfont {
   font-family: "iconfont" !important;
@@ -28,21 +29,45 @@
   background-color: white;
   border-radius: 13px;
 }
+.icon-VIP1:before {
+  content: "\e6d3";
+}
+.icon-huifu:before {
+  content: "\e66a";
+}
+.icon-zhengquewancheng:before {
+  content: "\e8e5";
+}
+.icon-svip1:before {
+  content: "\e629";
+}
+
+.icon-bofang:before {
+  content: "\e626";
+}
 
 .icon-bukejian:before {
   content: "\ec63";
 }
+
 .icon-home2:before {
   content: "\e601";
 }
+
 .icon-sousuotianchong:before {
   content: "\e694";
 }
+
 .icon-shoucang:before {
   content: "\e8c6";
 }
-.icon-shanchu1:before {
+
+.icon-chahao:before {
   content: "\e669";
+}
+
+.icon-fenxiang1:before {
+  content: "\e72f";
 }
 
 .icon-xiangshangzhanhang:before {
@@ -52,6 +77,7 @@
 .icon-xiangxia:before {
   content: "\e637";
 }
+
 .icon-xiaoxi11:before {
   content: "\e62b";
 }
@@ -86,10 +112,12 @@
 
 .icon-weixuanze:before {
   content: "\e625";
+  font-size: 13px;
 }
 
 .icon-xuanzeyixuanze:before {
   content: "\e62d";
+  font-size: 13px;
 }
 
 .icon-dunpai:before {
@@ -209,15 +237,7 @@
 }
 
 .icon-svip:before {
-  content: "\e600";
-}
-
-.icon-svip1:before {
-  content: "\e641";
-}
-
-.icon-svip3:before {
-  content: "\e69c";
+  content: "\e675";
 }
 
 .icon-icon-jiantou1:before {
@@ -242,4 +262,8 @@
 
 .icon-wenzhang:before {
   content: "\e610";
+}
+
+.icon-gouwucheman:before {
+  content: "\e600";
 }

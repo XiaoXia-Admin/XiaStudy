@@ -1,11 +1,11 @@
 <template>
   <div :id="editorId" class="col-md-12 mb-3" style="padding-left: 1px; margin: auto auto;">
-    <textarea> </textarea>
+    <textarea>{{this.content}}</textarea>
   </div>
 </template>
 
 <script>
-import {codeThemes, defaultConfig} from "../../../config/editor.md";
+import {defaultConfig} from "../../../config/editor.md";
 
 export default {
   name: "EditorMarkdown",
@@ -14,30 +14,18 @@ export default {
       type: String,//editor名字
       default: 'editor',
     },
-    onchange: { // 内容改变时回调，返回（html, markdown, text）
-      type: Function
-    },
     config: { // 编辑器配置
       type: Object,
       default: null
     },
-    codeTheme: { // 代码高亮主题
+    content: {
       type: String,
-      default: 'vibrant-ink.min.css'
-    },
-    initData: {
-      'type': String
-    },
-    initDataDelay: {
-      'type': Number, // 延迟初始化数据时间，单位毫秒
-      'default': 0
+      default: ``
     }
   },
   data() {
     return {
       editor: null,
-      codeThemes,
-      editorLoaded: false
     }
   },
 
@@ -48,11 +36,11 @@ export default {
       } else {
         return defaultConfig
       }
-    },
+    }
   },
   mounted() {
-    this.editor = editormd("editor", this.getConfig())
-  }
+    this.editor = editormd(this.editorId, this.getConfig());
+  },
 }
 </script>
 

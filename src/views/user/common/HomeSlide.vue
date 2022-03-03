@@ -4,15 +4,15 @@
       <div class="pb-4 pt-4">
         <div class="bg-white row mx-0 text-center">
           <div class="col">
-            <div class="pb-2  ksd-user-center-count-size">0</div>
+            <div class="pb-2  ksd-user-center-count-size">{{this.homePage.articleRealeaseNumber}}</div>
             <div class="mb-0 small text-muted">文章数</div>
           </div>
           <div class="col">
-            <div class="pb-2  ksd-user-center-count-size">1</div>
+            <div class="pb-2  ksd-user-center-count-size">{{this.homePage.commentNumber}}</div>
             <div class=" mb-0 small text-muted">评论数</div>
           </div>
           <div class="col">
-            <div class="pb-2  ksd-user-center-count-size">22</div>
+            <div class="pb-2  ksd-user-center-count-size">{{this.homePage.studyNumber}}</div>
             <div class=" mb-0 small text-muted">学习数</div>
           </div>
         </div>
@@ -30,7 +30,7 @@
             <path
               d="M7.411 8.034a.5.5 0 0 1 .493-.417h.156a.5.5 0 0 1 .492.414l.347 2a.5.5 0 0 1-.493.585h-.835a.5.5 0 0 1-.493-.582l.333-2z"></path>
           </svg>
-          用户ID：<span>904489</span>
+          用户ID：<span>{{this.homePage.account}}</span>
         </div>
         <div class="py-2">
           <svg class="bi bi-person-circle" width="1em" height="1em" viewBox="0 0 16 16"
@@ -41,7 +41,7 @@
             <path fill-rule="evenodd"
                   d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"></path>
           </svg>
-          昵称：<span>夏金宇</span>
+          昵称：<span>{{this.$store.state.loginInfo.nickname}}</span>
         </div>
         <div class="py-2">
           <svg class="bi bi-graph-up" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
@@ -52,7 +52,7 @@
             <path fill-rule="evenodd"
                   d="M10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4h-3.5a.5.5 0 0 1-.5-.5z"></path>
           </svg>
-          等级：<span class="ksd-user-exp" data-exp="2155">Lv1</span>
+          等级：<span class="ksd-user-exp" data-exp="2155">Lv{{this.getLevel(this.$store.state.loginInfo.experience)}}</span>
         </div>
         <div class="py-2">
           <svg class="bi bi-credit-card" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
@@ -62,7 +62,7 @@
             <rect width="3" height="3" x="2" y="9" rx="1"></rect>
             <path d="M1 5h14v2H1z"></path>
           </svg>
-          K币：<span>5291</span>
+          K币：<span>{{this.homePage.money}}</span>
         </div>
         <div class="py-2">
           <svg class="bi bi-clock-history" width="1em" height="1em" viewBox="0 0 16 16"
@@ -74,7 +74,7 @@
             <path fill-rule="evenodd"
                   d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"></path>
           </svg>
-          注册时间：<span>2021-04-29</span>
+          注册时间：<span>{{this.homePage.gmtCreate}}</span>
         </div>
       </div>
     </div>
@@ -82,8 +82,19 @@
 </template>
 
 <script>
+import {getLevel} from "../../../common/utils";
+
 export default {
-  name: "HomeSlide"
+  name: "HomeSlide",
+  props: {
+    homePage: {
+      type: Object,
+      default: {}
+    }
+  },
+  methods: {
+    getLevel
+  }
 }
 </script>
 

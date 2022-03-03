@@ -3,10 +3,10 @@
     <div class="download_box_head">
       <div class="download_inner_box">
         <div class="download_box_head_left">
-          <div class="download_box_head_btn_size download_box_head_btn" :class="{'btn-dark-active':boxList[0].isActive}" @click="downloadResource('all')"><span>全部</span></div>
-          <div class="download_box_head_btn_size download_box_head_btn" :class="{'btn-dark-active':boxList[1].isActive}"  @click="downloadResource('vip')"><span>vip课程</span></div>
-          <div class="download_box_head_btn_size download_box_head_btn" :class="{'btn-dark-active':boxList[2].isActive}"  @click="downloadResource('note')"><span>配套笔记</span></div>
-          <div class="download_box_head_btn_size download_box_head_btn" :class="{'btn-dark-active':boxList[3].isActive}"  @click="downloadResource('code')"><span>配套代码</span></div>
+          <div v-for="(item, index) in categoryList" :id="item.id" :key="item.id" class="download_box_head_btn_size download_box_head_btn" :class="{'btn-dark-active':boxList[index].isActive}" @click="downloadResource(item.categoryName)"><span>{{item.categoryName}}</span></div>
+<!--          <div class="download_box_head_btn_size download_box_head_btn" :class="{'btn-dark-active':boxList[1].isActive}"  @click="downloadResource('vip')"><span>vip课程</span></div>-->
+<!--          <div class="download_box_head_btn_size download_box_head_btn" :class="{'btn-dark-active':boxList[2].isActive}"  @click="downloadResource('note')"><span>配套笔记</span></div>-->
+<!--          <div class="download_box_head_btn_size download_box_head_btn" :class="{'btn-dark-active':boxList[3].isActive}"  @click="downloadResource('code')"><span>配套代码</span></div>-->
         </div>
         <div class="download_box_head_right">
           <div class="input-size">
@@ -24,26 +24,28 @@
         </div>
       </div>
     </div>
-    <div class="download_box_item">
+    <div class="download_box_item xjy-left">
       <div class="fl ksd-live-box-radius" style="width: 30px; text-align: center;"></div>
       <div class="download_box_title" style="overflow: hidden; padding-bottom: 15px;">
         <div class="fl  pr tp5" style="width: 500px;"><span style="color: rgb(153, 153, 153);">&nbsp;&nbsp;&nbsp;&nbsp;标题</span>
         </div>
         <div class="fl  fz13  pr tp6" style="color: rgb(153, 153, 153); width: 300px;"><span>&nbsp;分类</span></div>
         <div class="fl  fz13  pr tp6" style="color: rgb(153, 153, 153); width: 100px;"><span>&nbsp;大小</span></div>
-        <div class="fr  fz13  pr tp6" style="color: rgb(153, 153, 153); text-align: center;"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;下载</span>
+        <div class="fr  fz13  pr tp6" style="color: rgb(153, 153, 153); text-align: center;margin-right: 29px;"><span>下载</span>
         </div>
       </div>
     </div>
-    <router-view></router-view>
+    <all-course :file-list="this.fileList"></all-course>
   </div>
 
 </template>
 
 <script>
 
+import AllCourse from "./children/AllCourse";
 export default {
   name: "Download",
+  components: {AllCourse},
   data() {
     return {
       boxList: [
@@ -59,6 +61,152 @@ export default {
         {
           isActive: false
         },
+      ],
+      categoryList: [
+        {
+          id: 1,
+          categoryName: '全部'
+        },
+        {
+          id: 2,
+          categoryName: 'vip课程'
+        },
+        {
+          id: 4,
+          categoryName: '配套课程',
+        },
+        {
+          id: 5,
+          categoryName: '配套笔记'
+        }
+      ],
+      fileList: [
+        {
+          id: 1,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 2,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 3,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 1,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 2,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 3,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 1,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 2,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 3,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 1,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 2,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 3,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 1,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 2,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 3,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 1,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 2,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        },
+        {
+          id: 3,
+          name: '【vip】微信支付课程素材代码',
+          categoryName: 'vip课程',
+          size: '3.275',
+          price: '5600'
+        }
       ]
     }
   },
@@ -67,16 +215,17 @@ export default {
       this.boxList.forEach(el => {
         el.isActive = false
       })
-      if(path == 'all'){
+      if(path == '全部'){
         this.boxList[0].isActive = true
-      } else if(path == 'vip') {
+      } else if(path == 'vip课程') {
         this.boxList[1].isActive = true
-      } else if(path == 'note') {
+      } else if(path == '配套课程') {
         this.boxList[2].isActive = true
-      } else if(path == 'code') {
+      } else if(path == '配套笔记') {
         this.boxList[3].isActive = true
       }
-      this.$router.replace('/download/' + path);
+      // this.$router.replace('/download/' + path);
+      // 异步请求根据id获取响应的下载问价
     }
   },
   destroyed() {

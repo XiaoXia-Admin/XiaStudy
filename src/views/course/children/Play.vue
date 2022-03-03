@@ -1,10 +1,10 @@
 <template>
-  <h1>code</h1>
+  <div style="margin-top: 55px">视频播放页面</div>
 </template>
 
 <script>
 export default {
-  name: "Code"
+  name: "Play"
 }
 </script>
 

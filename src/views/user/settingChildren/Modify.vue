@@ -6,90 +6,72 @@
           <div class="mb-3">
             <div class="row">
               <div class="col-md-2">
-                <label for="sign">用户等级 LV<span class="ksd-badge-tags" data-exp="2305">1</span></label>
+                <label for="sign">用户等级 LV<span class="ksd-badge-tags" data-exp="2305">{{ level }}</span></label>
               </div>
-              <div class="col-md-10" style="padding-top: 3px;">
-                <!--                <div class="layui-progress layui-progress-big" lay-showPercent="true">-->
-                <!--                  <div class="layui-progress-bar layui-bg-blue" lay-percent="80%"></div>-->
-                <!--                </div>-->
-                <div class="progress">
-                  <div class="progress-bar" id="exp" role="progressbar" style="width: 76.8333%;" aria-valuenow="25"
-                       aria-valuemin="0" aria-valuemax="100"><span class="ksd-badage-text">2305/3000</span>
-                  </div>
+              <!--              <div class="col-md-10" style="padding-top: 3px;">-->
+              <!--                &lt;!&ndash;                <div class="layui-progress layui-progress-big" lay-showPercent="true">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                  <div class="layui-progress-bar layui-bg-blue" lay-percent="80%"></div>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                </div>&ndash;&gt;-->
+              <!--                <div class="layui-progress">-->
+              <!--&lt;!&ndash;                  <div class="progress-bar" id="exp" role="progressbar" style="width: 76.8333%;" aria-valuenow="25"&ndash;&gt;-->
+              <!--&lt;!&ndash;                       aria-valuemin="0" aria-valuemax="100"><span class="ksd-badage-text">2305/3000</span>&ndash;&gt;-->
+              <!--&lt;!&ndash;                  </div>&ndash;&gt;-->
+              <!--                  <div class="layui-progress-bar layui-bg-green" lay-percent="40%">2305/3000</div>-->
+              <!--                </div>-->
+              <!--              </div>-->
+              <div class="col-md-10 layui-progress layui-progress-big">
+                <div class="layui-progress-bar layui-bg-blue" lay-percent="35%" :style=progressLevel><span
+                  class="ksd-badge-text">{{ this.userInfo.experience }}/{{
+                    this.levelExperience[level].experience
+                  }} </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-12 mb-3">
-              <label for="sign">修改头像</label>
               <div>
                 <ul>
-                  <li class="img-selectbox" data-num=1 data-img="../../../assets/avatar/1.png"><a href="javascript:void(0);"
-                                                                                       @click="exchangeAvatar('../../../public/static/img/1.jpg')"><img
-                    src="../../../assets/avatar/1.png" alt=""></a></li>
-                  <li class="img-selectbox" data-img="../../../assets/avatar/2.jpg"><a href="javascript:void(0);"><img
-                    src="../../../assets/avatar/2.jpg" alt=""></a></li>
-                  <li class="img-selectbox" data-img="../../../assets/avatar/3.jpg"><a href="javascript:void(0);"><img
-                    src="../../../assets/avatar/3.jpg" alt=""></a></li>
-                  <li class="img-selectbox" data-img="../../../assets/avatar/4.jpg"><a href="javascript:void(0);"><img
-                    src="../../../assets/avatar/4.jpg" alt=""></a></li>
-                  <li class="img-selectbox" data-img="../../../assets/avatar/5.jpg"><a href="javascript:void(0);"><img
-                    src="../../../assets/avatar/5.jpg" alt=""></a></li>
-                  <li class="img-selectbox" data-img="../../../assets/avatar/6.jpg"><a href="javascript:void(0);"><img
-                    src="../../../assets/avatar/6.jpg" alt=""></a></li>
-                  <li class="img-selectbox" data-img="../../../assets/avatar/7.jpg"><a href="javascript:void(0);"><img
-                    src="../../../assets/avatar/7.jpg" alt=""></a></li>
-                  <li class="img-selectbox" data-img="../../../assets/avatar/8.jpg"><a href="javascript:void(0);"><img
-                    src="../../../assets/avatar/8.jpg" alt=""></a></li>
-                  <li class="img-selectbox" data-img="../../../assets/avatar/9.jpg"><a href="javascript:void(0);"><img
-                    src="../../../assets/avatar/9.jpg" alt=""></a></li>
-                  <li class="img-selectbox" data-img="../../../assets/avatar/10.jpg"><a href="javascript:void(0);"><img
-                    src="../../../assets/avatar/10.jpg" alt=""></a></li>
-                  <li class="img-selectbox" data-img="../../../assets/avatar/11.jpg"><a href="javascript:void(0);"><img
-                    src="../../../assets/avatar/11.jpg" alt=""></a></li>
-                  <li class="img-selectbox" data-img="../../../assets/avatar/12.jpg"><a href="javascript:void(0);"><img
-                    src="../../../assets/avatar/12.jpg" alt=""></a></li>
-                  <li class="img-selectbox" data-img="../../../assets/avatar/13.jpg"><a href="javascript:void(0);"><img
-                    src="../../../assets/avatar/13.jpg" alt=""></a></li>
-                  <li class="img-selectbox" data-img="../../../assets/avatar/14.jpg"><a href="javascript:void(0);"><img
-                    src="../../../assets/avatar/14.jpg" alt=""></a></li>
-                  <li class="img-selectbox" data-img="../../../assets/avatar/15.jpg"><a href="javascript:void(0);"><img
-                    src="../../../assets/avatar/15.png" alt=""></a></li>
+                  <li v-for="(item, index) in avatarList" :key="index" class="img-selectbox" :data-num=index
+                      :data-img="item.url">
+                    <a href="javascript:void(0);" @click="exchangeAvatar('./static/avatar/'+ (index + 1) +'.jpg')">
+                      <img :src="item.url" alt="">
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <label for="nickname">用户昵称</label>
               <input type="text" name="nickname" class="form-control ksd-user-update" data-method="nickname"
-                     placeholder="请输入昵称..." maxlength="20" id="nickname" data-field="nickname" value="夏金宇" title="夏金宇">
+                     placeholder="请输入昵称..." maxlength="20" id="nickname" data-field="nickname"
+                     :value="this.userInfo.nickname" :title="this.userInfo.nickname">
             </div>
             <div class="col-md-6 mb-3">
               <label for="usernum">用户账号</label>
-              <input type="text" class="form-control" id="usernum" disabled="" value="904489">
+              <input type="text" class="form-control" id="usernum" disabled="" :value="this.userInfo.account">
             </div>
           </div>
 
           <div class="mb-3">
             <label for="ksd-user-sex">性别 </label>
-            <select class="custom-select d-block w-100" id="ksd-user-sex" data-field="sex" data-method="sex"
+            <select class="custom-select d-block w-100" v-model="selected" @change="getSex" id="ksd-user-sex" data-field="sex" data-method="sex"
                     data-sex="1">
               <option value="">--请选择性别--</option>
-              <option value="1">汉子</option>
-              <option value="0">妹子</option>
+              <option v-for="(item, index) in sexList" :key="index" :value="item.id">{{item.name}}</option>
             </select>
           </div>
 
           <div class="mb-3">
             <label for="address">当前住址(活动礼品寄送需要正确填写地址)</label>
             <input type="text" name="address" class="form-control ksd-user-update" data-field="address"
-                   data-method="address" maxlength="100" id="address" placeholder="中国" required="" value="">
+                   data-method="address" maxlength="100" id="address" required="" :value="this.userInfo.address">
           </div>
 
           <div class="mb-3">
             <label for="sign">个性签名</label>
             <input type="text" name="sign" class="form-control ksd-user-update" data-field="sign" data-method="sign"
-                   maxlength="60" id="sign" placeholder="不个性，没有签名...." title="加油 " value="加油 ">
+                   maxlength="60" id="sign" :placeholder="this.userInfo.sign" :title="this.userInfo.sign " :value="this.userInfo.sign ">
           </div>
           <button class="btn btn-primary btn-lg btn-block modify-btn" id="saveupdate">提交修改</button>
         </div>
@@ -98,12 +80,120 @@
   </div>
 </template>
 <script>
-import {exchangeAvatar} from "../../../common/utils";
+import {exchangeAvatar, getLevel} from "../../../common/utils";
 
 export default {
   name: "Modify",
+  data() {
+    return {
+      img: './static/avatar/1.jpg',
+      avatarList: [
+        {
+          url: './static/avatar/1.jpg'
+        },
+        {
+          url: './static/avatar/2.jpg'
+        },
+        {
+          url: './static/avatar/3.jpg'
+        },
+        {
+          url: './static/avatar/4.jpg'
+        },
+        {
+          url: './static/avatar/5.jpg'
+        },
+        {
+          url: './static/avatar/6.jpg'
+        },
+        {
+          url: './static/avatar/7.jpg'
+        },
+        {
+          url: './static/avatar/8.jpg'
+        },
+        {
+          url: './static/avatar/9.jpg'
+        },
+        {
+          url: './static/avatar/10.jpg'
+        },
+        {
+          url: './static/avatar/11.jpg'
+        },
+        {
+          url: './static/avatar/12.jpg'
+        },
+        {
+          url: './static/avatar/13.jpg'
+        },
+        {
+          url: './static/avatar/14.jpg'
+        },
+        {
+          url: './static/avatar/15.jpg'
+        }
+
+      ],
+      levelExperience: [
+        {
+          experience: 1000
+        },
+        {
+          experience: 3000
+        },
+        {
+          experience: 9000
+        },
+        {
+          experience: 18000
+        },
+        {
+          experience: 36000
+        },
+        {
+          experience: 72000
+        }
+      ],
+      userInfo: {
+        id: 1,
+        experience: 10000,
+        nickname: '往事随风',
+        account: '999988',
+        sex: 0,
+        address: '哈尔滨市道里区新农镇',
+        sign: '我还是从前那个少年，心中从未有改变!',
+      },
+      sexList: [
+        {
+          id: 0,
+          name: '妹子',
+        },
+        {
+          id: 1,
+          name: '汉子'
+        }
+      ],
+      selected: ''
+    }
+  },
   methods: {
-    exchangeAvatar
+    exchangeAvatar,
+    getLevel,
+    getSex() {
+      console.log(this.selected)
+    }
+  },
+  computed: {
+    progressLevel() {
+      return 'width: ' + Math.round(this.userInfo.experience / this.levelExperience[this.getLevel(this.userInfo.experience)].experience * 10000) / 100.00 + '%'
+    },
+    level() {
+      return this.getLevel(this.userInfo.experience)
+    }
+  },
+  created() {
+    this.selected = this.sexList[this.userInfo.sex].id
   }
 }
 </script>
@@ -130,6 +220,11 @@ export default {
 
 .mb-3, .my-3 {
   margin-bottom: 1rem !important;
+}
+
+.ksd-badge-text {
+  position: relative;
+  right: 43%;
 }
 
 label {

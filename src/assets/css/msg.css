@@ -1,0 +1,170 @@
+.fz12 {
+  font-size: 12px !important;
+}
+
+.n-msgnt-hvr .item:hover {
+  background: #eff3f5;
+  padding: 16px;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.n-msgnt-hvr .item, .n-msgnt-hvr .item * {
+  cursor: pointer;
+  word-break: break-all;
+}
+
+.n-msgnt .item {
+  padding: 16px;
+  border-bottom: 1px dotted #ccc;
+  position: relative;
+  transition: 300ms;
+  background: #f8f8f8;
+  margin-bottom: 10px;
+}
+
+.n-msgnt .cont .time {
+  float: right;
+  font-family: Tahoma, Geneva, sans-serif;
+}
+.fz16 {
+  font-size: 16px !important;
+}
+.n-msgnt-1 .cont {
+  margin-left: 70px;
+  line-height: 21px;
+}
+.n-msgnt .cont .sec2-1 p {
+  width: 94%;
+  padding-top: 5px;
+}
+.n-msgnt .cont .sec2 p {
+  width: 80%;
+  color: black;
+  word-break: break-word;
+}
+.n-msgnt .cont .u-icn {
+  margin: -4px 8px 0 2px;
+
+}
+.n-msgnt-1 .cont {
+  margin-left: 70px;
+  line-height: 21px;
+}
+.fw {
+  font-weight: 600 !important;
+}
+
+.fz14 {
+  font-size: 14px !important;
+}
+
+.n-msgnt .cont .sec2 {
+  width: 94%;
+  word-break: break-word;
+}
+.ml-1, .mx-1 {
+  margin-left: .25rem !important;
+}
+.mr-1, .mx-1 {
+  margin-right: .25rem !important;
+}
+.n-msgnt .cont .oper {
+  margin-right: -66px;
+
+}
+
+.dlt {
+  visibility: hidden;
+}
+
+.n-msgnt .item:hover .dlt {
+  visibility: visible;
+}
+
+.s-fc4 {
+  font-size: 13px;
+  color: black;
+}
+
+b, strong {
+  font-weight: bolder;
+  text-align: justify;
+  text-justify: newspaper;
+  word-break: break-all;
+}
+
+.gocoursebtn:hover {
+  color: #fff;
+}
+
+.gocoursebtn {
+  color: #fff;
+  background: #FF5722;
+  padding: 0px 8px;
+  line-height: 24px;
+  margin-left: 10px;
+  border-radius: 16px;
+  display: inline-block;
+}
+
+.n-msgnt .cont .oper {
+  float: right;
+  text-align: right;
+  font-family: Tahoma, Geneva, sans-serif;
+}
+
+.n-msgnt .cont .sec2-1 p {
+  width: 96%;
+  padding-top: 5px;
+  text-align: left;
+}
+.n-msgnt .cont .time {
+  float: right;
+  font-family: Tahoma,Geneva,sans-serif;
+}
+.n-msgnt-hvr .item, .n-msgnt-hvr .item * {
+  cursor: pointer;
+  word-break: break-all;
+}
+.n-msgnt .cont .time i {
+  position: relative;
+  *top: 1px;
+  margin-right: 0;
+}
+.n-msgnt .cont .u-icn {
+  margin: -4px 8px 0 2px;
+}
+.ksd-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  vertical-align: baseline;
+  top: 7px;
+  position: relative;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+  border-style: none;
+}
+.small, small {
+  font-size: 80%;
+  font-weight: 400;
+}
+.mn a {
+  color: #34495e;
+}
+.mn a span,.mn span{
+  font-size: 14px;
+  color: #34495e;
+}
+.fz12 {
+  font-size: 12px !important;
+}
+.pr-3, .px-3 {
+  padding-right: 1rem !important;
+}
+.pr-1, .px-1 {
+  padding-right: .25rem !important;
+}

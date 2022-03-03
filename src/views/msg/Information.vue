@@ -17,9 +17,7 @@
     </div>
     <div class="g-mn6">
       <div class="g-mn6c">
-        <div class="g-wrap"><h3 class="v-hd3">
-          <span class="f-fl tit">我的消息</span> <span class="f-fr fz13 tit">共7条</span>
-        </h3>
+        <div class="g-wrap">
           <router-view></router-view>
         </div>
       </div>
@@ -39,11 +37,19 @@ export default {
       friend: false,
       system: false,
       replay: false,
-      course: false
+      course: false,
+      total: 100
     }
   },
   methods: {
     pathHop
+  },
+  created() {
+    this.me = this.$route.path.indexOf('/msg/me') !== -1;
+    this.friend = this.$route.path.indexOf('/msg/friend') !== -1;
+    this.system = this.$route.path.indexOf('/msg/system') !== -1;
+    this.replay = this.$route.path.indexOf('/msg/replay') !== -1;
+    this.course = this.$route.path.indexOf('/msg/course') !== -1;
   }
 }
 </script>
@@ -151,24 +157,6 @@ export default {
   overflow: hidden;
 }
 
-.v-hd3 {
-  height: 35px;
-  border-bottom: 3px solid #eff3f5;
-  position: relative;
-  top: -10px;
-}
-
-
-.v-hd3 .tit {
-  font-size: 14px;
-  font-weight: bold;
-  line-height: 35px;
-}
-
-.f-fr {
-  float: right;
-}
-
 .fz13 {
   font-size: 13px !important;
 }
@@ -178,15 +166,6 @@ export default {
   cursor: pointer;
   word-break: break-all;
 }
-
-
-.f-fl {
-  position: relative;
-  left: -412px;
-}
-
-
-
 .n-msgnt .cont .time i {
   position: relative;
   *top: 1px;

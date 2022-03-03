@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from 'vue-router'
-import store from "../store/index"
 
 Vue.use(VueRouter);
 
@@ -13,16 +12,6 @@ const Course = () => import("../views/course/Course");
 const Document = () => import("../views/document/Document");
 const Download = () => import("../views/download/Download");
 const Home = () => import("../views/home/Home");
-const BigDataCourse = () => import("../views/course/children/BigDataCourse");
-const JavaCourse = () => import("../views/course/children/JavaCourse");
-const WebCourse = () => import("../views/course/children/WebCourse");
-const GoCourse = () => import("../views/course/children/GoCourse");
-const CCourse = () => import("../views/course/children/CCourse");
-const SpecialCourse = () => import("../views/course/children/SpecialCourse");
-const AllCourse = () => import("../views/download/children/AllCourse");
-const VipCourse = () => import("../views/download/children/VipCourse");
-const Note = () => import("../views/download/children/Note");
-const Code = () => import("../views/download/children/Code");
 const Message = () => import("../views/bbs/children/Message");
 const User = () => import("../views/user/User");
 const Article = () => import("../views/user/children/Article");
@@ -51,11 +40,7 @@ const CourseInformation = () => import("../views/msg/children/CourseInformation"
 const Replay = () => import("../views/msg/children/Replay");
 const Detail = () => import("../views/course/children/Detail");
 const UserPreview = () => import("../views/userPreview/UserPreview");
-const OtherTalk = () => import("../views/userPreview/children/OtherTalk");
-const OtherArticle = () => import("../views/userPreview/children/OtherArticle");
-const OtherStudy = () => import("../views/userPreview/children/OtherStudy");
-const OtherSpecial = () => import("../views/userPreview/children/OtherSpecial");
-const OtherHome = () => import("../views/userPreview/children/OtherHome");
+const Play = () => import("../views/course/children/Play");
 
 const routes = [
   {
@@ -72,73 +57,30 @@ const routes = [
   {
     path: '/course',
     component: Course,
-    children: [
-      {
-        path: '',
-        redirect: 'special'
-      },
-      {
-        path: 'bigdata',
-        component: BigDataCourse
-      },
-      {
-        path: 'C',
-        component: CCourse
-      },
-      {
-        path: 'java',
-        component: JavaCourse
-      },
-      {
-        path: 'web',
-        component: WebCourse
-      },
-      {
-        path: 'special',
-        component: SpecialCourse
-      },
-      {
-        path: 'go',
-        component: GoCourse
-      }
-    ],
     meta: {
       title: '课程'
     }
   },
   {
-    path: '/other/user',
+    path: '/other/user/:userId',
     component: UserPreview,
-    children: [
-      {
-        path: '',
-        redirect: 'othertalk'
-      },
-      {
-        path: 'othertalk',
-        component: OtherTalk
-      },
-      {
-        path: 'otherarticle',
-        component: OtherArticle
-      },
-      {
-        path: 'otherhome',
-        component: OtherHome
-      },
-      {
-        path: 'otherstudy',
-        component: OtherStudy
-      },
-      {
-        path: 'otherspecial',
-        component: OtherSpecial
-      }
-    ]
+    meta: {
+      title: '狂神说-KeepStudy'
+    }
   },
   {
-    path: '/course/detail',
-    component: Detail
+    path: '/course/detail/:detailId',
+    component: Detail,
+    meta: {
+      title: '详情'
+    }
+  },
+  {
+    path: '/course/play/:playId',
+    component: Play,
+    meta: {
+      title: '视频播放'
+    }
   },
   {
     path: '/bbs',
@@ -148,7 +90,7 @@ const routes = [
     }
   },
   {
-    path: '/zl',
+    path: '/zl/:zlId',
     component: Special
   },
   {
@@ -159,7 +101,14 @@ const routes = [
     }
   },
   {
-    path: '/bbs/preview',
+    path: '/topic/add/:messageId',
+    component: Message,
+    meta: {
+      title: '编辑文章'
+    }
+  },
+  {
+    path: '/bbs/preview/:bbsId',
     component: Preview
   },
   {
@@ -267,28 +216,6 @@ const routes = [
   {
     path: '/download',
     component: Download,
-    children: [
-      {
-        path: '',
-        redirect: 'all'
-      },
-      {
-        path: 'all',
-        component: AllCourse
-      },
-      {
-        path: 'vip',
-        component: VipCourse
-      },
-      {
-        path: 'note',
-        component: Note
-      },
-      {
-        path: 'code',
-        component: Code
-      }
-    ],
     meta: {
       title: '下载',
     }

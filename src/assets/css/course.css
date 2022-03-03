@@ -51,6 +51,7 @@
   animation: ran 10s linear infinite;
   text-align: center;
 }
+
 .course_nav {
   display: flex;
   flex-direction: row;
@@ -68,6 +69,9 @@
   position: relative !important;
   width: 104px;
   height: 30px;
+}
+.course_position_relative a:hover {
+  background-color: #42de8d;
 }
 .course_nav_item {
   margin: 0 10px;
@@ -141,12 +145,17 @@ img:hover {
   width: 22%;
   height: 290px;
   max-width: 22%;
+  border-radius: 4px;
 }
 
+*, ::after, ::before {
+
+  box-sizing: border-box;
+
+}
 .course_box_item {
   background: #ffffff;
   position: relative;
-  border: 1px solid #eee;
   padding: 5px 12px;
   transition: all .3s;
   border-radius: 4px;
@@ -154,13 +163,24 @@ img:hover {
   margin: 5px auto 5px;
 }
 .course_box_head {
-  width: 20%;
-  margin-left: -26px;
+  width: 100%;
+  margin-left: -19px;
+  text-align: left;
 }
 .course-img {
   position: relative;
 }
-
+.course-img:after{
+  position: absolute;
+  bottom: 0;
+  left: 30px;
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 13px solid transparent;
+  border-right: 13px solid transparent;
+  border-bottom: 13px solid #fff;
+}
 .course_num {
   color: #fff;
   background: rgba(3,18,60,0.42);
@@ -241,7 +261,7 @@ h2 {
   display: flex;
   -webkit-box-align: center;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 4px;
   margin-right: 5px;
 }
 

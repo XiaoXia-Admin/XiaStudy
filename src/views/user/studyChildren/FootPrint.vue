@@ -4,14 +4,14 @@
       <div id="video-list-style" class="cube">
         <div id="submit-video-list" class="content person_works">
           <ul id="ksd-course-cube-list" class="work_lists cl">
-            <li data-courseid="1325771226245623809" data-pages="2" data-total="22" class="z pos animated fadeIn delay-1s">
-              <a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="hide shadow_cover">
-              </a><a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="cover">
-              <img class="imgloadinglater" onerror="imgError(this)" src="../../../assets/footimg/03.jpg" alt="如何准备面试"></a>
-              <div class="work_bt"><a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="title">如何准备面试</a>
-                <a href="/course/play/1325771226245623809" style="font-size:12px;float:right;color: #1E9FFF;font-weight: bold;" target="_blank"><i class="iconfont icon-play"></i>进入点播</a>
+            <li v-for="(item,index) in courseList" :key="item.id" :data-courseid="item.id" data-pages="2" data-total="22" class="z pos animated fadeIn delay-1s">
+              <a target="_blank" title="如何准备面试" :href="'/course/detail/' + item.id" class="hide shadow_cover">
+              </a><a target="_blank" title="如何准备面试" :href="'/course/detail/' + item.id" class="cover">
+              <img class="imgloadinglater" onerror="imgError(this)" :src="item.cover" :alt="item.title"></a>
+              <div class="work_bt"><a target="_blank" :title="item.title" :href="'/course/detail/' + item.id" class="title">{{item.title}}</a>
+                <a :href="'/course/play/' + item.id" style="font-size:12px;float:right;color: #1E9FFF;font-weight: bold;" target="_blank"><i class="iconfont icon-play"></i>进入点播</a>
                 <div class="number mt-2">
-                  <span><i class="iconfont icon-icon_yulan fsi"></i>11273</span>
+                  <span><i class="iconfont icon-icon_yulan fsi"></i>{{item.views}}</span>
                 </div>
               </div>
             </li>
@@ -27,8 +27,46 @@
 </template>
 
 <script>
+
 export default {
-  name: "FootPrint"
+  name: "FootPrint",
+  data() {
+    return {
+      courseList: [
+        {
+          id: 1,
+          title: '如何准备面试',
+          cover: './static/footimg/03.jpg',
+          views: 8
+        },
+        {
+          id: 2,
+          title: '如何准备面试',
+          cover: './static/footimg/850301863063588864.jpg',
+          views: 8
+        },
+        {
+          id: 3,
+          title: '如何准备面试',
+          cover: './static/footimg/03.jpg',
+          views: 8
+        },
+        {
+          id: 4,
+          title: '如何准备面试',
+          cover: './static/footimg/850301863063588864.jpg',
+          views: 8
+        },
+        {
+          id: 5,
+          title: '如何准备面试',
+          cover: './static/footimg/03.jpg',
+          views: 8
+        },
+
+      ]
+    }
+  }
 }
 </script>
 
@@ -61,9 +99,17 @@ ul {
   margin-bottom: 15px;
   float: left;
 }
-.animated.delay-1s {
+.delay-1s {
   -webkit-animation-delay: 50ms;
   animation-delay: 50ms;
+}
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.fadeIn {
+  animation-name: fadeIn;
 }
 a {
   color: #000000;

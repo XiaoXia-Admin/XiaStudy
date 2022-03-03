@@ -2,58 +2,101 @@
   <div class="ucenter_box">
     <div id="ucenterapp" class="container">
       <div class="user_top_bg position-relative xjy-left"
-           :style="{backgroundImage: 'url('+this.img+')',marginTop: '55px'}">
-        <div class="px-4 pb-4 row mx-0 "><span class="pr"><img src="../../assets/avatar/6.jpg" alt="" class="avatar-4"
-                                                               style="border: 2px solid rgb(239, 239, 239);"></span>
+           :style="{backgroundImage: 'url('+this.userDetail.bgImg+')',marginTop: '55px'}">
+        <div class="px-4 pb-4 row mx-0 "><span class="pr">
+          <img :src="this.userDetail.avatar" alt="" class="avatar-4"
+               style="border: 2px solid rgb(239, 239, 239);"></span>
           <div class="col" style="align-self: center;"><h3 class="mb-2 text-white"><span class="username"
-                                                                                         style="font-size: 20px; font-weight: bold; vertical-align: middle;">夏金宇</span>
-            <span class="badgelv cbadge-fz14 badge-primary" style="padding: 3px; position: relative; top: 1px;"><i
-              class="iconfont iconxingbie-nan pr" style="padding: 0px;"></i></span> <span data-exp="2555"
-                                                                                          class="badgelv badge-danger cbadge-fz12 ksd-badge-exp fw cbadge-exp-lv1">Lv1</span>
+                                                                                         style="font-size: 20px; font-weight: bold; vertical-align: middle;">{{
+              this.userDetail.nickname
+            }}
+          <span v-show="this.userDetail.sex == 0" style="padding:3px;position: relative;top:-1px;margin-right: 5px;"
+                class="badge cbadge-fz14 ksd-sex cbadge-sex-wm  badge-primary"><i style="padding: 0;"
+                                                                                  class="iconfont icon-nvxing pr"></i></span>
+
+                  <span v-show="this.userDetail.sex == 1" class="badgelv cbadge-fz14 badge-primary"
+                        style="padding: 3px; position: relative; top: 1px;"><i
+                    class="iconfont icon-nanxing pr" style="padding: 0px;"></i></span>
+
+          </span>
+            <span data-exp="2555" class="badgelv badge-danger cbadge-fz12 ksd-badge-exp fw" :class="this.displayLevel">Lv{{
+                this.getLevel(this.userDetail.experience)
+              }}</span>
           </h3>
-            <p title="加油 " class="fz12 pellipsis cof">加油 </p></div>
+            <p :title="this.userDetail.sign" class="fz12 pellipsis cof">{{ this.userDetail.sign }} </p></div>
           <div class="col text-right px-0" style="align-self: flex-end;"><input type="hidden"
                                                                                 value="e73cbe9b3c21455ca55f371cf9efd0aa">
             <input type="hidden" id="followId" value="e73cbe9b3c21455ca55f371cf9efd0aa">
-            <span
-              class="pl-3 text-white"><a class="btn btn-0099ee  px-3 py-1 ksd-b-nav-link"><i
-              class="iconfont tp1 pr icon-jia"></i> 关注TA </a></span> <span class="pl-3 text-white"><a href="/user"
-                                                                                                          class="btn px-3 py-1 ksd-b-nav-link btn-0099ee2"><i
-              class="iconfont icon-home"></i> 我的主页</a></span></div>
+            <span class="pl-3 text-white">
+              <a v-show="isAttention == 0" class="btn btn-0099ee  px-3 py-1 ksd-b-nav-link">
+                <i class="iconfont tp1 pr icon-jia"></i> 关注TA
+              </a>
+              <a v-show="isAttention == 1" class="btn btn-0099ee  px-3 py-1 ksd-b-nav-link"><i
+                class="iconfont tp1 pr icon-zhengquewancheng"></i> 已关注TA </a>
+            </span> <span class="pl-3 text-white">
+              <a href="/user" class="btn px-3 py-1 ksd-b-nav-link btn-0099ee2">
+                <i class="iconfont icon-home"></i> 我的主页
+              </a>
+            </span>
+          </div>
         </div>
       </div>
       <div class="user_top_nav py-3 px-2 position-relative" style="margin-bottom: 15px;">
         <ul class="nav nav-pills">
-          <li data-href="say" class="nav-item ksd-nav-item"><a @click="userPreviewPage('talk')" class="nav-link" :class="{active:this.talk}">说说<span
-            class="fz12 ml-1">1</span></a></li>
-          <li data-href="topic" class="nav-item ksd-nav-item"><a @click="userPreviewPage('article')" class="nav-link" :class="{active:this.article}">文章<span class="fz12 ml-1">0</span></a>
+          <li data-href="say" class="nav-item ksd-nav-item"><a @click="bottomExchange('talk')" class="nav-link"
+                                                               :class="{active:this.talk}">说说<span
+            class="fz12 ml-1">{{this.userDetail.dynamicNumber}}</span></a></li>
+          <li data-href="topic" class="nav-item ksd-nav-item"><a @click="bottomExchange('article')" class="nav-link"
+                                                                 :class="{active:this.article}">文章<span
+            class="fz12 ml-1">{{this.userDetail.articleNumber}}</span></a>
           </li>
-          <li data-href="topic" class="nav-item ksd-nav-item"><a class="nav-link" @click="userPreviewPage('special')" :class="{active:this.special}">专栏<span class="fz12 ml-1">2</span></a>
+          <li data-href="topic" class="nav-item ksd-nav-item"><a class="nav-link" @click="bottomExchange('special')"
+                                                                 :class="{active:this.special}">专栏<span
+            class="fz12 ml-1">{{this.userDetail.columnNumber}}</span></a>
           </li>
-          <li data-href="course" class="nav-item ksd-nav-item"><a class="nav-link" @click="userPreviewPage('study')" :class="{active:this.study}">学习 <span class="fz12 ml-1">22</span></a>
+          <li data-href="course" class="nav-item ksd-nav-item"><a class="nav-link" @click="bottomExchange('study')"
+                                                                  :class="{active:this.study}">学习 <span
+            class="fz12 ml-1">{{this.userDetail.studyNumber}}</span></a>
           </li>
-          <li data-href="content" class="nav-item ksd-nav-item"><a class="nav-link" @click="userPreviewPage('home')" :class="{active:this.home}">简介</a></li>
+          <li data-href="content" class="nav-item ksd-nav-item"><a class="nav-link" @click="bottomExchange('home')"
+                                                                   :class="{active:this.home}">简介</a></li>
         </ul>
-        <div class="ksd-gz-box"><span class="pl-3 float-right " style="margin-top: -17px;color: rgb(30, 159, 255);"><a
-          href="javascript:void(0);" class="py-1 ksd-nav-item-fans" style="color: rgb(255, 119, 73);"><i
-          class="iconfont icon-shoucang" style="position: relative; top: 1px;"></i> 关注（<span
-          class="ksd-guanzhunum-gg">1</span>）
-                            </a> <span class="ksd-spspan" style="padding: 0px 5px;">|</span> <a
-          href="javascript:void(0);" class="py-1 ksd-nav-item-fans"><i class="iconfont icon-fensiguanli"
-                                                                       style="position: relative; top: 2px;"></i> 粉丝（<span
-          class="ksd-fans-num">1</span>）
+        <div class="ksd-gz-box">
+          <span class="pl-3 float-right " style="margin-top: -17px;color: rgb(30, 159, 255);">
+            <a href="javascript:void(0);" class="py-1 ksd-nav-item-fans" style="color: rgb(255, 119, 73);"
+               :class="{'nav-link-bold': this.follow}" @click="bottomExchange('follow')"><i
+              class="iconfont icon-shoucang" style="position: relative; top: 1px;"></i> 关注（<span
+              class="ksd-guanzhunum-gg">{{this.userDetail.attentionNumber}}</span>）
+           </a> <span class="ksd-spspan" style="padding: 0px 5px;">|</span>
+            <a href="javascript:void(0);" class="py-1 ksd-nav-item-fans" @click="bottomExchange('fans')" :class="{'nav-link-bold': this.fans}"><i
+              class="iconfont icon-fensiguanli" style="position: relative; top: 2px;"></i> 粉丝（<span
+              class="ksd-fans-num">{{this.userDetail.fansNumber}}</span>）
                             </a></span></div>
       </div>
     </div>
-    <router-view></router-view>
+    <other-talk v-show="this.talk"></other-talk>
+    <other-article v-show="this.article"></other-article>
+    <other-special v-show="this.special"></other-special>
+    <other-study v-show="this.study"></other-study>
+    <other-home v-show="this.home"></other-home>
+    <Follow :search-box="false" :user-list="this.userList" v-show="this.follow"></Follow>
+    <Follow :search-box="false" :user-list="this.userList" v-show="this.fans"></Follow>
+
   </div>
 </template>
 
 <script>
-import {bottomExchange,userPreviewPage} from "../../common/utils";
-
+import {bottomExchange, getLevel} from "../../common/utils";
+import OtherTalk from "./children/OtherTalk";
+import OtherArticle from "./children/OtherArticle";
+import OtherSpecial from "./children/OtherSpecial";
+import OtherStudy from "./children/OtherStudy";
+import OtherHome from "./children/OtherHome";
+import HomePage from "../user/children/HomePage";
+import Follow from "../user/children/Follow";
 export default {
   name: "UserPreview",
+  components: { OtherHome, OtherStudy, OtherSpecial, OtherArticle, OtherTalk, HomePage, Follow},
   data() {
     return {
       img: require('../../assets/bg/1.jpg'),
@@ -63,18 +106,41 @@ export default {
       study: false,
       talk: true,
       setting: false,
+      follow: false,
+      fans: false,
+      isAttention: 0,
+      userDetail: {
+        id: 1,
+        bgImg: './static/bg/1.jpg',
+        avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83epURBSUSGSM0q0fGicY2cY4buicEPspibhcTuVPOmbKZRoibdD0KzxeEczApTIYZYIpdCOsh1PSptJzyQ/132',
+        nickname: '小夏同学',
+        sex: 1,
+        experience: 100000,
+        sign: '我还是从前那个少年，心中从未有改变!',
+        attentionNumber: 123,
+        fansNumber: 11,
+        articleNumber: 123321,
+        columnNumber: 213,
+        studyNumber: 3,
+        dynamicNumber: 323
+      },
     }
   },
   methods: {
     bottomExchange,
-    userPreviewPage
+    getLevel
+  },
+  computed: {
+    displayLevel() {
+      return 'cbadge-exp-lv' + this.getLevel(this.userDetail.experience)
+    }
   },
   mounted() {
     if (window.name == 'isReload') {
       let num = this.$route.path.lastIndexOf('/')
-      let route = this.$route.path.substring(0,num);
+      let route = this.$route.path.substring(0, num);
       this.$router.replace(route);
-    }else{
+    } else {
       window.name = 'isReload'
     }
   }
@@ -105,6 +171,7 @@ export default {
   background-color: #ff5722;
   color: #fff !important;
 }
+
 a:not([href]) {
 
   color: inherit;
@@ -309,19 +376,13 @@ a {
 
 .ksd-nav-item a, .ksd-nav-item-fans {
   transition: 100ms;
-  font-weight: 400;
   text-decoration: none !important;
 }
-
-.nav-link:hover {
+.ksd-nav-item-fans:hover {
   font-weight: bold;
 }
 
-.ksd-nav-item a, .ksd-nav-item-fans {
-  transition: 100ms;
-  font-weight: 400;
-  text-decoration: none !important;
+.nav-link-bold {
+  font-weight: bold;
 }
-
-
 </style>

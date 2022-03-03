@@ -1,10 +1,10 @@
 <template>
 
-  <div class="ksd-logindrop" :class="{userlogin:flag,xjyshow:!flag,'xjy-header-items': after}" data-vip="1"
+  <div class="ksd-logindrop" :class="{'userlogin':flag,'xjyshow':!flag,'xjy-header-items': after}" data-vip="1"
        :style="userLoginBg" @click="userLogin"   @mouseleave="exchangeGrade">
     <a href="/user" class="ksd-home pr tp2" :style="userHead"><i
         class="iconfont icon-home pr pr-1"></i>进入主页</a>
-    <a class="ksd-user-info" href="javascript:void(0);"
+    <a style="margin-top: -9px" class="ksd-user-info" href="javascript:void(0);"
        :class="{'dropdown-toggle':after,'dropdown-toggle-other':!after}" :title="this.$store.state.loginInfo.nickname" data-vip="1"
        id="navbarDropdown">
             <span class="pr">
@@ -26,7 +26,7 @@
           </li>
           <li class="ksd-num-items">
             <a href="/u#fans">
-              <span class="num ksd-num-count1">{{this.$store.state.loginInfo.followNumber}}</span>
+              <span class="num ksd-num-count1">{{this.$store.state.loginInfo.attentionNumber}}</span>
               <span class="ktext">关注</span>
             </a>
           </li>
@@ -40,8 +40,10 @@
       </div>
       <div>
         <div class="citems ksd-sign-items" :class="{'xjy-header-items': after}">
-          <a href="javascript:void(0);" data-num="904489" class=" ksd-uqtext ksd-user-qiandao"><i
+          <a v-if="this.$store.state.loginInfo.isSignIn != 1" @click.stop="todaySign()" href="javascript:void(0);" data-num="904489" class=" ksd-uqtext ksd-user-qiandao"><i
               class="iconfont icon-zhifeiji pr-2 pr tp1"></i>签到</a>
+          <a v-else href="javascript:void(0);" data-num="904489" class=" ksd-uqtext ksd-user-qiandao"><i
+            class="iconfont icon-zhengquewancheng pr-2 pr tp1"></i>今日已签到</a>
         </div>
       </div>
     </div>
@@ -59,8 +61,8 @@
         </li>
         <li class="items ksd-exp-itemboxs" @mouseover="exchangeExperience"   @mouseleave="leaveExperience">
           <a href="javascript:void(0);" class="fl flitems"><i class="iconfont icon-dengji tp1 pr"></i>等级</a>
-          <a href="javascript:void(0);" class="fr fritems ksd-coin-exp ksd-coin-exp-text" data-exp="2155" :class="{show: this.experienceFlag}">Lv1</a>
-          <a href="javascript:void(0);" class="fr fritems ksd-coin-exp show1" data-exp="2155" :class="{show: !this.experienceFlag}"><span
+          <a href="javascript:void(0);" class="fr fritems ksd-coin-exp ksd-coin-exp-text" data-exp="2155" :class="{show: !this.experienceFlag}">Lv1</a>
+          <a href="javascript:void(0);" class="fr fritems ksd-coin-exp show1" data-exp="2155" :class="{show: this.experienceFlag}"><span
               class="ksd-num-exp">{{this.$store.state.loginInfo.experience}}</span>exp</a>
         </li>
         <li class="items">
@@ -72,12 +74,8 @@
           <a href="/vip/pay" style="text-align:left" class="fl ksd-settings2 flitems"><i
               class="iconfont icon-huiyuan"></i>会员续期</a>
         </li>
-        <li class="items" title="分享推广">
-          <a href="/user/banwo" style="text-align:left" class="fl ksd-settings2 flitems"><i
-              class="iconfont icon-zhanghao"></i>分享推广</a>
-        </li>
         <li class="items" title="个人设置">
-          <a href="/user/settings" style="width:100%;text-align:left" class="fl flitems"><i
+          <a href="/user/setting" style="width:100%;text-align:left" class="fl flitems"><i
               class="iconfont icon-gerenshezhi"></i>个人设置</a>
         </li>
       </ul>
@@ -94,8 +92,9 @@
 </template>
 
 <script>
-import {loginOut} from "../../../common/utils";
-
+import {loginOut, indexOfFlag} from "../../../common/utils";
+import loginApi from "../../../network/login";
+import cookie from "js-cookie";
 export default {
   name: "NavUserLogin",
   props: {
@@ -121,10 +120,20 @@ export default {
     //退出登录
     loginOut,
     exchangeExperience() {
-      this.experienceFlag = true
+      this.experienceFlag = false
     },
     leaveExperience() {
-      this.experienceFlag = false
+      this.experienceFlag = true
+    },
+    indexOfFlag,
+    todaySign() {
+      layer.msg('K币 +50')
+      this.flag = true;
+      this.$store.commit("editIsSing", 1)
+      loginApi.getLoginUserInfo()
+        .then(response => {
+
+        })
     }
   },
   computed: {
@@ -149,7 +158,9 @@ export default {
     }
   },
   created() {
-    this.after = this.$route.path.indexOf('/login') !== -1
+    this.$router.onReady(() => {
+      this.after = this.indexOfFlag('/login')
+    })
   }
 }
 </script>

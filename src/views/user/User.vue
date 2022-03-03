@@ -4,32 +4,38 @@
       <div class="user_info_box">
         <div id="ucenterapp" class="container position-relative">
           <div class="user_top_bg position-relative" data-bgpic="src/assets/bg/1.jpg"
-               :style="{backgroundImage: 'url('+this.img+')',marginTop: '55px'}">
+               :style="{backgroundImage: 'url('+this.userDetail.bgImg+')',marginTop: '55px'}">
             <div class="ucenterappoverlay"></div>
-            <div class="px-4 pb-4 row mx-0 position-relative xjy-left" style="z-index: 1" >
+            <div class="px-4 pb-4 row mx-0 position-relative xjy-left" style="z-index: 1">
                  <span class="pr">
                      <img
                        :src="this.$store.state.loginInfo.avatar"
                        alt="" class="avatar-4" style="border: 2px solid rgb(239, 239, 239);">
                  </span>
-              <div class="col" style="align-self: center;z-index: -1" >
+              <div class="col" style="align-self: center;z-index: -1">
                 <h3 class="mb-2 text-white">
-                  <span class="username ksd-nickname" style="font-size: 20px; font-weight:bold;vertical-align: middle;">{{this.$store.state.loginInfo.nickname}}</span>
+                  <span class="username ksd-nickname" style="font-size: 20px; font-weight:bold;vertical-align: middle;">{{ this.userDetail.nickname }}</span>
                   &nbsp;
-                  <span style="padding:3px;position: relative;top:1px;"
+                  <span v-show="this.userDetail.sex == 0" style="padding:3px;position: relative;top:1px;"
                         class="badge cbadge-fz14 ksd-sex cbadge-sex-wm  badge-primary"><i style="padding: 0;"
                                                                                           class="iconfont icon-nvxing pr"></i></span>
+                  <span  v-show="this.userDetail.sex == 1" class="badgelv cbadge-fz14 badge-primary" style="padding: 3px; position: relative; top: 1px;"><i
+                    class="iconfont icon-nanxing pr" style="padding: 0px;"></i></span>
                   &nbsp;
-                  <span class="badgelv badge-danger cbadge-fz12 ksd-badge-exp fw cbadge-exp-lv1"
-                        data-exp="2155">Lv1</span>
+                  <span class="badgelv badge-danger cbadge-fz12 ksd-badge-exp fw" :class="this.displayLevel"
+                        data-exp="2155">Lv{{ this.getLevel(this.userDetail.experience) }}</span>
                 </h3>
-                <div class="ksd-p-sign" :class="{'xjy-signature':sign}" style="position: relative;" :title="this.$store.state.loginInfo.sign">
-                  <p @click.stop="signExchange" class="fz12 pellipsis cof"><span class="ksd-sign">{{this.$store.state.loginInfo.sign}}</span>&nbsp;&nbsp;
+                <div class="ksd-p-sign" :class="{'xjy-signature':sign}" style="position: relative;"
+                     :title="this.userDetail.sign">
+                  <p @click.stop="signExchange" class="fz12 pellipsis cof"><span
+                    class="ksd-sign">{{ this.userDetail.sign }}</span>&nbsp;&nbsp;
                     <span><span class="layui-icon layui-icon-edit"></span>编辑</span></p>
                 </div>
-                <p style="z-index: 2"><input @click.stop="signExchange" ref="signature" type="text" :class="{'xjy-signature':!sign}" :value="this.$store.state.loginInfo.sign" placeholder="请输入签名，长度少于60"
-                                                maxlength="60" :data-title="this.$store.state.loginInfo.sign" data-feild="sign"
-                                                class="ksd-input-update ksd-input-sign"></p>
+                <p style="z-index: 2"><input @click.stop="signExchange" ref="signature" type="text"
+                                             :class="{'xjy-signature':!sign}" :value="this.userDetail.sign"
+                                             placeholder="请输入签名，长度少于60"
+                                             maxlength="60" :data-title="this.userDetail.sign" data-feild="sign"
+                                             class="ksd-input-update ksd-input-sign"></p>
               </div>
               <div class="col text-right px-0" style="align-self: flex-end;position: relative;top:12px;"></div>
             </div>
@@ -46,17 +52,19 @@
                 <a class="nav-link" href="/user/homepage" :class="{active:this.home}">主页</a>
               </li>
               <li class="nav-item ksd-nav-item" data-href="topic">
-                <a class="nav-link" @click="userPage('article')" :class="{active:this.article}">文章<span class="ksd-num-count6 mr-2 fz12">0</span></a>
+                <a class="nav-link" @click="userPage('article')" :class="{active:this.article}">文章<span
+                  class="ksd-num-count6 mr-2 fz12">{{ this.userDetail.articleNumber }}</span></a>
               </li>
               <li class="nav-item ksd-nav-item" data-href="zhuanlan">
-                <a class="nav-link" @click="userPage('special')" :class="{active:this.special}">专栏 <span class="ksd-num-count6 mr-2 fz12">0</span></a>
+                <a class="nav-link" @click="userPage('special')" :class="{active:this.special}">专栏 <span
+                  class="ksd-num-count6 mr-2 fz12">{{ this.userDetail.columnNumber }}</span></a>
               </li>
               <li class="nav-item ksd-nav-item" data-href="course">
-                <a class="nav-link " @click="userPage('study')" :class="{active:this.study}">学习 <span class="mr-2 fz12">22</span></a>
+                <a class="nav-link " @click="userPage('study')" :class="{active:this.study}">学习 <span class="mr-2 fz12">{{ this.userDetail.studyNumber }}</span></a>
               </li>
               <li class="nav-item ksd-nav-item" data-href="say">
                 <a class="nav-link " @click="userPage('talk')" :class="{active:this.talk}">说说 <span
-                  class="ksd-num-count10 ksd-say-numc mr-2 fz12">0</span></a>
+                  class="ksd-num-count10 ksd-say-numc mr-2 fz12">{{ this.userDetail.dynamicNumber }}</span></a>
               </li>
               <li class="nav-item ksd-nav-item" data-href="setting">
                 <a class="nav-link " @click="userPage('setting')" :class="{active:this.setting}">设置</a>
@@ -66,15 +74,18 @@
                                   <a href="javascript:void(0);" data-href="fans" data-type="1"
                                      class="py-1 ksd-nav-item-fans nav-link"
                                      style="color: #ff7749"
+                                     :class="{'nav-link-bold':this.follow}"
                                      @click="userPage('follow')">
-                                      <i class="iconfont icon-xiazai11" style="position: relative;top:1px;"></i> 我的关注（0）
+                                      <i class="iconfont icon-xiazai11"
+                                         style="position: relative;top:1px;"></i> 我的关注（{{ this.userDetail.attentionNumber }}）
                                   </a>
                                   <span class="ksd-spspan" style="padding:0 5px;">|</span>
                                   <a href="javascript:void(0);" data-href="follow" data-type="2"
                                      class="py-1 ksd-nav-item-fans nav-link"
                                      @click="userPage('fans')"
+                                     :class="{'nav-link-bold':this.fans}"
                                   >
-                                      <i class="iconfont icon-fensiguanli" style="position: relative;top:2px;"></i> 我的粉丝（0）
+                                      <i class="iconfont icon-fensiguanli" style="position: relative;top:2px;"></i> 我的粉丝（{{ this.userDetail.fansNumber }}）
                                   </a>
                               </span>
           </div>
@@ -87,13 +98,12 @@
 </template>
 
 <script>
-import {bottomExchange, cancelSign, userPage, userPreviewPage} from "../../common/utils";
+import {bottomExchange, cancelSign, userPage, getLevel, indexOfFlag} from "../../common/utils";
 
 export default {
   name: "User",
   data() {
     return {
-      img: require('../../assets/bg/1.jpg'),
       home: true,
       article: false,
       special: false,
@@ -101,8 +111,25 @@ export default {
       talk: false,
       setting: false,
       sign: false,
+      follow: false,
+      fans: false,
       user: true,
       inputValue: 'TA很懒，什么都没有留下...',
+      userDetail: {
+        id: 1,
+        bgImg: './static/bg/1.jpg',
+        avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83epURBSUSGSM0q0fGicY2cY4buicEPspibhcTuVPOmbKZRoibdD0KzxeEczApTIYZYIpdCOsh1PSptJzyQ/132',
+        nickname: '小夏同学',
+        sex: 1,
+        experience: 100000,
+        sign: '我还是从前那个少年，心中从未有改变!',
+        attentionNumber: 123,
+        fansNumber: 11,
+        articleNumber: 123321,
+        columnNumber: 213,
+        studyNumber: 3,
+        dynamicNumber: 323
+      }
     }
   },
   methods: {
@@ -111,19 +138,26 @@ export default {
     signExchange() {
       this.sign = true;
     },
-    cancelSign
+    cancelSign,
+    getLevel
+  },
+  computed: {
+    displayLevel() {
+      return 'cbadge-exp-lv' + this.getLevel(this.userDetail.experience)
+    }
   },
   created() {
     this.home = this.$route.path.indexOf('/homepage') !== -1;
     this.article = this.$route.path.indexOf('/article') !== -1;
+    this.follow = this.$route.path.indexOf('/follow') !== -1;
+    this.fans = this.$route.path.indexOf('/fans') !== -1;
     this.special = this.$route.path.indexOf('/special') !== -1;
     this.study = this.$route.path.indexOf('/study') !== -1;
     this.talk = this.$route.path.indexOf('/talk') !== -1;
     this.setting = this.$route.path.indexOf('/setting') !== -1;
-    if(this.$route.params.userId) {
+    if (this.$route.params.userId) {
       this.user = false
     } else {
-      this.home = true
       this.user = true
     }
 
@@ -131,9 +165,14 @@ export default {
   mounted() {
     if (window.name == 'isReload') {
       let num = this.$route.path.lastIndexOf('/')
-      let route = this.$route.path.substring(0,num);
+      let route
+      if(this.$route.path.substring(num, this.$route.path.length) == '/talk' ||  this.$route.path.substring(num, this.$route.path.length) == '/special') {
+        route = this.$route.path
+      } else {
+        route = this.$route.path.substring(0, num);
+      }
       this.$router.replace(route);
-    }else{
+    } else {
       window.name = 'isReload'
     }
   }
@@ -142,6 +181,7 @@ export default {
 
 <style scoped>
 @import "../../assets/css/user.css";
+
 main {
   flex: 1;
   padding-bottom: 20px;
@@ -164,6 +204,7 @@ main {
   top: 0;
   background: rgba(0, 0, 0, 0.12);
 }
+
 .xjy-signature {
   display: none;
 }
@@ -243,9 +284,6 @@ h1, h3, h4 {
   transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
-.cbadge-exp-lv1 {
-  background: #bfbfbf;
-}
 
 .fw {
   font-weight: 600 !important;
@@ -264,9 +302,11 @@ h1, h3, h4 {
 .fz12 {
   font-size: 12px !important;
 }
+
 .float-right {
   float: right !important;
 }
+
 .ksd-input-sign {
   width: 600px;
   border: none;
@@ -275,6 +315,7 @@ h1, h3, h4 {
   border-radius: 20px;
   text-indent: 1em;
 }
+
 .text-right {
   text-align: right !important;
 }
@@ -286,6 +327,7 @@ input[type="text"], input[type="email"], input[type="url"], textarea {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+
 .ksd-space-theme-trigger-box {
   position: absolute;
   top: 20px;
@@ -344,6 +386,10 @@ a {
   font-weight: bold;
 }
 
+.cbadge-sex-wm {
+  background: #ed4f82;
+}
+
 .user_top_nav .nav-pills .nav-link {
   font-size: 14px;
 }
@@ -367,23 +413,20 @@ a {
 
 .ksd-nav-item a, .ksd-nav-item-fans {
   transition: 100ms;
-  font-weight: 400;
   text-decoration: none !important;
 }
+
 .nav-link:hover {
   font-weight: bold;
 }
-
+.nav-link-bold {
+  font-weight: bold;
+}
 
 .mr-2, .mx-2 {
   margin-right: .5rem !important;
 }
 
-.ksd-nav-item a, .ksd-nav-item-fans {
-  transition: 100ms;
-  font-weight: 400;
-  text-decoration: none !important;
-}
 
 
 </style>

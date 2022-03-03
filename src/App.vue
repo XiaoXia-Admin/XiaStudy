@@ -2,12 +2,17 @@
   <div id="app">
     <nav-bar v-if="!indexOfFlag('/topic')">
       <nav-img></nav-img>
-      <nav-content :show-login="showLogin" active-color="white" active-bg-color="#EFF3F5"></nav-content>
+      <nav-content :message="this.message" :show-login="showLogin" active-color="white" active-bg-color="#EFF3F5"></nav-content>
       <nav-btn v-if="this.isActive"></nav-btn>
-      <nav-user-login :_this="this"  v-else :is-active="isActive"></nav-user-login>
+      <nav-user-login v-else :_this="this"></nav-user-login>
     </nav-bar>
     <message v-if="indexOfFlag('/topic')"></message>
     <router-view v-if="!indexOfFlag('/topic')"></router-view>
+    <transition name="top">
+      <ul v-show="this.slide && !indexOfFlag('/login') && !indexOfFlag('/course')" class="layui-fixbar" style="display: block;">
+        <li @click="backToTop('slide_bottom')" class="layui-icon layui-fixbar-top" lay-type="top" style="display: list-item;"></li>
+      </ul>
+    </transition>
   </div>
 </template>
 
@@ -21,7 +26,7 @@ import Message from "./views/bbs/children/Message";
 import NavUserLogin from "./components/common/navbar/NavUserLogin";
 import cookie from 'js-cookie'
 import loginApi from './network/login'
-import {indexOfFlag} from "./common/utils";
+import {indexOfFlag, backToTop, easeInOutQuad, slideTop} from "./common/utils";
 
 export default {
   name: 'App',
@@ -29,32 +34,49 @@ export default {
     return {
       index: '',
       account: '',
-      isActive: true,
-      showLogin: false
+      isActive: '',//判断是否展示登录按钮还是展示用户信息
+      showLogin: false,
+      slide: false,
+      message:{
+        myNewsNumber: 2,
+        friendFeedNumber: 10,
+        replyNumber: 0,
+        systemNumber: 19,
+        courseNumber: 87
+      }
     }
   },
   methods: {
     wxLogin() {
       //把token放入cookie中
-      if(!cookie.get("wx_token")) {
-        cookie.set('wx_token', this.$store.state.token,{domain:'localhost',expires:15})
-        cookie.set('wx_login', {domain:'localhost'})
+      if (!cookie.get("wx_token")) {
+        cookie.set('wx_token', this.$store.state.token, {domain: 'localhost', expires: 15})
+        cookie.set('wx_login', {domain: 'localhost'})
       }
       loginApi.getLoginUserInfo()
         .then(response => {
-          this.$store.state.loginInfo = response.data.data.userInfo
-          cookie.set('wx_login',this.$store.state.loginInfo, {domain: 'localhost'})
-      })
-
+          this.$store.commit("editLoginUserInfo", response.data.data.userInfo)
+          cookie.set('wx_login', this.$store.state.loginInfo, {domain: 'localhost'})
+        })
     },
-    userAccountLogin(){
-      loginApi.accountGetUserInfo(this.account).then(response => {
-        this.$store.state.loginInfo = response.data.data.userInfo
+    userAccountLogin() {
+      loginApi.getLoginUserInfo().then(response => {
+        this.$store.commit("editLoginUserInfo", response.data.data.userInfo)
         this.isActive = false;
       })
-
     },
-    indexOfFlag
+    indexOfFlag,
+    backToTop,
+    easeInOutQuad,
+    slideTop,
+    //获取用户信息
+
+  },
+  mounted() {
+    if (!(this.$route.path.indexOf('/zl') != -1)) {
+      document.querySelector('body').className = 'bg-gray'
+    }
+    window.addEventListener('scroll', this.slideTop);
   },
   components: {
     NavUserLogin,
@@ -70,23 +92,30 @@ export default {
     for (let i = 0; i < ele.length; i++) {
       ele[i].style.userSelect = 'text';
     }
-    if (!cookie.get('wx_token')) {
-      this.isActive = true;
-    }
+    // //未登录，没有cookie
+    // if (!cookie.get('wx_token')) {
+    //   this.isActive = true;
+    // }
     this.$router.onReady(() => {
       //获取路径里的token
-      this.$store.state.token = this.$route.query.token
+      // this.$store.state.token = this.$route.query.token
+
       this.index = this.$route.query.index
       this.account = this.$route.query.account
-      if(this.$store.state.token || cookie.get("wx_token")) {
+      if (cookie.get("wx_token")) {//微信登录
         this.isActive = false
         this.wxLogin()
-      } else if (this.index) {
+      } else if (this.index) { //走账号登录
         this.userAccountLogin();
       } else {
         this.isActive = true
       }
     })
+    if (window.name == 'isReload') {
+      this.backToTop('slide_bottom')
+    } else {
+      window.name = 'isReload'
+    }
 
   }
 }
@@ -97,7 +126,5 @@ export default {
 @import "./assets/css/icon.css";
 @import "./assets/css/common.css";
 
-body {
-  background-color: #EFF3F5;
-}
+
 </style>

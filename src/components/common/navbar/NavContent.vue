@@ -3,29 +3,34 @@
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item nav-position-relative xjy-left" v-for="(item, index) in navTitle" :key="index">
-        <a class="ksd-nav-linknav" :class="indexOfFlag('/login')  ? 'login_color' : 'other_color'" :href="item.link">{{item.content}}</a>
+        <a class="ksd-nav-linknav"
+           :class="indexOfFlag('/login')  ? 'login_color' : (boxList[index].isActive ? 'other_bg_color': 'other_color')"
+           :href="item.link">{{ item.content }}</a>
         <i class="iconfont  ksd-bgd-left" :class="{show: index != 0}">热门</i>
       </li>
     </ul>
-    <div id="ksdloginbox"                                                                                                                                          >
+    <div id="ksdloginbox">
       <div style="position: relative;top:-18px">
-        <a href="/vip/pay" title="点击前往升级会员"  :class="{show:indexOfFlag('/login') || this.showLogin}" class="ktipmessage-boxc" target="_blank"><i
+        <a href="/vip/pay" title="点击前往升级会员" :class="{show:indexOfFlag('/login') || this.showLogin}"
+           class="ktipmessage-boxc" target="_blank"><i
           class="iconfont icon-huiyuan2 tp2 pr pr-1 fz20"></i>&nbsp;&nbsp;会员</a>
-        <div class="tipmessage-box" style="cursor: pointer"  :class="{show:indexOfFlag('/login') || this.showLogin}" @click="information"><i
+        <div class="tipmessage-box" style="cursor: pointer" :class="{show:indexOfFlag('/login') || this.showLogin}"
+             @click="information"><i
           class="iconfont icon-xiaoxi11 tp1 pr pr-1" style="font-size: 21px;"></i><span>&nbsp;&nbsp;消息</span></div>
-        <div @click="information" @mouseleave="leaveInfo" class="i-frame animated2 fadeInDown" :class="{show: this.info}">
+        <div @click="information" @mouseleave="leaveInfo" class="i-frame animated2 fadeInDown"
+             :class="{show: this.info}">
           <div class="im-root animated2 fadeInDown">
             <div class="im-list-box" style="border-radius: 11px;">
-              <a href="/msg/index#me" data-index="0" class="im-list">我的消息<span
-                class="im-notify im-number countMeMsgNum im-center none">0</span></a>
-              <a href="/msg/index#follow" data-index="1" class="im-list">好友动态<span
-                class="im-notify im-number countFollowMsgNum im-center none">0</span></a>
-              <a href="/msg/index#reply" data-index="2" class="im-list">回复我的<span
-                class="im-notify im-number countReplyMsgNum im-center none">0</span></a>
-              <a href="/msg/index#system" data-index="3" class="im-list">系统通知<span
-                class="im-notify countSystemMsgNum im-number im-center none">0</span></a>
-              <a href="/msg/index#course" data-index="4" class="im-list">课程通知<span
-                class="im-notify countCourseMsgNum im-number im-center none">0</span></a>
+              <a href="/msg" data-index="0" class="im-list">我的消息<span v-show="this.message.myNewsNumber != 0"
+                class="im-notify im-number countMeMsgNum im-center none">{{this.message.myNewsNumber}}</span></a>
+              <a href="/msg/friend" data-index="1" class="im-list">好友动态<span v-show="this.message.friendFeedNumber != 0"
+                class="im-notify im-number countFollowMsgNum im-center none">{{this.message.friendFeedNumber}}</span></a>
+              <a href="/msg/replay" data-index="2" class="im-list">回复我的<span v-show="this.message.replyNumber != 0"
+                class="im-notify im-number countReplyMsgNum im-center none">{{this.message.replyNumber}}</span></a>
+              <a href="/msg/system" data-index="3" class="im-list">系统通知<span v-show="this.message.systemNumber != 0"
+                class="im-notify countSystemMsgNum im-number im-center none">{{this.message.systemNumber}}</span></a>
+              <a href="/msg/course" data-index="4" class="im-list">课程通知<span v-show="this.message.courseNumber != 0"
+                class="im-notify countCourseMsgNum im-number im-center none">{{this.message.courseNumber}}</span></a>
             </div>
           </div>
         </div>
@@ -34,17 +39,31 @@
   </div>
 </template>
 <script>
-import {indexOfFlag} from "../../../common/utils";
+import {indexOfFlag, windowsIndexOf} from "../../../common/utils";
 
 export default {
   name: "NavContent",
   data() {
     return {
       info: true,
+      boxList: [
+        {
+          isActive: false
+        },
+        {
+          isActive: false
+        },
+        {
+          isActive: false
+        },
+        {
+          isActive: false
+        }
+      ],
       navTitle: [
         {
           link: '/course',
-          content: '课程'
+          content: '课程',
         },
         {
           link: '/bbs',
@@ -58,13 +77,22 @@ export default {
           link: '/document',
           content: '官方文文档'
         }
-      ]
+      ],
     }
   },
   props: {
     showLogin: {
       type: Boolean,
       default: false
+    },
+    total: {
+      type: Number,
+      default: 100
+    },
+    message: {
+      type: Object,
+      default: {
+      }
     }
   },
   methods: {
@@ -74,7 +102,25 @@ export default {
     },
     leaveInfo() {
       this.info = true
-    }
+    },
+    navBtn() {
+      this.boxList.forEach(el => {
+        el.isActive = false
+      })
+      if (this.windowsIndexOf('/course')) {
+        this.boxList[0].isActive = true
+      } else if (this.windowsIndexOf('/bbs')) {
+        this.boxList[1].isActive = true
+      } else if (this.windowsIndexOf('/download')) {
+        this.boxList[2].isActive = true
+      } else if (this.windowsIndexOf('/document')) {
+        this.boxList[3].isActive = true
+      }
+    },
+    windowsIndexOf
+  },
+  created() {
+    this.navBtn()
   }
 }
 </script>
@@ -101,6 +147,10 @@ export default {
 .other_color {
   color: black;
   background-color: transparent;
+}
+
+.other_bg_color {
+  background-color: #EFF3F5;
 }
 
 .other_color:hover {

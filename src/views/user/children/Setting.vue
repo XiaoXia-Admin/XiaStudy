@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: "HomePage",
+  name: "Setting",
   data() {
     return {
       security: true,

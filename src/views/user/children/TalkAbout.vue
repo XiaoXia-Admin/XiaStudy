@@ -3,7 +3,8 @@
     <div class="ksd-main-content">
       <div id="page-video" class="wrapper" style="background: #fff;">
         <div class="container pt-3 pb-5">
-          <div class="col-md-12 blog-main" :class="{show: this.otherTalk}" style="margin-top: 20px;padding:0 10px;overflow: hidden;position: relative">
+          <div class="col-md-12 blog-main" :class="{show: this.otherTalk}"
+               style="margin-top: 20px;padding:0 10px;overflow: hidden;position: relative">
             <div class="col-md-12 mb-3">
               <div id="say-content">
                 <textarea id="sayContent-textarea" placeholder="请输入此时此刻的心情，字数少于400" maxlength="400" name="sayContent"
@@ -23,55 +24,47 @@
           <div class="timeline-small">
             <div class="timeline-small-body">
               <ul id="ksd-say-ullist" style="overflow: hidden">
-                <li class="ksd-say-items animated fadeInUpBig delay-1s" style="position: relative">
+                <li v-for="(item, index) in talkList" :key="item.id" class="ksd-say-items animated fadeInUpBig"
+                    :class="delay(index + 1)" style="position: relative">
                   <div class="bullet green"></div>
                   <div class="desc">
-                    <h4>今天开发的效率还可以~<br></h4>
+                    <h4>{{ item.content }}~<br></h4>
                     <p class="pt-4">
-                <span class="float-right">
-                    <span>&nbsp;&nbsp;</span>
-                    <a href="javascript:void(0);" data-opid="155fd581af5141f5b48a07b844c47b39" data-hidden="1"
-                       class="ksd-say-updatelink talk-show"><i class="iconfont icon-yinsi"></i>设为隐私(已公开)</a>
-                    <span>&nbsp;&nbsp;</span>
-                    <a href="javascript:void(0);" class="talk-show ksd-say-del" data-opid="155fd581af5141f5b48a07b844c47b39"><i
-                      class="iconfont icon-shanchu"></i>删除</a>
-                    <span>&nbsp;&nbsp;</span>
-                    <span>
+                <span class="float-right ksd-say-buttons">
+                  <span>&nbsp;&nbsp;</span>
+                  <a v-show="item.isPublic == 0" href="javascript:void(0);"
+                     data-opid="155fd581af5141f5b48a07b844c47b39" data-hidden="1"
+                     class="ksd-say-updatelink "><i class="iconfont icon-yinsi"></i>设为隐私(已公开)</a>
+                  <a v-show="item.isPublic == 1" href="javascript:void(0);" data-opid="155fd581af5141f5b48a07b844c47b39"
+                     data-hidden="1"
+                     class="ksd-say-updatelink "><i class="iconfont icon-yinsi"></i>已公开</a>
+                  <span>&nbsp;&nbsp;</span>
+                  <a href="javascript:void(0);" class=" ksd-say-del"
+                     data-opid="155fd581af5141f5b48a07b844c47b39"><i
+                    class="iconfont icon-shanchu"></i>删除</a>
+                  <span>&nbsp;&nbsp;</span>
+                  <span v-show="item.gtmCreate == ''">
                         撰写时间：<span>刚刚</span>
-                    </span>
-                </span>
-                    </p>
-                  </div>
-                </li>
-                <li class="ksd-say-items animated fadeInUpBig delay-2s" data-pages="1" data-total="1" style="position: relative">
-                  <div class="bullet green"></div>
-                  <div class="desc">
-                    <h4>今天又是美好的一天</h4>
-                    <p class="pt-1 xjy-right">
-                <span>
-                    <a href="javascript:void(0);" class="talk-show ksd-say-updatelink mr-3" data-hidden="0"
-                       data-opid="b567c87cacf94f36928771edce437da9"><i class="iconfont iconunlock"></i>设为公开(已隐藏)</a>
-                    <a href="javascript:void(0);" class="talk-show ksd-say-del mr-3" data-opid="b567c87cacf94f36928771edce437da9"><i
-                      class="iconfont icondel1"></i>删除</a>
-                    <span><i class="iconfont icon-shijian mr-1 pr tp1"></i><span>2022-01-02 13:17</span></span>
-                </span>
+                  </span>
+                  <span v-show="item.gtmCreate != ''"><i
+                    class="iconfont icon-shijian mr-1 pr tp1"></i><span>{{ item.gtmCreate }}</span></span></span>
                     </p>
                   </div>
                 </li>
               </ul>
-<!--              <div class="loadmore ksd-pages-box none" onclick="KsdSay.loadMore()" style="display: none;">-->
-<!--                <a href="javascript:void(0);">加载更多(共<span class="ksd-total">1</span>条，当前第 <span-->
-<!--                  class="ksd-pageno">1</span>页/共<span class="ksd-pages">1</span>页)</a>-->
-<!--              </div>-->
-<!--              <div class="ksd-noempty none"-->
-<!--                   style="background: rgb(255, 255, 255) none repeat scroll 0% 0% !important; display: none;">-->
-<!--                <span class="font-weight-bold"><img src="/assert/images/nodata.png" alt="" width="200"></span>-->
-<!--                <p>快来发表您在KuangStudy的第一条说说吧. 记录成长的点滴~</p>-->
-<!--              </div>-->
-<!--              <div class="ksd-pages-nodata none" style="display: none;">-->
-<!--                <p class="text-center">没有更多了~</p>-->
-<!--              </div>-->
-<!--              <div id="kloading" style="padding: 30px 0px; text-align: center; display: none;"></div>-->
+              <!--              <div class="loadmore ksd-pages-box none" onclick="KsdSay.loadMore()" style="display: none;">-->
+              <!--                <a href="javascript:void(0);">加载更多(共<span class="ksd-total">1</span>条，当前第 <span-->
+              <!--                  class="ksd-pageno">1</span>页/共<span class="ksd-pages">1</span>页)</a>-->
+              <!--              </div>-->
+              <!--              <div class="ksd-noempty none"-->
+              <!--                   style="background: rgb(255, 255, 255) none repeat scroll 0% 0% !important; display: none;">-->
+              <!--                <span class="font-weight-bold"><img src="/assert/images/nodata.png" alt="" width="200"></span>-->
+              <!--                <p>快来发表您在KuangStudy的第一条说说吧. 记录成长的点滴~</p>-->
+              <!--              </div>-->
+              <!--              <div class="ksd-pages-nodata none" style="display: none;">-->
+              <!--                <p class="text-center">没有更多了~</p>-->
+              <!--              </div>-->
+              <!--              <div id="kloading" style="padding: 30px 0px; text-align: center; display: none;"></div>-->
             </div>
           </div>
         </div>
@@ -81,13 +74,47 @@
 </template>
 
 <script>
+import {delay} from "../../../common/utils";
+
 export default {
-  name: "HomePage",
+  name: "TalkAbout",
   props: {
     otherTalk: {
       type: Boolean,
       default: false
+    },
+    talkList: {
+      type: Array,
+      default: [
+        {
+          id: 1,
+          content: '今天是美好的一天!',
+          isPublic: 0,
+          gtmCreate: '2022-01-02 13:17'
+        },
+        {
+          id: 2,
+          content: '今天是美好的二天!',
+          isPublic: 1,
+          gtmCreate: '2022-01-02 13:17'
+        },
+        {
+          id: 3,
+          content: '今天是美好的三天!',
+          isPublic: 0,
+          gtmCreate: '2022-01-02 13:17'
+        },
+        {
+          id: 4,
+          content: '今天是美好的四天!',
+          isPublic: 1,
+          gtmCreate: ''
+        }
+      ]
     }
+  },
+  methods: {
+    delay
   }
 }
 </script>
@@ -102,6 +129,7 @@ export default {
 .ksd-say-items:hover {
   background-color: #EFF3F5;
 }
+
 .pb-5, .py-5 {
   padding-bottom: 3rem !important;
 }
@@ -115,11 +143,8 @@ export default {
   flex: 0 0 100%;
   max-width: 100%;
 }
-.talk-show {
-  visibility: hidden;
-}
 
-/*.ksd-say-ullist:hover .ksd-say-items:hover .talk-show:hover {*/
+/*.ksd-say-ullist:hover .ksd-say-items:hover .:hover {*/
 /*  visibility: hidden;*/
 /*}*/
 textarea.form-control {
@@ -227,6 +252,102 @@ button, input, optgroup, option, select, textarea {
   border: 5px dashed transparent;
 }
 
+.animated.delay-1s {
+  -webkit-animation-delay: 50ms;
+  animation-delay: 50ms;
+}
+
+.animated.delay-2s {
+  -webkit-animation-delay: 70ms;
+  animation-delay: 70ms;
+}
+
+.animated.delay-3s {
+  -webkit-animation-delay: 80ms;
+  animation-delay: 80ms;
+}
+
+.animated.delay-4s {
+  -webkit-animation-delay: 1000ms;
+  animation-delay: 100ms;
+}
+
+.animated.delay-5s {
+  -webkit-animation-delay: 2000ms;
+  animation-delay: 200ms;
+}
+
+.animated.delay-6s {
+  -webkit-animation-delay: 3000ms;
+  animation-delay: 300ms;
+}
+
+.animated.delay-7s {
+  -webkit-animation-delay: 4000ms;
+  animation-delay: 400ms;
+}
+
+.animated.delay-8s {
+  -webkit-animation-delay: 5000ms;
+  animation-delay: 500ms;
+}
+
+.animated.delay-9s {
+  -webkit-animation-delay: 6000ms;
+  animation-delay: 600ms;
+}
+
+.animated.delay-10s {
+  -webkit-animation-delay: 7000ms;
+  animation-delay: 700ms;
+}
+
+.animated.delay-11s {
+  -webkit-animation-delay: 8000ms;
+  animation-delay: 800ms;
+}
+
+.animated.delay-12s {
+  -webkit-animation-delay: 9000ms;
+  animation-delay: 900ms;
+}
+
+.animated.delay-13s {
+  -webkit-animation-delay: 1000ms;
+  animation-delay: 1000ms;
+}
+
+.animated.delay-14s {
+  -webkit-animation-delay: 1100ms;
+  animation-delay: 1100ms;
+}
+
+.animated.delay-15s {
+  -webkit-animation-delay: 1200ms;
+  animation-delay: 1200ms;
+}
+
+.animated.delay-16s {
+  -webkit-animation-delay: 1300ms;
+  animation-delay: 1300ms;
+}
+
+.animated.delay-17s {
+  -webkit-animation-delay: 1400ms;
+  animation-delay: 1400ms;
+}
+
+.animated.delay-18s {
+  -webkit-animation-delay: 1500ms;
+  animation-delay: 1500ms;
+}
+
+.animated.delay-19s {
+  -webkit-animation-delay: 1600ms;
+  animation-delay: 1600ms;
+}
+
+
 .animated {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
@@ -300,89 +421,90 @@ button, input, optgroup, option, select, textarea {
 .timeline-small {
   margin: 30px;
 }
+
 .timeline-small-body ul {
   padding: 1em 0 0 0em;
   margin: 0;
   list-style: none;
   position: relative;
 }
+
 .timeline-small-body ul li {
   background: #fff;
   margin-bottom: 15px;
   padding: 10px;
-  box-shadow: 0 0 6px rgba(0,0,0,.1);
+  box-shadow: 0 0 6px rgba(0, 0, 0, .1);
   border: 5px dashed transparent;
 }
-.animated {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-.animated.delay-1s {
-  -webkit-animation-delay: 50ms;
-  animation-delay: 50ms;
-}
-.animated.delay-1s {
-  -webkit-animation-delay: 100ms;
-  animation-delay: 100ms;
-}
-.fadeInUpBig {
-  -webkit-animation-name: fadeInUpBig;
-  animation-name: fadeInUpBig;
-}
+
 .timeline-small-body .bullet.green {
   background-color: lightseagreen;
   border: 3px solid #B0E8E2;
 }
+
 .timeline-small-body .bullet {
   width: 1rem;
   height: 1rem;
   box-sizing: border-box;
   border-radius: 50%;
   background: #fff;
-  background-color: rgb(255, 255, 255);
   z-index: 1;
   margin: 1em 10px 1em 0;
 }
+
 .timeline-small-body li div {
   display: inline-block;
   margin: 1em 0;
   vertical-align: top;
 }
+
 .green {
-  color: rgba(43,181,92,0.9);
+  color: rgba(43, 181, 92, 0.9);
 }
+
 .timeline-small-body .desc {
   width: 95%;
 }
+
 .timeline-small-body li div {
   display: inline-block;
   margin: 1em 0;
   vertical-align: top;
 }
+
 .timeline-small-body h4 {
   font-size: 14px;
   font-weight: 400;
   color: #808080;
 }
+
 *, ::after, ::before {
   box-sizing: border-box;
 }
+
 .pt-4, .py-4 {
   padding-top: 1.5rem !important;
 }
+
 .float-right {
   float: right !important;
 }
+
 a {
   color: #000000;
 }
+
 .float-right {
   float: right !important;
 }
+
 .ksd-say-buttons a {
   color: #999;
-  display: none;
+  visibility: hidden;
+}
+.ksd-say-buttons a:hover {
+  color: #999;
+  background-color: #EFF3F5;
+  visibility: visible;
 }
 </style>

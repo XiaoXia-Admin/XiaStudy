@@ -2,12 +2,16 @@
   <div class="container">
     <div class="ksd-main-content">
       <div id="page-video" class="wrapper" style="background: #fff;">
-        <div class="col-full clearfix" >
+        <div class="col-full clearfix">
           <div class="contribution-sidenav">
             <div class="nav-container playlist-container">
-              <div class="contribution-list-container" >
-                <ul class="contribution-list" v-for="item in this.slide">
-                  <li class="contribution-item ksd-topic-item":class="{cur:item.flag}"  data-type="1"><a href="javascript:void(0);" @click="articlePage(item.slideArgs)" class="text">{{item.content}}</a><span class="num ksd-num-count6 font-weight-bold"></span></li>
+              <div class="contribution-list-container">
+                <ul class="contribution-list" v-for="(item,index) in this.slide">
+                  <li class="contribution-item ksd-topic-item" :class="{cur:item.flag}" data-type="1"><a
+                    href="javascript:void(0);" @click="articlePage(item.slideArgs)"
+                    class="text">{{ item.content }}</a><span v-show="index == 1"
+                                                             class="num ksd-num-count6 font-weight-bold">{{ collectNumber }}</span>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -26,7 +30,7 @@ export default {
   name: "Article",
   props: {
     slide: {
-      type:Array,
+      type: Array,
       default: [
         {
           flag: true,
@@ -48,6 +52,7 @@ export default {
   },
   data() {
     return {
+      collectNumber: 22,
       dataSlide: [
         {
           flag: true,
@@ -86,7 +91,7 @@ export default {
     }
   },
   created() {
-    if(!this.slide) {
+    if (!this.slide) {
       this.slide = this.dataSlide
     }
   }
@@ -95,10 +100,12 @@ export default {
 
 <style scoped>
 @import "../../../assets/css/user.css";
+
 .ksd-main-content {
   min-height: 400px;
 }
-.ksd-topic-item:hover{
+
+.ksd-topic-item:hover {
   background-color: #EFF3F5;
 }
 
@@ -112,18 +119,22 @@ export default {
   box-sizing: border-box;
   text-align: left;
 }
+
 .contribution-sidenav .contribution-list-container {
   position: relative;
   max-height: 420px;
   margin: 10px 0 20px;
   overflow: hidden;
 }
+
 ul {
   list-style: none;
 }
+
 .contribution-sidenav .contribution-item.cur {
   background-color: #5b6066;
 }
+
 .contribution-sidenav .contribution-item {
   position: relative;
   padding-left: 30px;
@@ -132,12 +143,15 @@ ul {
   font-size: 0;
   overflow: hidden;
 }
+
 .contribution-sidenav .contribution-item.cur .num, .contribution-sidenav .contribution-item.cur .text {
   color: #fff;
 }
+
 .contribution-sidenav .contribution-item .text {
   width: 130px;
 }
+
 .contribution-sidenav .text {
   display: inline-block;
   line-height: 44px;
@@ -149,9 +163,11 @@ ul {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .contribution-sidenav .contribution-item.cur .num, .contribution-sidenav .contribution-item.cur .text {
   color: #fff;
 }
+
 .contribution-sidenav .num {
   display: inline-block;
   width: 32px;
@@ -161,13 +177,16 @@ ul {
   text-align: center;
   font-family: Arial;
 }
+
 .font-weight-bold {
   font-weight: 700 !important;
 }
+
 .clearfix {
   display: block;
   *zoom: 1;
 }
+
 clearfix::after {
   content: '\0020';
   display: block;
@@ -175,6 +194,7 @@ clearfix::after {
   clear: both;
   visibility: hidden;
 }
+
 .contribution-sidenav ~ .main-content {
   padding: 20px 20px 160px;
   box-sizing: border-box;

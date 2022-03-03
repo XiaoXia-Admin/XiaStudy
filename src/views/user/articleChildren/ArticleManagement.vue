@@ -6,37 +6,44 @@
           style="text-decoration: underline;color:#4caf50;">点击发表文章!</span></a>
       </div>
       <div id="ksd-topic-cube-list" class="xjy-left">
-        <div class="media text-muted ksd-topic-items" id="delete-topicid-1473650657826283521">
+        <div v-for="item in articleList" :key="item.id" class="media text-muted ksd-topic-items" :id="item.id">
           <div class="media-body load-topics-page pr">
+            <span v-show="item.isExcellentArticle == 1 && item.isRelease != 1 && item.isViolationArticle != 1"
+                  title="精品推荐" class="iconfont icon-tuijian ksd-iconstar-blue fz24"></span>
             <h3 style="font-size:16px;padding:10px 0;">
-              <a href="/bbs/1473650657826283521" target="_blank"
+              <a :href="'/bbs/preview/' + item.id" target="_blank"
                  class="text-dark font-weight-bold text-decoration-none d-block">
-                <span>11111111111111111111</span>
-                <span class="red fw pl-2" title="违规文章，仅自己可见！"><i
+                <span>{{ item.title }}</span>
+                <span v-show="item.isViolationArticle == 1" class="red fw pl-2" title="违规文章，仅自己可见！"><i
                   class="iconfont icon-weiguitongzhi fz18 pr tp1"></i></span>
               </a>
             </h3>
-            <p><a href="/bbs/1473650657826283521">1</a></p>
+            <p><a :href="'/bbs/preview/' + item.id">{{item.description}}</a></p>
             <div class="mt-2">
                     <span class="pr-3 fz12">
-                        分类：<a href="/bbs?from=1&amp;cid=11">数据库</a>
+                        分类：<a href="/bbs?from=1&amp;cid=11">{{ item.categoryName }}</a>
                     </span>
               <span class="mr-3 mt-2">
                         <i class="iconfont icon-icon_yulan tp2">
                         </i>
-                        <span>1</span>
+                        <span>{{ item.views }}</span>
                     </span>
               <span>
                     </span>
               <span class="mr-3 mt-2">
-                       <i class="iconfont icon-shijian"></i><span>2021-12-22 21:44:31</span>
+                        <i class="iconfont icon-shijian tp2">
+                        </i>
+                        <span>{{ item.gmtTime }}</span>
                     </span>
+              <span v-show="item.isViolationArticle != 1 && item.isRelease == 1" class="mr-3 mt-2"
+                    style="color:#144d7b;font-size:12px;" title="发布状态"><i
+                class="iconfont icon-yinsi pr-1"></i>未发布</span>
               <span>
                        <a data-topicid="1473650657826283521" class="topic-delete-a badge badge-danger float-right"
                           style="font-weight: 400;background:transparent;color: #745e5e;border:1px solid #bcbcbc;padding:4px 12px;border-radius: 0;">
                           <i class="iconfont icon-shanchu"></i>删除
                        </a>
-                       <a href="/topic/to-update/1473650657826283521" target="_blank"
+                       <a :href="'/topic/' + item.id" target="_blank"
                           class="badge badge-success mr-2 float-right"
                           style="font-weight: 400;background:transparent;color: #7d7455;border:1px solid #bcbcbc;padding:4px 12px;border-radius: 0;">
                            <i class="iconfont icon-tianxie"></i>
@@ -46,46 +53,6 @@
             </div>
           </div>
         </div>
-        <!--        <div class="media text-muted ksd-topic-items" id="delete-topicid-1472231647083495426">-->
-        <!--          <div class="media-body load-topics-page pr">-->
-        <!--            <h3 style="font-size:16px;padding:10px 0;">-->
-        <!--              <a href="/bbs/1472231647083495426" target="_blank" class="text-dark font-weight-bold text-decoration-none d-block">-->
-        <!--                <span>Haha</span>-->
-
-        <!--              </a>-->
-
-        <!--            </h3>-->
-        <!--            <p><a href="/bbs/1472231647083495426">hahah</a></p>-->
-        <!--            <div class="mt-2">-->
-        <!--                    <span class="pr-3 fz12">-->
-        <!--                        分类：<a href="/bbs?from=1&amp;cid=10">面试</a>-->
-        <!--                    </span>-->
-        <!--              <span class="mr-3 mt-2">-->
-        <!--                        <i class="iconfont iconliulan tp2"></i>-->
-        <!--                        <span>2</span>-->
-        <!--                    </span>-->
-
-        <!--              <span>-->
-        <!--                        -->
-        <!--                    </span>-->
-        <!--              <span class="mr-3 mt-2">-->
-        <!--                       <i class="layui-icon"></i>-->
-        <!--                        <span>2021-12-18 23:45:52</span>-->
-        <!--                    </span>-->
-        <!--              <span class="mr-3 mt-2" style="color:#144d7b;font-size:12px;" title="发布状态"><i class="iconfont iconlock1 pr-1"></i>未发布</span>-->
-        <!--              <span>-->
-        <!--                       <a data-topicid="1472231647083495426" class="topic-delete-a badge badge-danger float-right" style="font-weight: 400;background:transparent;color: #745e5e;border:1px solid #bcbcbc;padding:4px 12px;border-radius: 0;">-->
-        <!--                          <i class="iconfont iconremove"></i>删除-->
-        <!--                       </a>-->
-        <!--                       <a href="/topic/to-update/1472231647083495426" target="_blank" class="badge badge-success mr-2 float-right" style="font-weight: 400;background:transparent;color: #7d7455;border:1px solid #bcbcbc;padding:4px 12px;border-radius: 0;">-->
-        <!--                           <i class="iconfont iconbianji1"></i>-->
-        <!--                           编辑-->
-        <!--                       </a>-->
-        <!--                   </span>-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--        </div>-->
-        <!--      </div>-->
 
 
         <!--      <div class="ksd-page-loadmore ksd-page loadmore" data-pages="1" data-total="2" data-pageno="1">-->
@@ -98,10 +65,48 @@
 
 <script>
 export default {
-  name: "ArticleManagement"
+  name: "ArticleManagement",
+  data() {
+    return {
+      articleList: [
+        {
+          id: 1,
+          title: 'Mac翻墙记录帖',
+          description: '  mac翻墙记录帖',
+          categoryName: '踩坑记录',
+          views: '344',
+          gmtTime: '2021-12-22 21:44:31',
+          isRelease: '0',
+          isViolationArticle: '0',
+          isExcellentArticle: '1',
+        },
+        {
+          id: 2,
+          title: 'Mac翻墙记录帖',
+          description: '  mac翻墙记录帖',
+          categoryName: '踩坑记录',
+          views: '344',
+          gmtTime: '2021-12-22 21:44:31',
+          isRelease: '1',
+          isViolationArticle: '1',
+          isExcellentArticle: '1',
+        },
+        {
+          id: 3,
+          title: 'Mac翻墙记录帖',
+          description: '  mac翻墙记录帖',
+          categoryName: '踩坑记录',
+          views: '344',
+          gmtTime: '2021-12-22 21:44:31',
+          isRelease: '1',
+          isViolationArticle: '0',
+          isExcellentArticle: '1',
+        }
+      ]
+    }
+  }
 }
 </script>
-
 <style scoped>
 .alert-primary {
   color: #004085;
@@ -260,5 +265,16 @@ a:not([href]) {
   font-size: 12px;
   cursor: pointer;
   background: rgba(40, 167, 69, 0.92);
+}
+
+.fz24 {
+  font-size: 24px !important;
+}
+
+.ksd-iconstar-blue {
+  position: absolute;
+  top: 14px;
+  right: 21px;
+  color: #F44336;
 }
 </style>

@@ -12,43 +12,50 @@
 </template>
 
 <script>
-import {slideArrayTop, backToTop, easeInOutQuad, scrollTop, activeBtn} from "../../common/utils";
+import {backToTop, easeInOutQuad, scrollTop} from "../../common/utils";
 
 export default {
   name: "SlideBar",
   props: {
-    slideList: {
+    slideTitleList: {
       type: Array,
-      default: [],
+      default: []
+    },
+    categoryList: {
+      type: Array,
+      default: []
+    },
+    slideArray: {
+      type: Array,
+      default: []
     }
   },
   data() {
     return {
       show: false,
       flag: 0,
-      slideArray: {
-        type: Array,
-        default: []
-      }
+      slideShow: false
     }
   },
   methods: {
     scrollTop,
     backToTop,
     easeInOutQuad,
-    slideArrayTop,
-    activeBtn
   },
   mounted() {
     window.addEventListener('scroll', this.scrollTop);
-    window.addEventListener('scroll',this.slideArrayTop);
+    if (window.name == 'isReload') {
+      this.slideShow = false
+    }else{
+      window.name = 'isReload'
+    }
   },
   destroyed() {
     window.removeEventListener('scroll', this.scrollTop);
     if (this.interval) {
       clearInterval(this.interval)
     }
-  }
+  },
 }
 </script>
 

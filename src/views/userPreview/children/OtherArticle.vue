@@ -2,18 +2,22 @@
   <div class="container">
     <div class="ksd-main-content">
       <div id="page-video" class="wrapper" style="background: #fff;">
-        <div class="col-full clearfix" >
+        <div class="col-full clearfix">
           <div class="contribution-sidenav">
             <div class="nav-container playlist-container">
-              <div class="contribution-list-container" >
+              <div class="contribution-list-container">
                 <ul class="contribution-list" v-for="item in this.slide">
-                  <li class="contribution-item ksd-topic-item":class="{cur:item.flag}"  data-type="1"><a href="javascript:void(0);" @click="otherArticlePage(item.slideArgs)" class="text">{{item.content}}</a><span class="num ksd-num-count6 font-weight-bold"></span></li>
+                  <li class="contribution-item ksd-topic-item" :class="{cur:item.flag}" data-type="1"><a
+                    href="javascript:void(0);" @click="otherArticlePage(item.slideArgs)"
+                    class="text">{{ item.content }}</a><span class="num ksd-num-count6 font-weight-bold"></span></li>
                 </ul>
               </div>
             </div>
           </div>
           <div class="main-content ksd-topic-content">
-            <router-view></router-view>
+            <other-user-article :vip-level="this.vipLevel" v-show="this.article"
+                                :article-list="this.articleList"></other-user-article>
+            <article-tag v-show="this.tag" :label-list="this.labelList" :flag="false"></article-tag>
           </div>
         </div>
       </div>
@@ -23,6 +27,9 @@
 
 <script>
 import Article from "../../user/children/Article";
+import OtherUserArticle from "../otherArticleChildren/OtherUserArticle";
+import OtherTag from "../otherArticleChildren/OtherTag";
+import ArticleTag from "../../user/articleChildren/ArticleTag";
 
 export default {
   name: "OtherArticle",
@@ -39,14 +46,115 @@ export default {
           content: 'Ta的标签',
           slideArgs: 'tag',
         }
+      ],
+      vipLevel: 'svip',
+      total: 100,
+      article: true,
+      tag: false,
+      articleList: [
+        {
+          id: 1,
+          title: 'Typescript快速入门',
+          description: '在原则产问题上，要坚定如磐石；在兴趣问题上，则要顺应潮流。——美国',
+          categoryName: '前端',
+          views: 161,
+          gmtTime: '2021/12/20 23:42',
+          isExcellentArticle: 1,
+          labelList: [
+            {
+              labelName: 'TypeScript'
+            }
+          ]
+        },
+        {
+          id: 2,
+          title: 'Typescript快速入门',
+          description: '在原则产问题上，要坚定如磐石；在兴趣问题上，则要顺应潮流。——美国',
+          categoryName: '前端',
+          views: 161,
+          gmtTime: '2021/12/20 23:42',
+          isExcellentArticle: 0,
+          labelList: [
+            {
+              labelName: 'TypeScript'
+            }
+          ]
+        },
+        {
+          id: 3,
+          title: 'Typescript快速入门',
+          description: '在原则产问题上，要坚定如磐石；在兴趣问题上，则要顺应潮流。——美国',
+          categoryName: '前端',
+          views: 161,
+          gmtTime: '2021/12/20 23:42',
+          isExcellentArticle: 1,
+          labelList: [
+            {
+              labelName: 'TypeScript'
+            }
+          ]
+        },
+        {
+          id: 1,
+          title: 'Typescript快速入门',
+          description: '在原则产问题上，要坚定如磐石；在兴趣问题上，则要顺应潮流。——美国',
+          categoryName: '前端',
+          views: 161,
+          gmtTime: '2021/12/20 23:42',
+          isExcellentArticle: 0,
+          labelList: [
+            {
+              labelName: 'Java'
+            },
+            {
+              labelName: 'JavaScript'
+            },
+            {
+              labelName: 'vue'
+            }
+          ]
+        }
+      ],
+      labelList: [
+        {
+          labelName: 'Java'
+        },
+        {
+          labelName: 'Markdown'
+        },
+        {
+          labelName: '数据库'
+        },
+        {
+          labelName: 'TypeScript'
+        },
+        {
+          labelName: 'JavaScript'
+        }, {
+          labelName: 'Android'
+        },
+        {
+          labelName: '工具'
+        },
+        {
+          labelName: '运维'
+        }
+
+
       ]
     }
   },
-  components: {Article},
+  components: {ArticleTag, OtherTag, OtherUserArticle, Article},
   methods: {
     otherArticlePage(path) {
       this.bottomExchange(path)
-      this.$router.replace('/user/other/other' + path);
+      this.article = false
+      this.tag = false
+      if (path == 'management') {
+        this.article = true
+      } else if (path == 'tag') {
+        this.tag = true
+      }
     },
     bottomExchange(path) {
       this.slide[0].flag = false;
@@ -61,12 +169,15 @@ export default {
 }
 </script>
 
+
 <style scoped>
 @import "../../../assets/css/user.css";
+
 .ksd-main-content {
   min-height: 400px;
 }
-.ksd-topic-item:hover{
+
+.ksd-topic-item:hover {
   background-color: #EFF3F5;
 }
 
@@ -80,18 +191,22 @@ export default {
   box-sizing: border-box;
   text-align: left;
 }
+
 .contribution-sidenav .contribution-list-container {
   position: relative;
   max-height: 420px;
   margin: 10px 0 20px;
   overflow: hidden;
 }
+
 ul {
   list-style: none;
 }
+
 .contribution-sidenav .contribution-item.cur {
   background-color: #5b6066;
 }
+
 .contribution-sidenav .contribution-item {
   position: relative;
   padding-left: 30px;
@@ -100,12 +215,15 @@ ul {
   font-size: 0;
   overflow: hidden;
 }
+
 .contribution-sidenav .contribution-item.cur .num, .contribution-sidenav .contribution-item.cur .text {
   color: #fff;
 }
+
 .contribution-sidenav .contribution-item .text {
   width: 130px;
 }
+
 .contribution-sidenav .text {
   display: inline-block;
   line-height: 44px;
@@ -117,9 +235,11 @@ ul {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .contribution-sidenav .contribution-item.cur .num, .contribution-sidenav .contribution-item.cur .text {
   color: #fff;
 }
+
 .contribution-sidenav .num {
   display: inline-block;
   width: 32px;
@@ -129,13 +249,16 @@ ul {
   text-align: center;
   font-family: Arial;
 }
+
 .font-weight-bold {
   font-weight: 700 !important;
 }
+
 .clearfix {
   display: block;
   *zoom: 1;
 }
+
 clearfix::after {
   content: '\0020';
   display: block;
@@ -143,6 +266,7 @@ clearfix::after {
   clear: both;
   visibility: hidden;
 }
+
 .contribution-sidenav ~ .main-content {
   padding: 20px 20px 160px;
   box-sizing: border-box;

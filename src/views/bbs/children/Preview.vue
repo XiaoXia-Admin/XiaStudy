@@ -1,59 +1,10 @@
 <template>
   <div class="main">
     <div class="layui-container" style="padding:0;">
-      <div class="title-article"
-           style="background-color: white;margin-top: 62px;box-shadow: rgba(0, 0, 0, 0.1) -4px -4px 12px;text-align: left;margin-left: -17px;padding: 10px 17px;margin-right: 17px;">
-        <h1 class="title" id="sharetitle">
-        <span style="color:#F44336;font-weight: normal;font-size:30px;" title="精品推荐"
-              class="iconfont icon-tuijian ksd-iconstar-blue pr tp2"></span>&nbsp;
-          <span style="color: black">Markdown写作指南</span>
-
-        </h1>
-        <div class="title-msg">
-                        <span>
-                        <a class="c999" href="/user/4d694f8625c44aef9ff7a04424c1ca12" target="_blank" title="狂神说">
-                            <img
-                              src="https://thirdwx.qlogo.cn/mmopen/vi_32/xsX5nr5cD3hmQJ76ypehicz2DbQNhEwC0duolhfo3o6z3xlWnPM0KGqgFT5RJI8qBImfuZ6eECtZp3eCRzOAOgw/132"
-                              class="ksd-avatar" alt="">
-                            <span class="mx-1">狂神说</span>
-                        </a>
-
-                        <span class="svipicon"><i class="iconfont icon-svip"></i></span>
-                          &nbsp;&nbsp;
-                    </span>
-          <span class="c999" style="padding:0 6px;">分类：<a class="c999" href="/bbs?cid=3" target="_blank">教程</a></span>&nbsp;&nbsp;
-          <span class="c999">浏览：<span>22016</span></span>&nbsp;&nbsp;
-          <span class="c999"><a href="#comments" class="c999">评论：<span>65</span></a></span>&nbsp;&nbsp;
-          <a href="javascript:void(0);" class="c999 ksd-update-fontsize"><i
-            class="iconfont icon-weixuanze pr tp1"></i><span>字体</span></a>&nbsp;&nbsp;
-          <a href="javascript:void(0);" class="c999 ksd-update-skin"><i
-            class="iconfont icon-weixuanze pr tp1"></i><span>皮肤</span></a>
-          &nbsp;&nbsp;
-          <a href="javascript:void(0);" @click="showAccusation" data-opid="1356475333565587458" rel="nofollow"
-             class="ksd-tiff ksd-operator ksd-reply-link-main-report" title="健康"><i class="iconfont icon-dunpai fz24"></i>
-          </a>
-          <a href="javascript:void(0);" class="ksd-tiff2 ksd-tiff-collect" @click="collectArticle" :class="{show: this.flag}">
-            <i class="iconfont icon-chuangjiantianjiapiliangtianjia pr-1" ></i>
-            <span class="zzmsg">收藏</span>
-          </a>
-          <a href="javascript:void(0);" style="margin-top: -3px;" class="ksd-tiff2 ksd-tiff-collect"  @click="cancelCollectArticle" :class="{show: !this.flag}">
-            <i class="iconfont icon-shoucang pr-1" style="font-size: 20px"></i><span  class="zzmsg">已收藏</span>
-          </a>
-
-          <a href="javascript:void(0);" data-opid="1356475333565587458"
-             class="edittopics-link ksd-operator-expand pl-4 pr tp1"><i class="iconfont icon-fuzhi pr tp1"></i>&nbsp;<span
-            class="rmsg">左侧展开</span></a>
-          <span class="fr c999 ksd-update-span">
-                             <span style="position:relative;right: -384px;">
-                                 最后修改于：
-                                <span>2021/02/02 13:32:00</span>
-                            </span>
-                        </span>
-        </div>
-      </div>
-      <div id="preview" style="margin-left: -17px">
-        <textarea id="content" v-model="this.markdownVale"/>
-      </div>
+      <preview-title>
+        <toc></toc>
+      </preview-title>
+      <markdown-to-html :id="this.id" :markdown-value="this.markdownValue"></markdown-to-html>
       <div class="layui-row layui-col-space15 main mt-4"
            style="margin-bottom: 100px; margin-left: -17px;margin-right: 16px;">
         <div class="layui-col-md12 layui-col-lg12" style="padding:10px 25px;">
@@ -67,7 +18,7 @@
                     </a>
                   </div>
                   <div class="layui-form-item">
-                    <div id="commentarea">
+                    <div id="commentarea" style="z-index: 10;position: relative">
 
                     </div>
                   </div>
@@ -206,22 +157,23 @@
     </div>
     <div class="tipoff-block js-tipoff-block" :class="{show: this.accusation}"></div>
   </div>
-
 </template>
 
 <script>
 
-import scriptjs from 'scriptjs'
-import ClipboardJS from 'clipboard';
 import EditorMarkdown from "./EditorMarkdown";
-import {createEditor,init} from "../../../common/utils";
+import {createEditor, mkImageShow, loadToc, backToTop, easeInOutQuad} from "../../../common/utils";
+import PreviewTitle from "./PreviewTitle";
+import MarkdownToHtml from "./MarkdownToHtml";
+import Toc from "./Toc";
 
 export default {
   name: "Preview",
-  components: {EditorMarkdown},
+  components: {Toc, MarkdownToHtml, PreviewTitle, EditorMarkdown},
   data() {
     return {
       editor: null,
+      time: 500,
       config: {
         width: "98%",
         height: 440,
@@ -256,68 +208,8 @@ export default {
         onload: function () {
         }
       },
-      markdownVale: `### 主要特性
+      markdownValue: `### 主要特性
 
-- 支持“标准”Markdown / CommonMark和Github风格的语法，也可变身为代码编辑器；
-- 支持实时预览、图片（跨域）上传、预格式文本/代码/表格插入、代码折叠、搜索替换、只读模式、自定义样式主题和多语言语法高亮等功能；
-- 支持ToC（Table of Contents）、Emoji表情、Task lists、@链接等Markdown扩展语法；
-- 支持TeX科学公式（基于KaTeX）、流程图 Flowchart 和 时序图 Sequence Diagram;
-- 支持识别和解析HTML标签，并且支持自定义过滤标签解析，具有可靠的安全性和几乎无限的扩展性；
-- 支持 AMD / CMD 模块化加载（支持 Require.js & Sea.js），并且支持自定义扩展插件；
-- 兼容主流的浏览器（IE8+）和Zepto.js，且支持iPad等平板设备；
-- 支持自定义主题样式；
-
-# Editor.md
-
-![](https://pandao.github.io/editor.md/images/logos/editormd-logo-180x180.png)
-
-![](https://img.shields.io/github/stars/pandao/editor.md.svg) ![](https://img.shields.io/github/forks/pandao/editor.md.svg) ![](https://img.shields.io/github/tag/pandao/editor.md.svg) ![](https://img.shields.io/github/release/pandao/editor.md.svg) ![](https://img.shields.io/github/issues/pandao/editor.md.svg) ![](https://img.shields.io/bower/v/editor.md.svg)
-
-**目录 (Table of Contents)**
-
-[TOCM]
-
-[TOC]
-
-# Heading 1
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-# Heading 1 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-## Heading 2 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-### Heading 3 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-#### Heading 4 link [Heading link](https://github.com/pandao/editor.md "Heading link") Heading link [Heading link](https://github.com/pandao/editor.md "Heading link")
-##### Heading 5 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-###### Heading 6 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-
-#### 标题（用底线的形式）Heading (underline)
-
-This is an H1
-=============
-
-This is an H2
--------------
-
-### 字符效果和横线等
-
-----
-
-~~删除线~~ <s>删除线（开启识别HTML标签时）</s>
-*斜体字*      _斜体字_
-**粗体**  __粗体__
-***粗斜体*** ___粗斜体___
-
-上标：X<sub>2</sub>，下标：O<sup>2</sup>
-
-**缩写(同HTML的abbr标签)**
-
-> 即更长的单词或短语的缩写形式，前提是开启识别HTML标签时，已默认开启
-
-The <abbr title="Hyper Text Markup Language">HTML</abbr> specification is maintained by the <abbr title="World Wide Web Consortium">W3C</abbr>.
-
-### 引用 Blockquotes
 
 > 引用文本 Blockquotes
 
@@ -432,7 +324,7 @@ Image:
 
 图片加链接 (Image + Link)：
 
-[![](https://pandao.github.io/editor.md/examples/images/7.jpg)](https://pandao.github.io/editor.md/examples/images/7.jpg "李健首张专辑《似水流年》封面")
+![](https://pandao.github.io/editor.md/examples/images/7.jpg)(https://pandao.github.io/editor.md/examples/images/7.jpg "李健首张专辑《似水流年》封面")
 
 > 图为：李健首张专辑《似水流年》封面
 
@@ -611,18 +503,11 @@ Andrew->>China: I am good thanks!
 ### End`,
       collectFlag: true,
       accusation: true,
-      flag: false
+      flag: false,
+      id: 'preview'
     }
   },
   methods: {
-    init,
-    fetchScript(url) {
-      return new Promise((resolve) => {
-        scriptjs(url, () => {
-          resolve()
-        })
-      })
-    },
     createEditor,
     showAccusation() {
       this.accusation = false
@@ -632,14 +517,6 @@ Andrew->>China: I am good thanks!
     },
     submitBtn() {
       this.accusation = true
-    },
-    collectArticle() {
-      layer.msg('收藏成功!')
-      this.flag = true
-    },
-    cancelCollectArticle() {
-      layer.msg('取消收藏成功!')
-      this.flag = false
     },
     replayPreview() {
       alert('回复用户')
@@ -651,33 +528,22 @@ Andrew->>China: I am good thanks!
       }, function (index) {
         layer.close(index); //如果设定了yes回调，需进行手工关闭
       });
-    }
+    },
+    mkImageShow,
+    loadToc,
+    backToTop,
+    easeInOutQuad
   },
   mounted() {
-    this.init('preview')
     this.createEditor()
   },
   created() {
-    setTimeout(function () {
-      $(".editormd-html-preview").find("pre").prepend("<i class='iconfont icon-fuzhi' title='点击复制代码' style='cursor: pointer;float: right'></i>").find(".icon-fuzhi").each(function (index, obj) {
-        //这里以复制URL为例
-        let clipboard = new ClipboardJS(obj, {
-          text: function () {
-            let text = $(obj).next().get(0).innerText;
-            console.log(text)
-            return text;
-          }
-        });
-
-        clipboard.on('success', function (e) {
-          layer.msg("复制成功", {time: 500});
-        });
-
-        clipboard.on('error', function (e) {
-          layer.msg("复制失败", {time: 500});
-        });
-      });
-    }, 500);
+    setTimeout(this.mkImageShow, this.time);
+    if (window.name == 'isReload') {
+      this.backToTop('slide_bottom')
+    } else {
+      window.name = 'isReload'
+    }
   }
 }
 </script>
@@ -1118,14 +984,4 @@ ol ol, ol ul, ul ol, ul ul {
   cursor: pointer;
 }
 
-.tipoff-block {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(7,17,27,.6);
-  z-index: 900;
-
-}
 </style>

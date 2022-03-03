@@ -3,13 +3,14 @@
     <div class="ksd-main-content">
       <div class=" bottom_content" style="display: block;">
         <div class="row mx-0 ">
-          <div class="col-12 col-md-9 content_box blog-main bg-white mb-3 pb-4 pt-3"
+          <div class="col-12 content_box blog-main bg-white mb-3 pb-4 pt-3" :class="{'col-md-9': !this.other}"
                style="box-shadow: 0 1px 4px 0 rgba(0,0,0,.05)">
             <div id="doc-content" style="text-align: left" class="markdown-body editormd-html-preview">
-              <textarea  style="display:none;" v-model="this.markdownVale" placeholder="markdown"></textarea>
+              <textarea style="display:none;" v-model="this.homePage.content" placeholder="markdown"></textarea>
             </div>
           </div>
-          <div id="ucenterapp2" class="col-md-3 pr-0 ucenter_right_box" style="padding-left: 15px;">
+          <div v-show="!this.other" id="ucenterapp2" class="col-md-3 pr-0 ucenter_right_box"
+               style="padding-left: 15px;">
             <div class="bg-white mb-3 position-relative" style="box-shadow: 0 1px 4px 0 rgba(0,0,0,.05)">
               <div class="py-3 px-3">
                 <a href="/vip/pay" type="button" class="btn btn-lg btn-block"
@@ -17,7 +18,7 @@
                   class="iconfont iconbianzu11 pr-1"></i>VIP权限已过期</a>
               </div>
             </div>
-            <home-slide></home-slide>
+            <home-slide :home-page="this.homePage"></home-slide>
           </div>
         </div>
       </div>
@@ -27,14 +28,17 @@
 
 <script>
 import HomeSlide from "../common/HomeSlide";
-import {init} from "../../../common/utils";
+import {indexOfFlag} from "../../../common/utils";
 import scriptjs from "scriptjs";
+
 export default {
   name: "HomePage",
   data() {
     return {
       editor: null,
-      markdownVale: `### 主要特性
+      other: true,
+      homePage: {
+        content: `### 主要特性
 
 - 支持“标准”Markdown / CommonMark和Github风格的语法，也可变身为代码编辑器；
 - 支持实时预览、图片（跨域）上传、预格式文本/代码/表格插入、代码折叠、搜索替换、只读模式、自定义样式主题和多语言语法高亮等功能；
@@ -387,10 +391,18 @@ Andrew->>China: I am good thanks!
 \`\`\`
 
 ### End`,
+        articleRealeaseNumber: 321,
+        commentNumber: 321,
+        vipLevel: 'vip',
+        account: '999988',
+        money: 1000,
+        gmtCreate: '2021-04-29',
+        studyNumber: 22
+      }
     }
   },
   components: {HomeSlide},
-  methods:{
+  methods: {
     init() {
       (async () => {
         await this.fetchScript('./static/lib/editormd/lib/marked.min.js')
@@ -422,16 +434,25 @@ Andrew->>China: I am good thanks!
         })
       })
     },
+    indexOfFlag
 
   },
   mounted() {
     this.init()
+  },
+  created() {
+    this.other = this.indexOfFlag('/other')
   }
 }
 </script>
 
 <style scoped>
 @import "../../../assets/css/user.css";
+
+.other-home {
+  flex: 0 0 100%;
+}
+
 .editormd-preview-container, .editormd-html-preview {
   text-align: left;
   font-size: 14px;
@@ -440,6 +461,7 @@ Andrew->>China: I am good thanks!
   width: 100%;
   background-color: #fff;
 }
+
 .markdown-body {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -450,11 +472,13 @@ Andrew->>China: I am good thanks!
   line-height: 1.6;
   word-wrap: break-word;
 }
+
 .markdown-body, .title-article .hlink2 {
   overflow: hidden;
   display: block;
   margin-bottom: 5px;
 }
+
 .markdown-body, .title-article {
   background: #fff;
   overflow: hidden;
@@ -462,16 +486,20 @@ Andrew->>China: I am good thanks!
   position: relative;
   text-align: center;
 }
+
 .markdown-body > :first-child {
   margin-top: 0 !important;
 }
+
 .markdown-body * {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+
 textarea {
   resize: vertical;
 }
+
 textarea {
   border: 1px solid #E9E9E9;
   width: 100%;
@@ -479,6 +507,7 @@ textarea {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+
 button, input, optgroup, option, select, textarea {
   font-family: inherit;
   font-size: inherit;
@@ -486,4 +515,5 @@ button, input, optgroup, option, select, textarea {
   font-weight: inherit;
   outline: 0;
 }
+
 </style>

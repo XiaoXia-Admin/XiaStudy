@@ -5,33 +5,31 @@
       <div class="overlay" style="background:#0362d8"></div>
       <div class="topWarp">
         <div class="course-cont ">
-          <div class="course-title" title="方法详解">
-            <span>方法详解</span>
+          <div class="course-title" :title="this.course.title">
+            <span>{{ this.course.title}}</span>
 
           </div>
-          <div class="course-stitle">方法详解</div>
+          <div class="course-stitle">{{this.course.description}}</div>
           <div class="course-price-box">
-            <span class="course-price-new">￥0.00</span>
-            <span class="course-price-old">￥0.00</span>
+            <span class="course-price-new">￥{{ this.course.price }}</span>
+            <span class="course-price-old">￥{{this.course.price}}</span>
             <span>
 
 
                     </span>
-            <span title="课程时长" class="layui-badge layui-bg-black ml-2 mt-1 pr-2 pl-2">课程时长：57:27</span>
+            <span title="课程时长" class="layui-badge layui-bg-black ml-2 mt-1 pr-2 pl-2">课程时长：{{ this.course.totalLength }}</span>
           </div>
           <div id="has-open-sales"></div>
 
           <div style="text-align: left;">
-            <a class="course-btn free-study  ksd-nav-link-downx nav-link-down" style="background: #03a9f4"
+            <a v-show="this.course.price == 0" v- class="course-btn free-study  ksd-nav-link-downx nav-link-down" style="background: #03a9f4"
                href="/course/play/1317504610634321921" target="_blank"><i
               class="iconfont iconshoucang1 fz18 pr-2 pr tp1"></i><span class="msg">免费课程，立即学习</span></a>
 
+            <a v-show="this.course.price != 0" class="course-btn sign-up  ksd-buy-course" data-courseid="1385771155494879233" href="javascript:void(0);"><i class="iconfont icon-gouwucheman fz18 pr-2"></i>报名学习</a>
+
+            <a v-show="this.course.price != 0" class="course-btn free-study  ksd-nav-link-down-try nav-link-down" href="javascript:void(0);" data-href="/course/play/1385771155494879233"><i class="iconfont icon-bofang fz18 pr-2"></i><span class="msg">点击试学习</span></a>
           </div>
-
-
-          <!--          <a class="course-btn  nav-link-down nav-link-down-reward fr pr" data-cid="1317504610634321921" style="background:#fa5151;bottom:63px;" href="javascript:void(0);" title="赞赏或者K币、下载学习资料" onclick="KsdPay.rewarddialog(this)">-->
-          <!--            <i class="iconfont iconqian fz18 pr-2 pr tp1"></i><span class="msg">赞赏课程</span>-->
-          <!--          </a>-->
         </div>
       </div>
     </div>
@@ -40,7 +38,7 @@
         <div class="warp">
           <ul class="details-tab">
             <li class="changebar" :class="{major: this.courseDetail}"><a @click="selectCourse('courseDetail')" href="javascript:void(0);">课程详情</a></li>
-            <li class="changebar" :class="{major: this.courseChapter}"><a @click="selectCourse('courseChapter')" href="javascript:void(0);">课程章节<span class="fz12 ml-2">6</span></a></li>
+            <li class="changebar" :class="{major: this.courseChapter}"><a @click="selectCourse('courseChapter')" href="javascript:void(0);">课程章节<span class="fz12 ml-2">{{this.course.videoNumber}}</span></a></li>
           </ul>
         </div>
       </div>
@@ -50,48 +48,45 @@
         <div class="table-top-box">
           <ul class="service-box">
             <li class="course-days" style="width: 33.333%;">
-              <p class="cont-tit"><span class="text-span">4</span></p>
+              <p class="cont-tit"><span class="text-span">{{this.course.videoNumber}}</span></p>
               <p class="cont-stit">小节数</p>
             </li>
             <li class="effective-days" style="width: 33.333%;">
-              <p class="cont-tit"><span class="text-span" style="font-size:40px;">93989</span>
+              <p class="cont-tit"><span class="text-span" style="font-size:40px;">{{this.course.views}}</span>
               </p>
               <p class="cont-stit">浏览数</p>
             </li>
 
             <li class="study-people" style="width: 33.333%;">
-              <p class="cont-tit"><span class="text-span">46:58</span></p>
+              <p class="cont-tit"><span class="text-span">{{this.course.totalLength}}</span></p>
               <p class="cont-stit">课程时长</p>
             </li>
           </ul>
         </div>
 
-        <div class="course-information-box pr" id="doc-content">
+        <div class="course-information-box pr xjy-left" id="doc-content">
           <div id="tinymce">
-            <div class="divTag" id="tinymcebox"><h4 id="etdw4">课程标题：聊聊编程这条路</h4>
+            <div class="divTag" id="tinymcebox">
+              <h4 id="etdw4">课程标题：{{this.course.title}}</h4>
               <p><br></p><h4 id="zfv4p">课程概述：</h4>
               <p><br></p>
-              <p>在正式学习编程之前，我们来聊聊编程这条路到底该如何学习！要知道这条路，才能走得下去！即使再小的帆也能远航！</p>
+              <p>{{this.course.overview}}</p>
               <p><br></p><h4 id="07hqf">讲师介绍：</h4>
               <p><br></p>
-              <p>秦疆（遇见狂神说） Bilibili空间地址：<a href="https://space.bilibili.com/95256449" target="_blank"
-                                           style="background-color: rgb(255, 255, 255);" one-link-mark="yes">https://space.bilibili.com/95256449</a>
+              <p>{{this.course.teacher}}
               </p>
               <p><br></p><h4 id="sfow8">适合人群：</h4>
               <p><br></p>
-              <p>编程零基础人员、初学者</p>
-              <p><br></p><h4 id="lp281">学习时长：46分钟</h4>
+              <p>{{ this.course.suitablePeople }}</p>
+              <p><br></p><h4 id="lp281">学习时长：{{this.course.totalLength.substring(0,this.course.totalLength.indexOf(':'))}} 分钟</h4>
               <p><br></p><h4 id="hutw5">课程安排：</h4>
               <p><br></p>
-              <ol>
-                <li>第一节：解决大家的疑问</li>
-                <li>第二节：Java和Python的抉择</li>
-                <li>第三节：学习方法及课程概述</li>
-                <li>第四节：关于教育和对大家的期望</li>
+              <ol >
+                <li :id="item1.id" v-for="item1 in chapterList[0].videoList" :key="item1.id">{{item1.title}}</li>
               </ol>
               <p><br></p><h4 id="93xn9">课程反馈：</h4>
               <p><br></p>
-              <p class="md-end-block md-p"><span class="md-plain md-expand">在这里学习的过程中，如果您有什么好的想法或建议，可以发送邮件到我们的邮箱：xuexiangban@dingtalk.com，感谢您对我们的支持。</span>
+              <p class="md-end-block md-p"><span class="md-plain md-expand">{{this.course.courseFeedback}}</span>
               </p></div>
           </div>
         </div>
@@ -102,67 +97,19 @@
 
       <!--课程章节-->
       <div class="list-box" :class="{show: !this.flag}">
-        <div class="onlyOne-stage ksd-onlyOne-stage  delay-1s">
+        <div class="onlyOne-stage ksd-onlyOne-stage  delay-1s" v-for="item in chapterList" :key="item.id">
           <div class="chapter-title">
-            <h6 class="fz16">第1章 ：<span>方法详解</span></h6>
-            <span @click="expendSelect" class="expand fr" :class="{show: !this.expend}"><i class="iconfont icon-xiangshang"></i></span>
-            <span @click="expendSelect" class="expand fr" :class="{show: this.expend}"><i class="iconfont icon-xiangxia"></i></span>
+            <h6 class="fz16">{{item.title}}</h6>
+            <span @click="expendSelect" class="expand fr" :class="{show: !expend}"><i class="iconfont icon-xiangshang"></i></span>
+            <span @click="expendSelect" class="expand fr" :class="{show: expend}"><i class="iconfont icon-xiangxia"></i></span>
           </div>
-          <div class="chapter-cont" :class="{show: this.expend}">
+          <div class="chapter-cont":class="{show: expend}">
             <div class="summary-box">
               <ul class="summary-cont">
-                <li class="animated fadeIn">
-
-
-                  <a target="_blank" href="../play/1317504610634321921#ksd_1336562976224534530_1336563151789711361" title="01、什么是方法？，点击前往学习">
-                    <span class="title-text fl">第1节 ：01、什么是方法？</span>
+                <li class="animated fadeIn" v-for="item1 in item.videoList" :key="item1.id">
+                  <a target="_blank" href="../play/1317504610634321921#ksd_1336562976224534530_1336563151789711361" :title="item1.title">
+                    <span class="title-text fl">{{item1.title}}</span>
                     <span class="ksd-video-timer pr tp2 fr " data-timer="609.0"></span>
-
-                  </a>
-                </li>
-                <li class="animated fadeIn">
-
-
-                  <a target="_blank" href="../play/1317504610634321921#ksd_1336562976224534530_1336563235713540098" title="02、方法的定义和调用，点击前往学习">
-                    <span class="title-text fl">第2节 ：02、方法的定义和调用</span>
-                    <span class="ksd-video-timer pr tp2 fr " data-timer="844.0"></span>
-
-                  </a>
-                </li>
-                <li class="animated fadeIn">
-
-
-                  <a target="_blank" href="../play/1317504610634321921#ksd_1336562976224534530_1336563299315965954" title="03、方法的重载，点击前往学习">
-                    <span class="title-text fl">第3节 ：03、方法的重载</span>
-                    <span class="ksd-video-timer pr tp2 fr " data-timer="364.0"></span>
-
-                  </a>
-                </li>
-                <li class="animated fadeIn">
-
-
-                  <a target="_blank" href="../play/1317504610634321921#ksd_1336562976224534530_1336563366928146434" title="04、命令行传递参数，点击前往学习">
-                    <span class="title-text fl">第4节 ：04、命令行传递参数</span>
-                    <span class="ksd-video-timer pr tp2 fr " data-timer="381.0"></span>
-
-                  </a>
-                </li>
-                <li class="animated fadeIn">
-
-
-                  <a target="_blank" href="../play/1317504610634321921#ksd_1336562976224534530_1336563435580514306" title="05、可变参数，点击前往学习">
-                    <span class="title-text fl">第5节 ：05、可变参数</span>
-                    <span class="ksd-video-timer pr tp2 fr " data-timer="434.0"></span>
-
-                  </a>
-                </li>
-                <li class="animated fadeIn">
-
-
-                  <a target="_blank" href="../play/1317504610634321921#ksd_1336562976224534530_1336563512453718017" title="06、递归讲解，点击前往学习">
-                    <span class="title-text fl">第6节 ：06、递归讲解</span>
-                    <span class="ksd-video-timer pr tp2 fr " data-timer="815.0"></span>
-
                   </a>
                 </li>
               </ul>
@@ -193,7 +140,63 @@ export default {
       courseDetail: true,
       courseChapter: false,
       flag: false,
-      expend: false
+      expend: false,
+      isBuy: 1,
+      course: {
+        id: '1',
+        title: '方法详解',
+        description: '方法详解',
+        price: '20.00',
+        totalLength: '57:24',
+        videoNumber: '6',
+        views: '16895',
+        overview: '在正式学习编程之前，我们来聊聊编程这条路到底该如何学习！要知道这条路，才能走得下去！即使再小的帆也能远航！',
+        teacher: '秦疆（遇见狂神说） Bilibili空间地址：https://space.bilibili.com/95256449',
+        suitablePeople: '编程零基础人员、初学者',
+        courseArrange: '第一节：解决大家的疑问\n' +
+          '第二节：Java和Python的抉择\n' +
+          '第三节：学习方法及课程概述\n' +
+          '第四节：关于教育和对大家的期望',
+        courseFeedback: '在这里学习的过程中，如果您有什么好的想法或建议，可以发送邮件到我们的邮箱：xuexiangban@dingtalk.com，感谢您对我们的支持。'
+      },
+      chapterList: [
+        {
+          id: 1,
+          title: '第1章 ：方法详解',
+          videoList:[
+            {
+              id: 2,
+              title: '第一节：解决大家的疑问'
+            },
+            {
+              id: 3,
+              title: '第二节：Java和Python的抉择'
+            },
+            {
+              id: 4,
+              title: '第三节：学习方法及课程概述'
+            },
+          ]
+        },
+        {
+          id: 5,
+          title: '第二章 ：方法详解',
+          videoList:[
+            {
+              id: 6,
+              title: '第一节：解决大家的疑问'
+            },
+            {
+              id: 7,
+              title: '第二节：Java和Python的抉择'
+            },
+            {
+              id: 8,
+              title: '第三节：学习方法及课程概述'
+            },
+          ]
+        }
+      ]
     }
   },
   methods: {
@@ -225,7 +228,10 @@ export default {
 main {
   padding-bottom: 200px;
 }
-
+ol li {
+  list-style-type: decimal-leading-zero;
+  margin-left: 22px;
+}
 main .banner-box {
   height: 460px;
   position: relative;
@@ -525,7 +531,15 @@ main .class-details-box .text-warp .course-information-box {
   font-size: 1.12em;
   margin-bottom: 10px;
 }
-
+h1, h2, h3, h4, h5 {
+  font-weight: 700;
+  color: #444;
+}
+.divTag h4::before {
+  content: "";
+  border-left: 4px solid #bbb;
+  padding-left: 6px;
+}
 .divTag p {
   line-height: 26px;
 }
@@ -621,5 +635,20 @@ main .list-box .onlyOne-stage .chapter-cont .summary-box .summary-cont li a {
 }
 .tp2 {
   top: 2px !important;
+}
+main .banner-box .topWarp .course-cont .sign-up {
+  cursor: pointer;
+  background: #ff9800;
+}
+main .banner-box .topWarp .course-cont .sign-up:hover {
+  background: #FF9F4A;
+}
+
+main .banner-box .topWarp .course-cont .free-study:hover {
+  background: rgb(3, 169, 244) none repeat scroll 0% 0%;
+}
+
+main .banner-box .topWarp .course-cont .free-study {
+  background: rgba(221,67,67,0.98);
 }
 </style>

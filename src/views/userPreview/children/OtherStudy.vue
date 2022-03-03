@@ -4,84 +4,24 @@
       <div class="bottom_content bgfcolor" style="display: block; overflow: hidden; min-height: 680px;">
         <div class="row mx-0 ">
           <div class="col-12  content_box blog-main bg-white mb-3 pb-4 pt-3 col-md-12">
-            <div id="loadingbox" style="padding: 30px 0px; text-align: center; display: none;"></div>
-            <div style="display: none;">
-              <div id="doc-content" class="markdown-body editormd-html-preview"><p>:volcano:哈哈</p>
-              </div>
-            </div> <!---->
             <div>
               <div class="content person_works" id="submit-video-list">
                 <ul id="ksd-course-cube-list" class="xjy-left work_lists cl">
-                  <li data-courseid="1325771226245623809" data-pages="2" data-total="22" class="z pos animated fadeInLeft">
-                    <a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="hide shadow_cover">
-                    </a><a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="cover">
-                    <img class="imgloadinglater" onerror="imgError(this)" src="../../../assets/footimg/03.jpg" alt="如何准备面试"></a>
-                    <div class="work_bt"><a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="title">如何准备面试</a>
-                      <a href="/course/play/1325771226245623809" style="font-size:12px;float:right;color: #1E9FFF;font-weight: bold;" target="_blank"><i class="iconfont icon-play"></i>进入点播</a>
+                  <li  v-for="(item,index) in courseList" :key="item.id" :data-courseid="item.id" data-pages="2" data-total="22" class="z pos animated fadeInLeft">
+                    <a target="_blank" :title="item.title" :href="'/course/detail/' + item.id" class="hide shadow_cover">
+                    </a><a target="_blank" :title="item.title" :href="'/course/detail/' + item.id" class="cover">
+                    <img class="imgloadinglater" onerror="imgError(this)" :src="item.cover" :alt="item.title"></a>
+                    <div class="work_bt"><a target="_blank" :title="item.title" :href="'/course/detail/' + item.id" class="title">如何准备面试</a>
+                      <a :href="'/course/play/' + item.id" style="font-size:12px;float:right;color: #1E9FFF;font-weight: bold;" target="_blank"><i class="iconfont icon-play"></i>进入点播</a>
                       <div class="number mt-2">
-                        <span><i class="iconfont icon-icon_yulan fsi"></i>11273</span>
-                      </div>
-                    </div>
-                  </li>
-                  <li data-courseid="1325771226245623809" data-pages="2" data-total="22" class="z pos animated fadeInLeft">
-                    <a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="hide shadow_cover">
-                    </a><a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="cover">
-                    <img class="imgloadinglater" onerror="imgError(this)" src="../../../assets/footimg/03.jpg" alt="如何准备面试"></a>
-                    <div class="work_bt"><a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="title">如何准备面试</a>
-                      <a href="/course/play/1325771226245623809" style="font-size:12px;float:right;color: #1E9FFF;font-weight: bold;" target="_blank"><i class="iconfont icon-play"></i>进入点播</a>
-                      <div class="number mt-2">
-                        <span><i class="iconfont icon-icon_yulan fsi"></i>11273</span>
-                      </div>
-                    </div>
-                  </li>
-                  <li data-courseid="1325771226245623809" data-pages="2" data-total="22" class="z pos animated fadeInLeft">
-                    <a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="hide shadow_cover">
-                    </a><a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="cover">
-                    <img class="imgloadinglater" onerror="imgError(this)" src="../../../assets/footimg/03.jpg" alt="如何准备面试"></a>
-                    <div class="work_bt"><a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="title">如何准备面试</a>
-                      <a href="/course/play/1325771226245623809" style="font-size:12px;float:right;color: #1E9FFF;font-weight: bold;" target="_blank"><i class="iconfont icon-play"></i>进入点播</a>
-                      <div class="number mt-2">
-                        <span><i class="iconfont icon-icon_yulan fsi"></i>11273</span>
-                      </div>
-                    </div>
-                  </li>
-                  <li data-courseid="1325771226245623809" data-pages="2" data-total="22" class="z pos animated fadeInLeft">
-                    <a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="hide shadow_cover">
-                    </a><a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="cover">
-                    <img class="imgloadinglater" onerror="imgError(this)" src="../../../assets/footimg/03.jpg" alt="如何准备面试"></a>
-                    <div class="work_bt"><a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="title">如何准备面试</a>
-                      <a href="/course/play/1325771226245623809" style="font-size:12px;float:right;color: #1E9FFF;font-weight: bold;" target="_blank"><i class="iconfont icon-play"></i>进入点播</a>
-                      <div class="number mt-2">
-                        <span><i class="iconfont icon-icon_yulan fsi"></i>11273</span>
-                      </div>
-                    </div>
-                  </li>
-                  <li data-courseid="1325771226245623809" data-pages="2" data-total="22" class="z pos animated fadeInLeft">
-                    <a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="hide shadow_cover">
-                    </a><a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="cover">
-                    <img class="imgloadinglater" onerror="imgError(this)" src="../../../assets/footimg/03.jpg" alt="如何准备面试"></a>
-                    <div class="work_bt"><a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="title">如何准备面试</a>
-                      <a href="/course/play/1325771226245623809" style="font-size:12px;float:right;color: #1E9FFF;font-weight: bold;" target="_blank"><i class="iconfont icon-play"></i>进入点播</a>
-                      <div class="number mt-2">
-                        <span><i class="iconfont icon-icon_yulan fsi"></i>11273</span>
-                      </div>
-                    </div>
-                  </li>
-                  <li data-courseid="1325771226245623809" data-pages="2" data-total="22" class="z pos animated fadeInLeft">
-                    <a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="hide shadow_cover">
-                    </a><a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="cover">
-                    <img class="imgloadinglater" onerror="imgError(this)" src="../../../assets/footimg/03.jpg" alt="如何准备面试"></a>
-                    <div class="work_bt"><a target="_blank" title="如何准备面试" href="/course/detail/1325771226245623809" class="title">如何准备面试</a>
-                      <a href="/course/play/1325771226245623809" style="font-size:12px;float:right;color: #1E9FFF;font-weight: bold;" target="_blank"><i class="iconfont icon-play"></i>进入点播</a>
-                      <div class="number mt-2">
-                        <span><i class="iconfont icon-icon_yulan fsi"></i>11273</span>
+                        <span><i class="iconfont icon-icon_yulan fsi"></i>{{item.views}}</span>
                       </div>
                     </div>
                   </li>
                 </ul>
                 <div class="clearfix clear"></div> <!---->
                 <div data-pages="2" data-total="22" data-pageno="1" class="ksd-page-loadmore ksd-page loadmore"><a
-                  href="javascript:void(0);"><span class="msg">点击加载更多，共 <span class="fw">22</span>，当前: <span class="fw">1/2</span></span></a>
+                  href="javascript:void(0);"><span class="msg">点击加载更多，共 <span class="fw">{{this.total}}/{{Math.ceil(this.total/20)}}</span>，当前: <span class="fw">{{this.page}}/2</span></span></a>
                 </div> <!----></div>
             </div> <!----> <!----> <!----> <!----></div> <!----></div>
       </div>
@@ -92,7 +32,46 @@
 <script>
 
 export default {
-  name: "OtherStudy"
+  name: "OtherStudy",
+  data() {
+    return {
+      total: 122,
+      page: 1, //当前页面
+      courseList: [
+        {
+          id: 1,
+          title: '如何准备面试',
+          cover: './static/footimg/03.jpg',
+          views: 8
+        },
+        {
+          id: 2,
+          title: '如何准备面试',
+          cover: './static/footimg/850301863063588864.jpg',
+          views: 8
+        },
+        {
+          id: 3,
+          title: '如何准备面试',
+          cover: './static/footimg/03.jpg',
+          views: 8
+        },
+        {
+          id: 4,
+          title: '如何准备面试',
+          cover: './static/footimg/850301863063588864.jpg',
+          views: 8
+        },
+        {
+          id: 5,
+          title: '如何准备面试',
+          cover: './static/footimg/03.jpg',
+          views: 8
+        },
+
+      ]
+    }
+  }
 }
 </script>
 <style scoped>
