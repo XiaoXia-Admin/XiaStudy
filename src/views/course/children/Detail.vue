@@ -22,13 +22,13 @@
           <div id="has-open-sales"></div>
 
           <div style="text-align: left;">
-            <a v-show="this.course.price == 0" v- class="course-btn free-study  ksd-nav-link-downx nav-link-down" style="background: #03a9f4"
-               href="/course/play/1317504610634321921" target="_blank"><i
+            <a v-show="this.course.price == 0" class="course-btn free-study  ksd-nav-link-downx nav-link-down" style="background: #03a9f4"
+               :href="'/course/play/' + this.course.id" target="_blank"><i
               class="iconfont iconshoucang1 fz18 pr-2 pr tp1"></i><span class="msg">免费课程，立即学习</span></a>
 
             <a v-show="this.course.price != 0" class="course-btn sign-up  ksd-buy-course" data-courseid="1385771155494879233" href="javascript:void(0);"><i class="iconfont icon-gouwucheman fz18 pr-2"></i>报名学习</a>
 
-            <a v-show="this.course.price != 0" class="course-btn free-study  ksd-nav-link-down-try nav-link-down" href="javascript:void(0);" data-href="/course/play/1385771155494879233"><i class="iconfont icon-bofang fz18 pr-2"></i><span class="msg">点击试学习</span></a>
+            <a v-show="this.course.price != 0" class="course-btn free-study  ksd-nav-link-down-try nav-link-down" href="javascript:void(0);" :data-href="'/course/play/' + this.course.id"><i class="iconfont icon-bofang fz18 pr-2"></i><span class="msg">点击试学习</span></a>
           </div>
         </div>
       </div>
@@ -107,7 +107,8 @@
             <div class="summary-box">
               <ul class="summary-cont">
                 <li class="animated fadeIn" v-for="item1 in item.videoList" :key="item1.id">
-                  <a target="_blank" href="../play/1317504610634321921#ksd_1336562976224534530_1336563151789711361" :title="item1.title">
+<!--                  :href="'/course/play/' + item1.id + '/' + item1.videoSourceId"-->
+                  <a href="javascript:void(0);" @click="play(item1.id, item1.videoSourceId)" :title="item1.title">
                     <span class="title-text fl">{{item1.title}}</span>
                     <span class="ksd-video-timer pr tp2 fr " data-timer="609.0"></span>
                   </a>
@@ -133,6 +134,8 @@
 </template>
 
 <script>
+import courseApi from "../../../network/course";
+
 export default {
   name: "Detail",
   data() {
@@ -143,57 +146,28 @@ export default {
       expend: false,
       isBuy: 1,
       course: {
-        id: '1',
-        title: '方法详解',
-        description: '方法详解',
-        price: '20.00',
-        totalLength: '57:24',
-        videoNumber: '6',
-        views: '16895',
-        overview: '在正式学习编程之前，我们来聊聊编程这条路到底该如何学习！要知道这条路，才能走得下去！即使再小的帆也能远航！',
-        teacher: '秦疆（遇见狂神说） Bilibili空间地址：https://space.bilibili.com/95256449',
-        suitablePeople: '编程零基础人员、初学者',
-        courseArrange: '第一节：解决大家的疑问\n' +
-          '第二节：Java和Python的抉择\n' +
-          '第三节：学习方法及课程概述\n' +
-          '第四节：关于教育和对大家的期望',
-        courseFeedback: '在这里学习的过程中，如果您有什么好的想法或建议，可以发送邮件到我们的邮箱：xuexiangban@dingtalk.com，感谢您对我们的支持。'
+        id: '',
+        title: '',
+        description: '',
+        price: '',
+        totalLength: '',
+        videoNumber: '',
+        views: '',
+        overview: '',
+        teacher: '',
+        suitablePeople: '',
+        courseArrange: '',
+        courseFeedback: ''
       },
       chapterList: [
         {
-          id: 1,
-          title: '第1章 ：方法详解',
+          id: '',
+          title: '',
           videoList:[
             {
-              id: 2,
-              title: '第一节：解决大家的疑问'
-            },
-            {
-              id: 3,
-              title: '第二节：Java和Python的抉择'
-            },
-            {
-              id: 4,
-              title: '第三节：学习方法及课程概述'
-            },
-          ]
-        },
-        {
-          id: 5,
-          title: '第二章 ：方法详解',
-          videoList:[
-            {
-              id: 6,
-              title: '第一节：解决大家的疑问'
-            },
-            {
-              id: 7,
-              title: '第二节：Java和Python的抉择'
-            },
-            {
-              id: 8,
-              title: '第三节：学习方法及课程概述'
-            },
+              id: '',
+              title: ''
+            }
           ]
         }
       ]
@@ -211,9 +185,38 @@ export default {
         this.courseChapter = true
       }
     },
+    play(id, videoId) {
+      courseApi.getVideoEvidence(id, videoId).then(response => {
+        let playAuth = response.data.data.playAuth
+        let route = '/course/play/' + videoId +'/' + playAuth
+        this.$router.replace(route)
+      })
+
+    },
     expendSelect (){
       this.expend = !this.expend
+    },
+    findCourseDetail(id) {
+      courseApi.findCourseDetail(id).then(response => {
+        this.isBuy = response.data.data.isBuy
+        this.course = response.data.data.course
+
+      })
+    },
+    findChapter(id) {
+      courseApi.findCourseChapter(id).then(response => {
+        if(response.data.data.chapterList == null) {
+          this.chapterList = []
+        } else {
+          this.chapterList = response.data.data.chapterList
+        }
+      })
     }
+  },
+  created() {
+    //查询课程详情和章节课程信息
+    this.findCourseDetail(this.$route.params.detailId)
+    this.findChapter(this.$route.params.detailId)
   }
 }
 </script>

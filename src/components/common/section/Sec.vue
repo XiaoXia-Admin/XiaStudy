@@ -1,4 +1,5 @@
 <template>
+<!--  :style="{backgroundImage: 'url('+this.imgUrl[this.flag != this.flagRecord ? (this.flagRecord != this.flag ? this.flagRecord.default : this.flagRecord) : this.flag] +')'}"-->
   <div id="sec">
     <section class="top-section sec_bg_img" :style="{backgroundImage: 'url('+this.imgUrl[this.flag != this.flagRecord ? (this.flagRecord != this.flag ? this.flagRecord.default : this.flagRecord) : this.flag] +')'}">
       <div class="vertical-middle">
@@ -46,7 +47,7 @@ export default {
       },
       flagRecord: {
         type: Number,
-        default: 4
+        default: 0
       }
     }
   },
@@ -85,6 +86,7 @@ export default {
 .sec_bg_img {
   background-size: cover !important;
   background: rgb(33, 150, 243) url("../../../assets/img/10.png") no-repeat scroll 0% 0%;
+
 }
 
 section {

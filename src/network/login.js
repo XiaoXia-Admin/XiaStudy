@@ -2,7 +2,7 @@ import axios from "axios";
 import cookie from "js-cookie";
 
 const login = axios.create({
-  baseURL: 'http://localhost:8160',
+  baseURL: 'http://1.15.188.107:8160',
   timeout: 2000
 })
 // 第三步http request 拦截器
@@ -21,265 +21,97 @@ login.interceptors.request.use(
   })
 
 export default {
-  //用户账号登录
+  //用户账号密码登录
   accountGetUserInfo(loginAct, loginPwd) {
-      return login({
-        url: `/user/account/login`,
-        method: 'post',
-        params: {
-          "loginAct": loginAct,
-          'loginPwd': loginPwd
-        }
-      })
-    },
-
-  //根据token获取用户基本信息（登录界面的信息)
-  getLoginUserInfo() {
     return login({
-      url: '/user/account/userInfo',
-      method: 'get'
-    })
-  },
-  //查询他人用户信息
-  getOtherUserInfo(userId) {
-    return login({
-      url: '/user/other/detail',
-      method: 'get',
+      url: `/user/account/login`,
+      method: 'post',
       params: {
-        'userId': userId
+        "loginAct": loginAct,
+        'loginPwd': loginPwd
       }
     })
   },
-  //查询用户详细信息(根据token)
-  getOtherUserDetail() {
+
+  //根据token获取用户基本信息（登录方框)
+  getLoginUserInfo() {
     return login({
-      url: '/user/account/detail',
+      url: '/user/account/findUserSmallBoxContent',
       method: 'get'
     })
   },
-  //用户签到接口
+  //用户签到
   userSignIn() {
     return login({
-      url: '/user/signIn/toSignIn',
+      url: '/user/account/userSignIn',
       method: 'post'
     })
   },
-  //修改背景图片
-  modifyBgImg(bgImg) {
+  //查询用户主页的内容,这里查自己
+  getUserDetail() {
     return login({
-      url: '/user/bgimg/setBgImg',
-      method: 'post',
-      params: {
-        'bgImg': bgImg
-      }
-    })
-  },
-  //查询所有背景图片
-  findAllBgImg() {
-    return login({
-      url: '/user/bgimg/findAll',
+      url: '/user/account/findUserHomePage',
       method: 'get'
     })
   },
-  //查询本账号所有文章
-  findUserArticle(current, limit) {
+  //查看所有背景图像
+  findAllImg() {
     return login({
-      url: '/user/article/findOneSelfAllArticle',
-      method: 'get',
-      params: {
-        'current': current,
-        'limit': limit
-      }
+      url: '/user/bgimg/findAllBgimg',
+      method: 'get'
     })
   },
-  //查询本其他人的文章
-  findOtherUserArticle(userId, current, limit) {
+
+  //修改背景图片
+  modifyBgImg(bgImg) {
     return login({
-      url: '/user/article/findOtherarticle',
-      method: 'get',
-      params: {
-        'userId': userId,
-        'current': current,
-        'limit': limit
-      }
-    })
-  },
-  //查询用户收藏文章
-  findUserCollectArticle(current, limit) {
-    return login({
-      url: '/user/collection/findCollectionArticle',
-      method: 'get',
-      params: {
-        'current': current,
-        'limit': limit
-      }
-    })
-  },
-  //添加用户收藏文章
-  addCollectArticle(articleId) {
-    return login({
-      url: '/user/collection/addCollectionArticle',
+      url: '/user/bgimg/setUserBgimg',
       method: 'post',
       params: {
-        'articleId': articleId
+        'url': bgImg
       }
     })
   },
-  //取消收藏文章
-  cancelCollectArticle(articleId) {
+  //查询关注用户
+  findFollow(current, limit, userId) {
     return login({
-      url: '/user/collection/deleteCollectionArticle',
-      method: 'post',
-      params: {
-        'articleId': articleId
-      }
-    })
-  },
-  //查询购买的课程
-  findPurchaseCourse(current, limit) {
-    return login({
-      url: '/user/course/findbuyCourse',
+      url: '/user/attention/findUserFollow',
       method: 'get',
       params: {
         'current': current,
-        'limit': limit
-      }
-    })
-  },
-  //查询用户专栏
-  findUserSpecial(userId) {
-    return login({
-      url: '/user/collection/findCollectionArticle',
-      method: 'get',
-      params: {
+        'limit': limit,
         'userId': userId
       }
     })
   },
-  //创建专栏
-  addSpecial(title) {
+  //全站查找用户
+  findUserByAccountOrName(current, limit, accountOrNickname) {
     return login({
-      url: '/user/column/add',
-      method: 'post',
-      params: {
-        'title': title
-      }
-    })
-  },
-  //删除专栏
-  deleteSpecial(id) {
-    return login({
-      url: '/user/column/delete',
+      url: '/user/search/findUserByAccountOrNickname',
       method: 'get',
       params: {
-        'id': id
-      }
-    })
-  },
-  //专栏基本内容查询
-  findSpecialDetail(id) {
-    return login({
-      url: '/user/column/findColumnDetail',
-      method: 'get',
-      params: {
-        'id': id
-      }
-    })
-  },
-  //专栏修改
-  modifySpecial(id, title, description, color, visibility, isRelease) {
-    return login({
-      url: '/user/column/update',
-      method: 'post',
-      params: {
-        'id': id,
-        'title': title,
-        'description': description,
-        'color': color,
-        'visibility': visibility,
-        'isRelease': isRelease
-      }
-    })
-  },
-  //专栏内文章排序字段的修改
-  modifySpecialSort(id, sort) {
-    return login({
-      url: '/user/column/updateArticleSort',
-      method: 'post',
-      params: {
-        'id': id,
-        'sort': sort
-      }
-    })
-  },
-  //修改说说是否公开
-  modifyTalkVisibility(id, isPublic) {
-    return login({
-      url: '/user/talk/updateTalk',
-      method: 'post',
-      params: {
-        'id': id,
-        'isPublic': isPublic
-      }
-    })
-  },
-  //删除说说
-  deleteTalk(id) {
-    return login({
-      url: '/user/talk/deleteTalk',
-      method: 'post',
-      params: {
-        'id': id
-      }
-
-    })
-  },
-  //添加说说
-  addTalk(content) {
-    return login({
-      url: '/user/talk/addTalk',
-      method: 'post',
-      params: {
-        'content': content
-      }
-    })
-  },
-  //查询说说
-  findTalk(userId, current, limit) {
-    return login({
-      url: '/user/talk/findtalk',
-      method: 'get',
-      params: {
-        'userId': userId,
         'current': current,
-        'limit': limit
+        'limit': limit,
+        'accountOrNickname': accountOrNickname,
       }
     })
   },
-  //查询用户账号资料
-  findUserAccountInfo() {
+  //查询用户粉丝
+  findFans(current, limit, userId) {
     return login({
-      url: '/user/data/find',
-      method: 'get'
-    })
-  },
-  //修改用户账号资料
-  modifyUserAccountInfo(nickname, sex, address, sign) {
-    return login({
-      url: '/user/data/update',
-      method: 'post',
+      url: '/user/attention/findUserFans',
+      method: 'get',
       params: {
-        'nickname': nickname,
-        'sex': sex,
-        'address': address,
-        'sign': sign
+        'current': current,
+        'limit': limit,
+        'userId': userId
       }
     })
   },
-  //查询用户主页内容
-  findUserHome(userId) {
+  //查询用户简介
+  findUserIntroduce(userId) {
     return login({
-      url: '/user/homepage/find',
+      url: '/user/introduce/findUserIntroduce',
       method: 'get',
       params: {
         'userId': userId
@@ -287,96 +119,192 @@ export default {
     })
   },
   //修改用户主页内容
-  modifyUserHome(content) {
+  modifyUserIntroduce(content) {
     return login({
-      url: '/user/homepage/update',
+      url: '/user/introduce/setUserIntroduce',
+      method: 'get',
+      params: {
+        'content': content
+      }
+    })
+  },
+  //查询用户安全信息
+  findSecurityInfo(){
+    return login({
+      url: '/user/security/findUserSecurityData',
+      method: 'get'
+    })
+  },
+  //修改用户安全信息
+  modifySecurityInfo(email, password) {
+    return login({
+      url: '/user/security/setUserSecurityData',
+      method: 'post',
+      params: {
+        'email': email,
+        'password': password
+      }
+    })
+  },
+  //查询出用户资料
+  findUserInfo() {
+    return login({
+      url: '/user/account/findUserData',
+      method: 'get'
+    })
+  },
+  //查询出所有头像
+  findAvatar() {
+    return login({
+      url: '/user/avatar/findAllAvatar',
+      method: 'get'
+    })
+  },
+  //修改用户资料
+  modifyUserAccountInfo(avatar, nickname, sex, address, sign) {
+    return login({
+      url: '/user/account/setUserData',
+      method: 'post',
+      params: {
+        'avatar': avatar,
+        'nickname': nickname,
+        'sex': sex,
+        'address': address,
+        'sign': sign
+      }
+    })
+  },
+  //用户发表说说
+  addTalk(content) {
+    return login({
+      url: '/user/talk/publishTalk',
       method: 'post',
       params: {
         'content': content
       }
     })
   },
-  //查询所有头像
-  findAvatar() {
+  //查找用户说说
+  findTalk(current, limit) {
     return login({
-      url: '/user/avatar/findAll',
-      method: 'get'
-    })
-  },
-  //用户安全设置
-  userSetSecurity() {
-    return login({
-      url: '/user/security/findAWEP',
-      method: 'get'
-    })
-  },
-  //用户安全设置修改（邮箱，密码）
-  userModifyPwdOrEmail(email, password) {
-    return login({
-      url: '/user/security/setEP',
-      method: 'post',
-      params: {
-        'email': email,
-        'password': password
-
-      }
-    })
-  },
-  //查询历史足迹
-  findHistory(userId, current, limit) {
-    return login({
-      url: '/user/historical/findAll',
+      url: '/user/talk/findUserTalk',
       method: 'get',
       params: {
-        'userId': userId,
         'current': current,
-        'limit': limit,
+        'limit': limit
       }
     })
   },
-  //查询用户标签
-  findUserSpan(userId) {
+  //删除用户说说
+  deleteTalk(id) {
     return login({
-      url: '/user/label/findAll',
+      url: '/user/talk/deleteUserTalk',
+      method: 'post',
+      params: {
+        'id': id
+      }
+    })
+  },
+  //修改用户说说是否可以公开
+  modifyTalkVisibility(id, isPublic) {
+    return login({
+      url: '/user/talk/updateUserTalkIsPublic',
+      method: 'post',
+      params: {
+        'id': id,
+        'isPublic': isPublic
+      }
+    })
+  },
+  //查询其他用户主页内容
+  findOtherUserContent(userId) {
+    return login({
+      url: '/user/other/findUserHomePage',
       method: 'get',
       params: {
         'userId': userId
       }
     })
   },
-  //增加关注
-  addFollow(userId) {
+  //增加用户关注
+  followUser(otherUserId) {
     return login({
-      url: '/user/aaf/addAttention',
+      url: '/user/attention/addUserAttention',
       method: 'post',
       params: {
+        'otherUserId': otherUserId
+      }
+    })
+  },
+  //取消用户关注
+  cancelFollowUser(otherUserId) {
+    return login({
+      url: '/user/attention/deleteUserAttention',
+      method: 'post',
+      params: {
+        'otherUserId': otherUserId
+      }
+    })
+  },
+  //查询他人用户说说
+  findOtherUserTalk(current, limit, userId) {
+    return login({
+      url: '/user/talk/findOtherUserTalk',
+      method: 'get',
+      params: {
+        'current': current,
+        'limit': limit,
         'userId': userId
       }
     })
   },
-  //查询用户关注或者粉丝
-  findFollowOrFans(userId, isAttention, current, limit) {
+  //查找用户主页侧边栏信息
+  findUserHome(userId) {
     return login({
-      url: '/user/homepage/find',
+      url: '/user/account/findLowerRightBox',
       method: 'get',
       params: {
-        'userId': userId,
-        'isAttention': isAttention,
-        'current': current,
-        'limit': limit,
-      }
-    })
-  },
-  //全站搜索用户，根据账号或者昵称
-  findUserByAccountOrName(accountOrNickname, current, limit) {
-    return login({
-      url: '/user/public/findUser',
-      method: 'get',
-      params: {
-        'accountOrNickname': accountOrNickname,
-        'current': current,
-        'limit': limit,
+        'userId': userId
       }
     })
   }
+
 }
+// function() {
+//   var that = this;
+//   var opid = $(this).data("opid");
+//   layer.confirm('删除说说将彻底丢失,请慎重选择？', {
+//     btn: ['就要删除', '我点错了'] //按钮
+//   }, function() {
+//     layer.msg('正在删除说说', {
+//       icon: 1
+//     });
+//     KsdLogin.goLogin(function() {
+//       $.post("/u/say/del/" + opid, function(res) {
+//         layer.msg('删除成功', {
+//           icon: 1
+//         });
+//         var num = $(".ksd-say-numc").eq(0).text() * 1;
+//         num--;
+//         $(".ksd-say-numc").text(num <= 0 ? 0 : num);
+//         if (res.code == 20000) {
+//           layer.closeAll();
+//           $(that).parents(".ksd-say-items")
+//             .removeClass("animated fadeInUpBig")
+//             .addClass("animated fadeOutLeftBig")
+//             .fadeOut(1000, function() {
+//               $(this).remove();
+//               var len = $("#ksd-say-ullist").children().length;
+//               if (len == 0) {
+//                 $(".ksd-noempty").show();
+//                 $(".ksd-pages-box").hide();
+//                 $(".ksd-pages-nodata").hide();
+//               }
+//             })
+//         }
+//       })
+//     })
+//   }, function() {
+//     layer.msg('已取消删除');
+//   });
+// }

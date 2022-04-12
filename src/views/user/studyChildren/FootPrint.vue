@@ -4,12 +4,12 @@
       <div id="video-list-style" class="cube">
         <div id="submit-video-list" class="content person_works">
           <ul id="ksd-course-cube-list" class="work_lists cl">
-            <li v-for="(item,index) in courseList" :key="item.id" :data-courseid="item.id" data-pages="2" data-total="22" class="z pos animated fadeIn delay-1s">
-              <a target="_blank" title="如何准备面试" :href="'/course/detail/' + item.id" class="hide shadow_cover">
-              </a><a target="_blank" title="如何准备面试" :href="'/course/detail/' + item.id" class="cover">
+            <li v-for="(item,index) in courseList" :key="item.courseId" :data-courseid="item.courseId" data-pages="2" data-total="22" class="z pos animated fadeIn delay-1s">
+              <a target="_blank" title="如何准备面试" :href="'/course/detail/' + item.courseId" class="hide shadow_cover">
+              </a><a target="_blank" title="如何准备面试" :href="'/course/detail/' + item.courseId" class="cover">
               <img class="imgloadinglater" onerror="imgError(this)" :src="item.cover" :alt="item.title"></a>
-              <div class="work_bt"><a target="_blank" :title="item.title" :href="'/course/detail/' + item.id" class="title">{{item.title}}</a>
-                <a :href="'/course/play/' + item.id" style="font-size:12px;float:right;color: #1E9FFF;font-weight: bold;" target="_blank"><i class="iconfont icon-play"></i>进入点播</a>
+              <div class="work_bt"><a target="_blank" :title="item.title" :href="'/course/detail/' + item.courseId" class="title">{{item.title}}</a>
+                <a :href="'/course/play/' + item.courseId" style="font-size:12px;float:right;color: #1E9FFF;font-weight: bold;" target="_blank"><i class="iconfont icon-play"></i>进入点播</a>
                 <div class="number mt-2">
                   <span><i class="iconfont icon-icon_yulan fsi"></i>{{item.views}}</span>
                 </div>
@@ -17,8 +17,9 @@
             </li>
           </ul>
         </div>
-        <div class="ksd-page-loadmore ksd-page loadmore" data-pages="2" data-total="22" data-pageno="1" style="margin:0 10px;">
-          <a href="javascript:void(0);"><span class="msg">点击加载更多</span></a>
+        <div class="ksd-page-loadmore ksd-page loadmore" data-pages="2" data-total="22" data-pageno="1" v-show="this.total != 0" style="margin:0 10px;">
+          <a href="javascript:void(0);"  v-show="this.current < Math.ceil(this.total/this.limit)" @click="findHistory"><span class="msg">点击加载更多</span></a>
+          <a href="javascript:void(0);" v-show="this.current == Math.ceil(this.total/this.limit)"><span class="msg">没有更多了</span></a>
         </div>
       </div>
     </div>
@@ -28,44 +29,62 @@
 
 <script>
 
+import courseApi from "../../../network/course";
+
 export default {
   name: "FootPrint",
   data() {
     return {
       courseList: [
-        {
-          id: 1,
-          title: '如何准备面试',
-          cover: './static/footimg/03.jpg',
-          views: 8
-        },
-        {
-          id: 2,
-          title: '如何准备面试',
-          cover: './static/footimg/850301863063588864.jpg',
-          views: 8
-        },
-        {
-          id: 3,
-          title: '如何准备面试',
-          cover: './static/footimg/03.jpg',
-          views: 8
-        },
-        {
-          id: 4,
-          title: '如何准备面试',
-          cover: './static/footimg/850301863063588864.jpg',
-          views: 8
-        },
-        {
-          id: 5,
-          title: '如何准备面试',
-          cover: './static/footimg/03.jpg',
-          views: 8
-        },
+        // {
+        //   courseId: 1,
+        //   title: '如何准备面试',
+        //   cover: './static/footimg/03.jpg',
+        //   views: 8
+        // },
+        // {
+        //   courseId: 2,
+        //   title: '如何准备面试',
+        //   cover: './static/footimg/850301863063588864.jpg',
+        //   views: 8
+        // },
+        // {
+        //   courseId: 3,
+        //   title: '如何准备面试',
+        //   cover: './static/footimg/03.jpg',
+        //   views: 8
+        // },
+        // {
+        //   courseId: 4,
+        //   title: '如何准备面试',
+        //   cover: './static/footimg/850301863063588864.jpg',
+        //   views: 8
+        // },
+        // {
+        //   courseId: 5,
+        //   title: '如何准备面试',
+        //   cover: './static/footimg/03.jpg',
+        //   views: 8
+        // },
 
-      ]
+      ],
+      current: 0,
+      limit: 12,
+      total: 0
     }
+  },
+  methods: {
+    findHistory() {
+      this.current += 1
+      courseApi.findHistory(this.$store.state.myUserInfoVo.id, this.current, this.limit)
+        .then(response => {
+          this.total = response.data.data.total
+          this.courseList = response.data.data.courseList
+        })
+    }
+  },
+  created() {
+    this.findHistory()
   }
 }
 </script>

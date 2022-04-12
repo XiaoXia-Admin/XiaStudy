@@ -19,15 +19,21 @@ export default {
   props: {
     slideTitleList: {
       type: Array,
-      default: []
+      default: () => {
+        return [];
+      }
     },
     categoryList: {
       type: Array,
-      default: []
+      default: () => {
+        return [];
+      }
     },
     slideArray: {
       type: Array,
-      default: []
+      default: () => {
+        return [];
+      }
     }
   },
   data() {

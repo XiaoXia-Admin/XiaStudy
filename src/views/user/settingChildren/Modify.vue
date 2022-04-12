@@ -33,9 +33,9 @@
               <div>
                 <ul>
                   <li v-for="(item, index) in avatarList" :key="index" class="img-selectbox" :data-num=index
-                      :data-img="item.url">
+                      :data-img="item">
                     <a href="javascript:void(0);" @click="exchangeAvatar('./static/avatar/'+ (index + 1) +'.jpg')">
-                      <img :src="item.url" alt="">
+                      <img :src="item" alt="">
                     </a>
                   </li>
                 </ul>
@@ -44,7 +44,7 @@
             <div class="col-md-6 mb-3">
               <label for="nickname">用户昵称</label>
               <input type="text" name="nickname" class="form-control ksd-user-update" data-method="nickname"
-                     placeholder="请输入昵称..." maxlength="20" id="nickname" data-field="nickname"
+                     placeholder="请输入昵称..." ref="nickname" maxlength="20" id="nickname" data-field="nickname"
                      :value="this.userInfo.nickname" :title="this.userInfo.nickname">
             </div>
             <div class="col-md-6 mb-3">
@@ -65,15 +65,15 @@
           <div class="mb-3">
             <label for="address">当前住址(活动礼品寄送需要正确填写地址)</label>
             <input type="text" name="address" class="form-control ksd-user-update" data-field="address"
-                   data-method="address" maxlength="100" id="address" required="" :value="this.userInfo.address">
+                   data-method="address" maxlength="100" ref="address" id="address" required="" :value="this.userInfo.address">
           </div>
 
           <div class="mb-3">
             <label for="sign">个性签名</label>
             <input type="text" name="sign" class="form-control ksd-user-update" data-field="sign" data-method="sign"
-                   maxlength="60" id="sign" :placeholder="this.userInfo.sign" :title="this.userInfo.sign " :value="this.userInfo.sign ">
+                   maxlength="60" id="sign" ref="sign" :placeholder="this.userInfo.sign" :title="this.userInfo.sign " :value="this.userInfo.sign ">
           </div>
-          <button class="btn btn-primary btn-lg btn-block modify-btn" id="saveupdate">提交修改</button>
+          <button class="btn btn-primary btn-lg btn-block modify-btn" @click="modifyUserInfo" id="saveupdate">提交修改</button>
         </div>
       </div>
     </div>
@@ -81,59 +81,77 @@
 </template>
 <script>
 import {exchangeAvatar, getLevel} from "../../../common/utils";
+import loginApi from "../../../network/login";
 
 export default {
   name: "Modify",
   data() {
     return {
       img: './static/avatar/1.jpg',
+      // avatarList: [
+      //   {
+      //     url: './static/avatar/1.jpg',
+      //   },
+      //   {
+      //     url: './static/avatar/2.jpg',
+      //   },
+      //   {
+      //     url: './static/avatar/3.jpg',
+      //   },
+      //   {
+      //     url: './static/avatar/4.jpg',
+      //   },
+      //   {
+      //     url: './static/avatar/5.jpg',
+      //   },
+      //   {
+      //     url: './static/avatar/6.jpg',
+      //   },
+      //   {
+      //     url: './static/avatar/7.jpg',
+      //   },
+      //   {
+      //     url: './static/avatar/8.jpg',
+      //   },
+      //   {
+      //     url: './static/avatar/9.jpg',
+      //   },
+      //   {
+      //     url: './static/avatar/10.jpg',
+      //   },
+      //   {
+      //     url: './static/avatar/11.jpg',
+      //   },
+      //   {
+      //     url: './static/avatar/12.jpg',
+      //   },
+      //   {
+      //     url: './static/avatar/13.jpg',
+      //   },
+      //   {
+      //     url: './static/avatar/14.jpg',
+      //   },
+      //   {
+      //     url: './static/avatar/15.jpg',
+      //   }
+      //
+      // ],
       avatarList: [
-        {
-          url: './static/avatar/1.jpg'
-        },
-        {
-          url: './static/avatar/2.jpg'
-        },
-        {
-          url: './static/avatar/3.jpg'
-        },
-        {
-          url: './static/avatar/4.jpg'
-        },
-        {
-          url: './static/avatar/5.jpg'
-        },
-        {
-          url: './static/avatar/6.jpg'
-        },
-        {
-          url: './static/avatar/7.jpg'
-        },
-        {
-          url: './static/avatar/8.jpg'
-        },
-        {
-          url: './static/avatar/9.jpg'
-        },
-        {
-          url: './static/avatar/10.jpg'
-        },
-        {
-          url: './static/avatar/11.jpg'
-        },
-        {
-          url: './static/avatar/12.jpg'
-        },
-        {
-          url: './static/avatar/13.jpg'
-        },
-        {
-          url: './static/avatar/14.jpg'
-        },
-        {
-          url: './static/avatar/15.jpg'
-        }
-
+      //   './static/avatar/1.jpg',
+      //   './static/avatar/2.jpg',
+      //   './static/avatar/3.jpg',
+      //   './static/avatar/4.jpg',
+      //   './static/avatar/5.jpg',
+      //   './static/avatar/6.jpg',
+      //   './static/avatar/7.jpg',
+      //   './static/avatar/8.jpg',
+      //   './static/avatar/9.jpg',
+      //   './static/avatar/10.jpg',
+      // './static/avatar/11.jpg',
+      // './static/avatar/12.jpg',
+      // './static/avatar/13.jpg',
+      // './static/avatar/14.jpg',
+      // './static/avatar/15.jpg'
       ],
       levelExperience: [
         {
@@ -166,11 +184,11 @@ export default {
       },
       sexList: [
         {
-          id: 0,
+          id: false,
           name: '妹子',
         },
         {
-          id: 1,
+          id: true,
           name: '汉子'
         }
       ],
@@ -181,7 +199,25 @@ export default {
     exchangeAvatar,
     getLevel,
     getSex() {
-      console.log(this.selected)
+      this.userInfo.nickname = this.$refs.nickname.value
+    },
+    findAvatar() {
+      loginApi.findAvatar()
+        .then(response => {
+          this.avatarList = response.data.data.avatarList
+        })
+    },
+    //修改资料
+    modifyUserInfo() {
+      let nickname = this.$refs.nickname.value
+      let sex = this.selected
+      let address = this.$refs.address.value
+      let sign = this.$refs.sign.value
+      layer.msg('修改成功!', {time: 500})
+      loginApi.modifyUserAccountInfo('', nickname, sex, address, sign)
+        .then(response => {
+          // layer.msg('操作成功', {icon: 1, time: 500});
+        })
     }
   },
   computed: {
@@ -194,6 +230,7 @@ export default {
   },
   created() {
     this.selected = this.sexList[this.userInfo.sex].id
+    this.findAvatar()
   }
 }
 </script>

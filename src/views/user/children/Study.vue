@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import courseApi from "../../../network/course";
 export default {
   name: "Study",
   data() {
@@ -44,6 +45,19 @@ export default {
       }
       this.$router.replace('/user/study/' + path);
     },
+    findHistory() {
+      courseApi.findHistory(this.$store.state.myUserInfoVo.id, 1, 12)
+        .then(response => {
+          this.total = response.data.data.total
+        })
+      courseApi.findPurchaseCourse(1, 12)
+        .then(response => {
+          this.buyCourseNumber = response.data.data.total
+        })
+    }
+  },
+  created() {
+    this.findHistory()
   }
 }
 </script>

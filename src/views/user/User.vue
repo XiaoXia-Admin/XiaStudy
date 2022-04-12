@@ -9,30 +9,30 @@
             <div class="px-4 pb-4 row mx-0 position-relative xjy-left" style="z-index: 1">
                  <span class="pr">
                      <img
-                       :src="this.$store.state.loginInfo.avatar"
+                       :src="this.$store.state.myUserInfoVo.avatar"
                        alt="" class="avatar-4" style="border: 2px solid rgb(239, 239, 239);">
                  </span>
               <div class="col" style="align-self: center;z-index: -1">
                 <h3 class="mb-2 text-white">
                   <span class="username ksd-nickname" style="font-size: 20px; font-weight:bold;vertical-align: middle;">{{ this.userDetail.nickname }}</span>
                   &nbsp;
-                  <span v-show="this.userDetail.sex == 0" style="padding:3px;position: relative;top:1px;"
+                  <span v-show="!this.userDetail.sex" style="padding:3px;position: relative;top:1px;"
                         class="badge cbadge-fz14 ksd-sex cbadge-sex-wm  badge-primary"><i style="padding: 0;"
                                                                                           class="iconfont icon-nvxing pr"></i></span>
-                  <span  v-show="this.userDetail.sex == 1" class="badgelv cbadge-fz14 badge-primary" style="padding: 3px; position: relative; top: 1px;"><i
+                  <span  v-show="this.userDetail.sex" class="badgelv cbadge-fz14 badge-primary" style="padding: 3px; position: relative; top: 1px;"><i
                     class="iconfont icon-nanxing pr" style="padding: 0px;"></i></span>
                   &nbsp;
                   <span class="badgelv badge-danger cbadge-fz12 ksd-badge-exp fw" :class="this.displayLevel"
-                        data-exp="2155">Lv{{ this.getLevel(this.userDetail.experience) }}</span>
+                        data-exp="2155">Lv{{ this.getLevel(this.userDetail.experience)}}</span>
                 </h3>
                 <div class="ksd-p-sign" :class="{'xjy-signature':sign}" style="position: relative;"
-                     :title="this.userDetail.sign">
+                     :title="this.inputValue == '' ? this.userDetail.sign : this.inputValue">
                   <p @click.stop="signExchange" class="fz12 pellipsis cof"><span
-                    class="ksd-sign">{{ this.userDetail.sign }}</span>&nbsp;&nbsp;
+                    class="ksd-sign">{{this.inputValue == '' ? this.userDetail.sign : this.inputValue}}</span>&nbsp;&nbsp;
                     <span><span class="layui-icon layui-icon-edit"></span>编辑</span></p>
                 </div>
                 <p style="z-index: 2"><input @click.stop="signExchange" ref="signature" type="text"
-                                             :class="{'xjy-signature':!sign}" :value="this.userDetail.sign"
+                                             :class="{'xjy-signature':!sign}" :value="this.inputValue == '' ? this.userDetail.sign : this.inputValue"
                                              placeholder="请输入签名，长度少于60"
                                              maxlength="60" :data-title="this.userDetail.sign" data-feild="sign"
                                              class="ksd-input-update ksd-input-sign"></p>
@@ -40,7 +40,7 @@
               <div class="col text-right px-0" style="align-self: flex-end;position: relative;top:12px;"></div>
             </div>
             <div class="ksd-space-theme-trigger-box">
-              <a title="切换查看" href="/other/user" class="ksd-space-theme-trigger"><i
+              <a title="切换查看" :href="'/other/user/' + this.$store.state.myUserInfoVo.id" class="ksd-space-theme-trigger"><i
                 class="iconfont icon-icon_yulan"></i></a>
               <a title="更换皮肤" href="javascript:void(0);" class="ksd-space-theme-trigger ksd-space-theme-trigger-change"><i
                 class="iconfont icon-chanpin-copy"></i></a>
@@ -53,7 +53,7 @@
               </li>
               <li class="nav-item ksd-nav-item" data-href="topic">
                 <a class="nav-link" @click="userPage('article')" :class="{active:this.article}">文章<span
-                  class="ksd-num-count6 mr-2 fz12">{{ this.userDetail.articleNumber }}</span></a>
+                  class="ksd-num-count6 mr-2 fz12">{{ this.userDetail.allArticleNumber }}</span></a>
               </li>
               <li class="nav-item ksd-nav-item" data-href="zhuanlan">
                 <a class="nav-link" @click="userPage('special')" :class="{active:this.special}">专栏 <span
@@ -98,10 +98,12 @@
 </template>
 
 <script>
-import {bottomExchange, cancelSign, userPage, getLevel, indexOfFlag} from "../../common/utils";
+import {backToTop, bottomExchange, cancelSign, easeInOutQuad, getLevel, userPage} from "../../common/utils";
+import loginApi from "../../network/login";
 
 export default {
   name: "User",
+
   data() {
     return {
       home: true,
@@ -114,21 +116,22 @@ export default {
       follow: false,
       fans: false,
       user: true,
-      inputValue: 'TA很懒，什么都没有留下...',
+      inputValue: '',
       userDetail: {
-        id: 1,
-        bgImg: './static/bg/1.jpg',
-        avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83epURBSUSGSM0q0fGicY2cY4buicEPspibhcTuVPOmbKZRoibdD0KzxeEczApTIYZYIpdCOsh1PSptJzyQ/132',
-        nickname: '小夏同学',
-        sex: 1,
-        experience: 100000,
-        sign: '我还是从前那个少年，心中从未有改变!',
-        attentionNumber: 123,
-        fansNumber: 11,
-        articleNumber: 123321,
-        columnNumber: 213,
-        studyNumber: 3,
-        dynamicNumber: 323
+        id: "",
+        bgImg: "",
+        avatar: "",
+        nickname: "",
+        sex: false,
+        experience: 0,
+        sign: "",
+        attentionNumber: 0,
+        fansNumber: 0,
+        allArticleNumber: 0,
+        columnNumber: 0,
+        studyNumber: 0,
+        dynamicNumber: 0,
+        vipLevel: ""
       }
     }
   },
@@ -139,7 +142,15 @@ export default {
       this.sign = true;
     },
     cancelSign,
-    getLevel
+    getLevel,
+    getUserDetail(){
+      loginApi.getUserDetail()
+        .then(response => {
+          this.userDetail = response.data.data.userDetail
+        })
+    },
+    backToTop,
+    easeInOutQuad,
   },
   computed: {
     displayLevel() {
@@ -160,22 +171,33 @@ export default {
     } else {
       this.user = true
     }
-
+    //获取用户主页详情信息
+    this.getUserDetail()
   },
   mounted() {
     if (window.name == 'isReload') {
+      this.backToTop('slide_bottom')
       let num = this.$route.path.lastIndexOf('/')
+      let flagRoute = this.$route.path.substring(num, this.$route.path.length)
       let route
-      if(this.$route.path.substring(num, this.$route.path.length) == '/talk' ||  this.$route.path.substring(num, this.$route.path.length) == '/special') {
-        route = this.$route.path
+      // alert(flagRoute)
+      let array = ['/tag', '/collect', '/purchase', '/edit', '/modify']
+      // alert(array.findIndex((item) => {return item == flagRoute}))
+      if(array.findIndex((item) => {return item == flagRoute}) != -1) {
+        let router = this.$route.path.substring(0, num);
+        // alert(router)
+        // alert(route)
+        // alert(route)
+        this.$router.replace(router);
       } else {
-        route = this.$route.path.substring(0, num);
+        // route = this.$route.path.substring(0, num);
+
       }
-      this.$router.replace(route);
+
     } else {
       window.name = 'isReload'
     }
-  }
+  },
 }
 </script>
 

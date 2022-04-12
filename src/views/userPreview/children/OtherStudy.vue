@@ -7,22 +7,36 @@
             <div>
               <div class="content person_works" id="submit-video-list">
                 <ul id="ksd-course-cube-list" class="xjy-left work_lists cl">
-                  <li  v-for="(item,index) in courseList" :key="item.id" :data-courseid="item.id" data-pages="2" data-total="22" class="z pos animated fadeInLeft">
-                    <a target="_blank" :title="item.title" :href="'/course/detail/' + item.id" class="hide shadow_cover">
-                    </a><a target="_blank" :title="item.title" :href="'/course/detail/' + item.id" class="cover">
-                    <img class="imgloadinglater" onerror="imgError(this)" :src="item.cover" :alt="item.title"></a>
-                    <div class="work_bt"><a target="_blank" :title="item.title" :href="'/course/detail/' + item.id" class="title">如何准备面试</a>
-                      <a :href="'/course/play/' + item.id" style="font-size:12px;float:right;color: #1E9FFF;font-weight: bold;" target="_blank"><i class="iconfont icon-play"></i>进入点播</a>
+                  <li v-for="(item,index) in courseList" :key="item.courseId" :data-courseid="item.courseId"
+                      data-pages="2" data-total="22" class="z pos animated fadeInLeft">
+                    <a target="_blank" :title="item.title" :href="'/course/detail/' + item.courseId"
+                       class="hide shadow_cover">
+                    </a><a target="_blank" :title="item.title" :href="'/course/detail/' + item.courseId" class="cover">
+<!--                     onerror="imgError(this)" -->
+                    <img class="imgloadinglater" :src="item.cover" :alt="item.title"></a>
+                    <div class="work_bt"><a target="_blank" :title="item.title"
+                                            :href="'/course/detail/' + item.courseId" class="title">如何准备面试</a>
+                      <a :href="'/course/play/' + item.courseId"
+                         style="font-size:12px;float:right;color: #1E9FFF;font-weight: bold;" target="_blank"><i
+                        class="iconfont icon-play"></i>进入点播</a>
                       <div class="number mt-2">
-                        <span><i class="iconfont icon-icon_yulan fsi"></i>{{item.views}}</span>
+                        <span><i class="iconfont icon-icon_yulan fsi"></i>{{ item.views }}</span>
                       </div>
                     </div>
                   </li>
                 </ul>
                 <div class="clearfix clear"></div> <!---->
-                <div data-pages="2" data-total="22" data-pageno="1" class="ksd-page-loadmore ksd-page loadmore"><a
-                  href="javascript:void(0);"><span class="msg">点击加载更多，共 <span class="fw">{{this.total}}/{{Math.ceil(this.total/20)}}</span>，当前: <span class="fw">{{this.page}}/2</span></span></a>
-                </div> <!----></div>
+                <div v-show="this.total != 0" :data-pages="this.total" :data-total="this.total" :data-pageno="this.current"
+                     class="ksd-page-loadmore ksd-page loadmore"
+                     style="margin: 20px;">
+                  <a v-show="this.current < Math.ceil(this.total/this.limit)" href="javascript:void(0);"
+                     @click="findOtherHistory"><span v-show="this.current < Math.ceil(this.total/this.limit)" class="msg"
+                                                     style="color: black;">点击加载更多，共 <span
+                    class="fw">{{ this.total }}</span>，当前: <span
+                    class="fw">{{ this.current }}/{{ Math.ceil(this.total / 10) }}</span></span></a>
+                  <a href="javascript:void(0);" v-show="this.current == Math.ceil(this.total/this.limit)"><span class="msg">没有更多了</span></a>
+                </div>
+                <!----></div>
             </div> <!----> <!----> <!----> <!----></div> <!----></div>
       </div>
     </div>
@@ -31,46 +45,72 @@
 
 <script>
 
+import courseApi from "../../../network/course";
+
 export default {
   name: "OtherStudy",
   data() {
     return {
-      total: 122,
-      page: 1, //当前页面
+      total: 40,
+      current: 0, //当前页面
+      limit: 20,
       courseList: [
-        {
-          id: 1,
-          title: '如何准备面试',
-          cover: './static/footimg/03.jpg',
-          views: 8
-        },
-        {
-          id: 2,
-          title: '如何准备面试',
-          cover: './static/footimg/850301863063588864.jpg',
-          views: 8
-        },
-        {
-          id: 3,
-          title: '如何准备面试',
-          cover: './static/footimg/03.jpg',
-          views: 8
-        },
-        {
-          id: 4,
-          title: '如何准备面试',
-          cover: './static/footimg/850301863063588864.jpg',
-          views: 8
-        },
-        {
-          id: 5,
-          title: '如何准备面试',
-          cover: './static/footimg/03.jpg',
-          views: 8
-        },
+        // {
+        //   courseId: 1,
+        //   title: '如何准备面试',
+        //   cover: './static/footimg/03.jpg',
+        //   views: 8
+        // },
+        // {
+        //   courseId: 2,
+        //   title: '如何准备面试',
+        //   cover: './static/footimg/850301863063588864.jpg',
+        //   views: 8
+        // },
+        // {
+        //   courseId: 3,
+        //   title: '如何准备面试',
+        //   cover: './static/footimg/03.jpg',
+        //   views: 8
+        // },
+        // {
+        //   courseId: 4,
+        //   title: '如何准备面试',
+        //   cover: './static/footimg/850301863063588864.jpg',
+        //   views: 8
+        // },
+        // {
+        //   courseId: 5,
+        //   title: '如何准备面试',
+        //   cover: './static/footimg/03.jpg',
+        //   views: 8
+        // },
 
       ]
     }
+  },
+  methods: {
+    findOtherHistory(userId) {
+      this.current += 1
+      if (this.current == 1) {
+        // alert('第一次查')
+
+        courseApi.findHistory(userId, this.current, this.limit).then(response => {
+          this.courseList = response.data.data.courseList
+          console.log(response.data.data.courseList)
+          this.total = response.data.data.total
+        })
+      } else {
+        // alert('er')
+        // alert(2)
+        courseApi.findHistory(userId, this.current, this.limit).then(response => {
+          this.courseList = this.courseList.concat(response.data.data.courseList)
+        })
+      }
+    }
+  },
+  created() {
+    this.findOtherHistory(this.$route.params.userId)
   }
 }
 </script>
@@ -204,10 +244,12 @@ person_works .work_lists .cover img {
   transform: translateY(-5px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 }
+
 .fadeInLeft {
   -webkit-animation-name: fadeInLeft;
   animation-name: fadeInLeft;
 }
+
 .animated {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;

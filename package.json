@@ -16,10 +16,13 @@
     "js-cookie": "^3.0.1",
     "marked": "^4.0.10",
     "scriptjs": "^2.5.9",
+    "vod-api": "^1.0.0",
     "vue": "^2.6.11",
     "vue-uuid": "^2.0.2",
     "vuex": "^3.6.2",
-    "wangeditor": "^4.7.11"
+    "vuex-persistedstate": "^4.1.0",
+    "wangeditor": "^4.7.11",
+    "wtc-vector": "^0.1.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

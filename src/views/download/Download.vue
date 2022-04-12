@@ -15,11 +15,11 @@
             </label>
           </div>
           <div>
-            <input id="search-input" type="search" placeholder="请输入文件名称进行检索!" class="form-control"
+            <input id="search-input" type="search" ref="fileSearch" placeholder="请输入文件名称进行检索!" class="form-control"
                    style="height: 30px; font-size: 12px; width: 220px;">
           </div>
           <!--          <input id="search-input" type="search" placeholder="请输入文件名称进行检索!">-->
-          <div class="download_box_head_btn_size download_box_right_btn"><span
+          <div class="download_box_head_btn_size download_box_right_btn"  @click="fileSearch"><span
             class="download_box_head_right_btn">搜索</span></div>
         </div>
       </div>
@@ -43,6 +43,8 @@
 <script>
 
 import AllCourse from "./children/AllCourse";
+import downloadApi from "../../network/download";
+import loginApi from "../../network/login";
 export default {
   name: "Download",
   components: {AllCourse},
@@ -207,7 +209,8 @@ export default {
           size: '3.275',
           price: '5600'
         }
-      ]
+      ],
+      boxIndex: 0
     }
   },
   methods: {
@@ -226,10 +229,36 @@ export default {
       }
       // this.$router.replace('/download/' + path);
       // 异步请求根据id获取响应的下载问价
+
+    },
+    fileSearch() {
+      this.boxList.forEach((el, index) => {
+        if(el.isActive) {
+          this.boxIndex = index;
+        }
+      })
+      //类型的参数
+      alert(this.categoryList[this.boxIndex].categoryName)
+      if(this.$refs.fileSearch.value != '') {
+        //输入框的参数
+        alert(this.$refs.fileSearch.value)
+      } else {
+        layer.msg('不能为空哦！',{time: 2000})
+      }
+    },
+    findFileCategory() {
+      downloadApi.findFileCategory().then(response => {
+        this.categoryList = response.data.data.categoryList
+      })
+    },
+    findFile(categoryId, fileName) {
+      downloadApi.findFile(categoryId, fileName).then(response => {
+        this.fileList = response.data.data.fileList
+      })
     }
   },
-  destroyed() {
-
+  created() {
+    this.findFileCategory()
   }
 }
 </script>
@@ -241,6 +270,24 @@ export default {
   background-color: #6bd7b0;
   border-color: #6bd7b0;
 }
+input::-webkit-input-placeholder { /* WebKit browsers */
+  color: #393D49;
+  font-size: 13px;
+}
 
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: #393D49;
+  font-size: 13px;
+}
+
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: #393D49;
+  font-size: 13px;
+}
+
+input:-ms-input-placeholder { /* Internet Explorer 10+ */
+  color: #393D49;
+  font-size: 13px;
+}
 
 </style>

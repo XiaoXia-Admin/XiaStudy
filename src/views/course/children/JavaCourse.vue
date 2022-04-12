@@ -44,7 +44,7 @@
       </div>
     <slide-bar :slide-title-list="this.categoryList" :category-list="this.categoryList" :slide-array="this.slideArray">
       <div v-for="(item,index) in slideTitleList" :key="item.id">
-        <div class="slide_item" :id="item.id"
+        <div class="slide_item" :id="'#' + item.id"
              @click="backToTop(categoryList[index].id)" :title="item.slideTitle">
           {{ item.slideTitle }}
         </div>
@@ -55,18 +55,22 @@
 
 <script>
 import SlideBar from "../SlideBar";
-import {activeBtn, backToTop, easeInOutQuad, slideArrayTop} from "../../../common/utils";
+import {backToTop, easeInOutQuad, slideArrayTop} from "../../../common/utils";
 
 export default {
   id: "JavaCourse",
   props: {
     categoryList: {
       type: Array,
-      default: []
+      default: () => {
+        return [];
+      }
     },
     slideTitleList: {
       type: Array,
-      default: []
+      default: () => {
+        return [];
+      }
     }
   },
   data() {
@@ -116,7 +120,9 @@ ul {
   color: black;
   background: #fff;
 }
-
+img:hover {
+  transform: scale(1.04);
+}
 .slide_item:hover {
   background-color: #00a1d6;
   color: #fff;

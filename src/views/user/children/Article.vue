@@ -26,28 +26,32 @@
 </template>
 
 <script>
+import bbsApi from "../../../network/bbs";
+
 export default {
   name: "Article",
   props: {
     slide: {
       type: Array,
-      default: [
-        {
-          flag: true,
-          content: '文章管理',
-          slideArgs: 'management'
-        },
-        {
-          flag: false,
-          content: '收藏文章',
-          slideArgs: 'collect'
-        },
-        {
-          flag: false,
-          content: '文章标签',
-          slideArgs: 'tag'
-        }
-      ]
+      default: () => {
+        return [
+          {
+            flag: true,
+            content: '文章管理',
+            slideArgs: 'management'
+          },
+          {
+            flag: false,
+            content: '收藏文章',
+            slideArgs: 'collect'
+          },
+          {
+            flag: false,
+            content: '文章标签',
+            slideArgs: 'tag'
+          }
+        ]
+      }
     }
   },
   data() {
@@ -88,12 +92,18 @@ export default {
       } else if (path == 'tag') {
         this.slide[2].flag = true;
       }
+    },
+    findUserArticle() {
+      bbsApi.findUserArticle(0, 20).then(response => {
+        this.collectNumber = response.data.data.total
+      })
     }
   },
   created() {
     if (!this.slide) {
       this.slide = this.dataSlide
     }
+    this.findUserArticle()
   }
 }
 </script>

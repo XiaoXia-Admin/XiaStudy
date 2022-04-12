@@ -2,7 +2,7 @@
   <div class="main-content ksd-topic-content">
     <div>
       <div v-if="this.total == 0" class="text-center ksdno-data">
-        <span class="font-weight-bold"><img src="../../../assets/img/nodata.png" alt="" width="200"></span>
+        <span class="font-weight-bold"><img :src="this.img" alt="" width="200"></span>
         <p class="mt-3">暂无收藏文章数据</p>
         <a href="/bbs" class="layui-btn nav-link-down layui-btn-normal" style="display: inline-block;margin-top: 30px;">
           <span class="iconfont icon-xiazai11"></span>
@@ -10,19 +10,19 @@
         </a>
       </div>
       <div v-else id="ksd-topic-cube-list" class="xjy-left">
-        <div v-for="item in articleList" :key="item.id" class="media text-muted ksd-topic-items" :id="item.id">
+        <div v-for="item in collectArticleList" :key="item.id" class="media text-muted ksd-topic-items" :id="item.id">
           <div class="media-body load-topics-page pr">
              <span v-show="item.isExcellentArticle == 1" title="精品推荐" class="iconfont icon-tuijian ksd-iconstar-blue fz24"></span>
             <span title="精品推荐" class="iconfont icon-shoucang ksd-iconxiazai12 fz24"></span>
             <h3 style="font-size:16px;padding:10px 0;">
-              <a href="/bbs/1473650657826283521" target="_blank"
+              <a :href="'/bbs/preview/' + item.articleId" target="_blank"
                  class="text-dark font-weight-bold text-decoration-none d-block">
                 <span>{{ item.title }}</span>
                 <span v-show="item.isViolationArticle == 1" class="red fw pl-2" title="违规文章，仅自己可见！"><i
                   class="iconfont icon-weiguitongzhi fz18 pr tp1"></i></span>
               </a>
             </h3>
-            <p><a href="/bbs/1473650657826283521">1</a></p>
+            <p><a :href="'/bbs/preview/' + item.articleId">{{item.views}}</a></p>
             <div class="mt-2">
                     <span class="pr-3 fz12">
                         分类：<a href="/bbs?from=1&amp;cid=11">{{ item.categoryName }}</a>
@@ -37,7 +37,7 @@
               <span class="mr-3 mt-2">
                         <i class="iconfont icon-shijian tp2">
                         </i>
-                        <span>{{ item.gmtTime }}</span>
+                        <span>{{ item.gmtCreate }}</span>
                     </span>
               <!--              <span v-show="item.isViolationArticle != 1 && item.isRelease == 1" class="mr-3 mt-2"-->
               <!--                    style="color:#144d7b;font-size:12px;" title="发布状态"><i-->
@@ -47,50 +47,72 @@
         </div>
 
 
-        <!--      <div class="ksd-page-loadmore ksd-page loadmore" data-pages="1" data-total="2" data-pageno="1">-->
-        <!--        <a href="javascript:void(0);"><span class="msg">没有更多了</span></a>-->
-        <!--      </div>-->
+        <div data-pages="17" data-total="335" data-pageno="1" class="ksd-page-loadmore ksd-page loadmore">
+          <a v-show="this.current < Math.ceil(this.total/this.limit)" href="javascript:void(0);">
+            <span class="msg" @click="findUserCollectArticle">点击加载更多，共 <span class="fw">{{ this.total }}</span>，当前: <span class="fw">{{ this.current }}/{{ Math.ceil(this.total / this.limit) }}</span></span>
+          </a>
+          <a href="javascript:void(0);" v-show="this.current == Math.ceil(this.total/this.limit)"><span class="msg">没有更多了</span></a>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import bbsApi from "../../../network/bbs";
 export default {
   name: "CollectArticle",
   data() {
     return {
-      total: 3,
-      articleList: [
-        {
-          id: 1,
-          title: 'Mac翻墙记录帖',
-          description: '  mac翻墙记录帖',
-          categoryName: '踩坑记录',
-          views: '344',
-          gmtTime: '2021-12-22 21:44:31',
-          isExcellentArticle: 1
-        },
-        {
-          id: 2,
-          title: 'Mac翻墙记录帖',
-          description: '  mac翻墙记录帖',
-          categoryName: '踩坑记录',
-          views: '344',
-          gmtTime: '2021-12-22 21:44:31',
-          isExcellentArticle: 0
-        },
-        {
-          id: 3,
-          title: 'Mac翻墙记录帖',
-          description: '  mac翻墙记录帖',
-          categoryName: '踩坑记录',
-          views: '344',
-          gmtTime: '2021-12-22 21:44:31',
-          isExcellentArticle: 1
-        }
-      ]
+      total: 25,
+      limit: 20,
+      current: 0,
+      collectArticleList: [
+        // {
+        //   id: 1,
+        //   articleId: 1,
+        //   title: 'Mac翻墙记录帖',
+        //   description: '  mac翻墙记录帖',
+        //   categoryName: '踩坑记录',
+        //   views: '344',
+        //   gmtCreate: '2021-12-22 21:44:31',
+        //   isExcellentArticle: true
+        // },
+        // {
+        //   id: 2,
+        //   articleId: 2,
+        //   title: 'Mac翻墙记录帖',
+        //   description: '  mac翻墙记录帖',
+        //   categoryName: '踩坑记录',
+        //   views: '344',
+        //   gmtCreate: '2021-12-22 21:44:31',
+        //   isExcellentArticle: false
+        // },
+        // {
+        //   id: 3,
+        //   articleId: 3,
+        //   title: 'Mac翻墙记录帖',
+        //   description: '  mac翻墙记录帖',
+        //   categoryName: '踩坑记录',
+        //   views: '344',
+        //   gmtCreate: '2021-12-22 21:44:31',
+        //   isExcellentArticle: true
+        // }
+      ],
+      img: './static/img/nodata.png'
     }
+  },
+  methods: {
+    findUserCollectArticle() {
+      this.current += 1
+      bbsApi.findCollectArticle(this.current, this.limit).then(response => {
+        this.collectArticleList = response.data.data.collectArticleList
+        this.total = response.data.data.total
+      })
+    }
+  },
+  created() {
+    this.findUserCollectArticle()
   }
 }
 </script>

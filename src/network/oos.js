@@ -2,7 +2,7 @@ import axios from "axios";
 import cookie from "js-cookie";
 
 export const oos = axios.create({
-  baseURL: 'http://localhost:8005',
+  baseURL: 'http://localhost:8160',
   timeout: 2000
 })
 // 第三步http request 拦截器

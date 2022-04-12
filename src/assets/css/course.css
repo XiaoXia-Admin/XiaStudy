@@ -12,7 +12,6 @@
   display: -webkit-flex;
   display: flex;
   margin-top: 55px;
-  height: 10000px;
   background: transparent !important;
   flex-direction: column;
   z-index: 1;
@@ -67,7 +66,6 @@
 }
 .course_position_relative {
   position: relative !important;
-  width: 104px;
   height: 30px;
 }
 .course_position_relative a:hover {
@@ -102,9 +100,6 @@ img {
   position: relative;
   cursor: pointer;
   transition: all 0.6s;
-}
-img:hover {
-  transform: scale(1.04);
 }
 .courseListBox {
   width: 100%;

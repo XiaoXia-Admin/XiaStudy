@@ -18,8 +18,7 @@ const defaultConfig = {
     imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
     imageUploadURL: "./php/upload.php",
 
-
-    toolbarIcons: function () {
+  toolbarIcons: function () {
         return ["undo", "redo", "|",
             "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "image", "|",
             "h1", "h2", "h3", "h4", "h5", "h6", "|",
@@ -34,7 +33,7 @@ const defaultConfig = {
         markdown: `<i class="fa" name="layoutmd" unselectable="on"><a href="https://www.kuangstudy.com/bbs/1356475333565587458" target="_blank">MarkDown指南</a></i>`
     },
     onload: function () {
-    }
+    },
 }
 
 const codeThemes = [

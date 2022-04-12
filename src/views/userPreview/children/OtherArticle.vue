@@ -17,7 +17,7 @@
           <div class="main-content ksd-topic-content">
             <other-user-article :vip-level="this.vipLevel" v-show="this.article"
                                 :article-list="this.articleList"></other-user-article>
-            <article-tag v-show="this.tag" :label-list="this.labelList" :flag="false"></article-tag>
+            <article-tag :title-flag="this.titleFlag" v-show="this.tag" :label-list="this.labelList" :flag="false"></article-tag>
           </div>
         </div>
       </div>
@@ -29,7 +29,8 @@
 import Article from "../../user/children/Article";
 import OtherUserArticle from "../otherArticleChildren/OtherUserArticle";
 import OtherTag from "../otherArticleChildren/OtherTag";
-import ArticleTag from "../../user/articleChildren/ArticleTag";
+import ArticleTag from "../../user/common/ArticleTag";
+import bbsApi from "../../../network/bbs";
 
 export default {
   name: "OtherArticle",
@@ -52,96 +53,68 @@ export default {
       article: true,
       tag: false,
       articleList: [
-        {
-          id: 1,
-          title: 'Typescript快速入门',
-          description: '在原则产问题上，要坚定如磐石；在兴趣问题上，则要顺应潮流。——美国',
-          categoryName: '前端',
-          views: 161,
-          gmtTime: '2021/12/20 23:42',
-          isExcellentArticle: 1,
-          labelList: [
-            {
-              labelName: 'TypeScript'
-            }
-          ]
-        },
-        {
-          id: 2,
-          title: 'Typescript快速入门',
-          description: '在原则产问题上，要坚定如磐石；在兴趣问题上，则要顺应潮流。——美国',
-          categoryName: '前端',
-          views: 161,
-          gmtTime: '2021/12/20 23:42',
-          isExcellentArticle: 0,
-          labelList: [
-            {
-              labelName: 'TypeScript'
-            }
-          ]
-        },
-        {
-          id: 3,
-          title: 'Typescript快速入门',
-          description: '在原则产问题上，要坚定如磐石；在兴趣问题上，则要顺应潮流。——美国',
-          categoryName: '前端',
-          views: 161,
-          gmtTime: '2021/12/20 23:42',
-          isExcellentArticle: 1,
-          labelList: [
-            {
-              labelName: 'TypeScript'
-            }
-          ]
-        },
-        {
-          id: 1,
-          title: 'Typescript快速入门',
-          description: '在原则产问题上，要坚定如磐石；在兴趣问题上，则要顺应潮流。——美国',
-          categoryName: '前端',
-          views: 161,
-          gmtTime: '2021/12/20 23:42',
-          isExcellentArticle: 0,
-          labelList: [
-            {
-              labelName: 'Java'
-            },
-            {
-              labelName: 'JavaScript'
-            },
-            {
-              labelName: 'vue'
-            }
-          ]
-        }
+        // {
+        //   articleId: 1,
+        //   title: 'Typescript快速入门',
+        //   description: '在原则产问题上，要坚定如磐石；在兴趣问题上，则要顺应潮流。——美国',
+        //   categoryName: '前端',
+        //   views: 161,
+        //   gmtCreate: '2021/12/20 23:42',
+        //   isExcellentArticle: true,
+        //   labelList: [
+        //     'TypeScript'
+        //   ]
+        // },
+        // {
+        //   articleId: 2,
+        //   title: 'Typescript快速入门',
+        //   description: '在原则产问题上，要坚定如磐石；在兴趣问题上，则要顺应潮流。——美国',
+        //   categoryName: '前端',
+        //   views: 161,
+        //   gmtCreate: '2021/12/20 23:42',
+        //   isExcellentArticle: false,
+        //   labelList: [
+        //     'TypeScript'
+        //   ]
+        // },
+        // {
+        //   articleId: 3,
+        //   title: 'Typescript快速入门',
+        //   description: '在原则产问题上，要坚定如磐石；在兴趣问题上，则要顺应潮流。——美国',
+        //   categoryName: '前端',
+        //   views: 161,
+        //   gmtCreate: '2021/12/20 23:42',
+        //   isExcellentArticle: true,
+        //   labelList: [
+        //
+        //   ]
+        // },
+        // {
+        //   articleId: 4,
+        //   title: 'Typescript快速入门',
+        //   description: '在原则产问题上，要坚定如磐石；在兴趣问题上，则要顺应潮流。——美国',
+        //   categoryName: '前端',
+        //   views: 161,
+        //   gmtCreate: '2021/12/20 23:42',
+        //   isExcellentArticle: false,
+        //   labelList: [
+        //     'Java','JavaScript'
+        //   ]
+        // }
       ],
       labelList: [
-        {
-          labelName: 'Java'
-        },
-        {
-          labelName: 'Markdown'
-        },
-        {
-          labelName: '数据库'
-        },
-        {
-          labelName: 'TypeScript'
-        },
-        {
-          labelName: 'JavaScript'
-        }, {
-          labelName: 'Android'
-        },
-        {
-          labelName: '工具'
-        },
-        {
-          labelName: '运维'
-        }
-
-
-      ]
+        'Java',
+        'Markdown',
+        '数据库',
+        'TypeScript',
+        'JavaScript', 'Android',
+        '工具',
+        '运维'
+      ],
+      otherUserArticleList:[],
+      titleFlag: false,
+      current: 0,
+      limit: 10
     }
   },
   components: {ArticleTag, OtherTag, OtherUserArticle, Article},
@@ -164,7 +137,26 @@ export default {
       } else if (path == 'tag') {
         this.slide[1].flag = true;
       }
+    },
+    findUserSpan(userId) {
+      bbsApi.findUserSpan(userId)
+        .then(response => {
+          this.labelList = response.data.data.labelList
+        })
+    },
+    findOtherArticle(userId) {
+      this.current += 1
+      bbsApi.findOtherUserArticle(this.current, this.limit, userId)
+        .then(response => {
+          this.articleList = response.data.data.otherUserArticleList
+        })
     }
+  },
+  created() {
+    //查询用户标签
+    this.findUserSpan(this.$route.params.userId)
+    //查询用户文章
+    this.findOtherArticle(this.$route.params.userId)
   }
 }
 </script>

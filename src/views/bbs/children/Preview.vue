@@ -1,10 +1,19 @@
 <template>
   <div class="main">
-    <div class="layui-container" style="padding:0;">
-      <preview-title>
-        <toc></toc>
+    <div class="layui-container" :class="{'ksd-content-fixed': this.leftTocFlag}" style="padding:0;">
+      <preview-title v-on:displayLeftToc="displayLeftToc" @showAccusation="showAccusation" :accusation="this.accusation" :is-collection="this.isCollection"
+                     :article="this.article" :comment-number="this.commentNumber">
+        <toc :left-toc-flag="this.leftTocFlag"></toc>
       </preview-title>
-      <markdown-to-html :id="this.id" :markdown-value="this.markdownValue"></markdown-to-html>
+
+      <markdown-to-html :markdown-value="this.markdownValue" :id="this.id"></markdown-to-html>
+      <div class="xjy-left copy-text mb-4 mt-4"
+           style="position: relative;z-index: 29;background-color: white;margin-left: -17px;margin-top: -26px;top: -24px;height: 57px;margin-right: 17px;">
+        <span class="ksd-tagsspan">标签：<em v-show="labelList.length > 0" v-for="(item, index) in labelList"
+                                          :key="item" class="ksd-topic-tags pr ftp2" :title="item">{{
+            item
+          }}</em></span>
+      </div>
       <div class="layui-row layui-col-space15 main mt-4"
            style="margin-bottom: 100px; margin-left: -17px;margin-right: 16px;">
         <div class="layui-col-md12 layui-col-lg12" style="padding:10px 25px;">
@@ -13,95 +22,113 @@
               <div id="commentbox-post">
                 <div id="respond-post" class="respond">
                   <div class="cancel-comment-reply">
-                    <a id="cancel-comment-reply-link" href="javascript:void(0);" style="display: none;">
+                    <a id="cancel-comment-reply-link" style="display: none" href="javascript:void(0);">
                       取消回复
                     </a>
                   </div>
                   <div class="layui-form-item">
-                    <div id="commentarea" style="z-index: 10;position: relative">
+                    <div id="commentarea" class="xjy-left" style="z-index: 10;position: relative">
 
                     </div>
                   </div>
                   <div class="layui-inline">
-                    <button id="submit-comment" style="margin-left: 963px;" class="layui-btn layui-btn-normal fr"><i
+                    <button id="submit-comment" @click="submitBtn($event)" style="margin-left: 963px;"
+                            class="layui-btn layui-btn-normal fr"><i
                       class="iconfont icon-tianxie pr-2"></i>提交评论
                     </button>
                   </div>
                 </div>
               </div>
-              <div id="commentbox" data-topicid="1363074625050828802">
+              <div v-show="this.reviewTotal > 0" id="commentbox" data-topicid="1363074625050828802">
                 <br>
-                <h3>总共已有 <span class="totalcount1">139</span> 条评论</h3>
+                <h3>总共已有 <span class="totalcount1">{{ reviewTotal }}</span> 条评论</h3>
                 <br>
+                <!--                评论-->
                 <div>
                   <div class="pinglun">
                     <ol class="comment-list-ol comment-list-ol-ol">
-                      <li data-ctotal="139" data-total="104" data-pages="11"
-                          id="li-comment-e5bf14f58112444c8457d2f44505075c"
+                      <li :data-ctotal="reviewTotal" data-total="104" :data-pages="current"
+                          v-for="(item, index) in commentList" :key="item.id"
+                          :id="'li-comment-' + item.id"
                           class="animated fadeInUpBig comment-body comment-parent comment-odd">
-                        <div id="comment-e5bf14f58112444c8457d2f44505075c" class="pl-dan comment-txt-box">
+                        <!--                        父评论-->
+                        <div :id="'comment-' + item.id" class="pl-dan comment-txt-box">
                           <div class="t-p comment-author position-relative">
-                            <a href="/user/cedb811f43074a41a01141d9c52b85af" target="_blank"><img class="avatar"
-                                                                                                  src="https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqLDCEthzsJEicIU4uEzW0Rr1QZfzvCRXVib0g3KIcnyaNM9ibloCTwbTpTkTMza5iaicuGt2MibSOqVfYQ/132"
-                                                                                                  width="40" height="40"></a>
+                            <a :href="'/other/user/' + item.userId" target="_blank">
+                              <img class="avatar" :src="item.userAvatar" width="40" height="40"></a>
                           </div>
                           <div class="t-u comment-author">
                 <span>
-                    <a href="/user/cedb811f43074a41a01141d9c52b85af" class="fw" target="_blank"><span>天天搬砖</span></a>
-
-
-
+                    <a :href="'/other/user/' + item.userId" class="fw"
+                       target="_blank"><span>{{ item.userNickname }}</span></a>
                     <span class="layui-badge"></span>
                 </span>
                             <div class="pt-1">
-                    <span class="t-btn">
-                        <a href="#respond-post-e5bf14f58112444c8457d2f44505075c"
-                           data-opid="e5bf14f58112444c8457d2f44505075c" data-nickname="天天搬砖"
-                           data-avatar="https://thirdwx.qlogo.cn/mmopen/vi_32/JGZP0cy1Hhvo9kdcsLMdTkfwBvUichsgDADp3fjib7guWt82fvRedv6GDVLqnm7rOHWKh7xsHkgdhia89yD0TGWhw/132"
-                           data-ruid="cedb811f43074a41a01141d9c52b85af" rel="nofollow" class="ksd-reply-link"><i
-                          class="iconfont icon-fenxiang" @click="replayPreview"></i>回复</a>
-
-                        <span class="t-g">2022-01-16 18:52:44</span>
+                              <span class="t-btn">
+                        <a href="javascript:void(0);"
+                           :data-fatherId="item.id"
+                           :data-replyUserId="item.userId"
+                           :data-replyNickname="item.userNickname"
+                           :data-fatherIndex="index"
+                           :data-ruid="item.id" rel="nofollow" class="ksd-reply-link" @click="replayPreview($event, 2)"><i
+                          class="iconfont icon-fenxiang"></i>回复</a>
+                        &nbsp;
+                                <a :data-commentid="item.id" v-show="$store.state.myUserInfoVo.id == item.userId"
+                                   class="ksd-comment-parent-deletelink rpl-red" href="javascript:void(0);"
+                                   @click="deleteReview($event, index)"><i
+                                  class="iconfont icon-chahao"></i>删除</a>
+                                &nbsp;
+                        <span class="t-g">{{ item.gmtCreate }}</span>
                     </span>
                             </div>
                             <div><b></b></div>
-                            <div class="t-s"><p>666<br></p></div>
+                            <div class="t-s"><p>{{ item.content }}<br></p></div>
                           </div>
                         </div>
+                        <!--                        子评论-->
                         <div class="pl-list comment-children">
-                          <ol class="comment-list" id="comment-list-children-e5bf14f58112444c8457d2f44505075c">
-                            <li id="li-comment-437f5e2b694442448dabe9d949c4432a"
-                                class="comment-body comment-child comment-level-odd comment-odd comment-by-author animation4 fadeInUpBig">
-                              <div id="comment-437f5e2b694442448dabe9d949c4432a" class="pl-dan comment-txt-box">
+                          <ol class="comment-list" :id="'comment-list-children-' + item1.id"
+                              v-for="(item1,index1) in item.childList" :key="item1.id">
+                            <li :id="'li-comment-' + item1.id"
+                                class="comment-body comment-child comment-level-odd comment-odd comment-by-author animation fadeInUpBig">
+                              <div :id="'comment-' + item1.id" class="pl-dan comment-txt-box">
                                 <div class="t-p comment-author position-relative">
-                                  <a href="/user/e73cbe9b3c21455ca55f371cf9efd0aa" target="_blank"><img class="avatar"
-                                                                                                        src="https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83epURBSUSGSM0q0fGicY2cY4buicEPspibhcTuVPOmbKZRoibdD0KzxeEczApTIYZYIpdCOsh1PSptJzyQ/132"
-                                                                                                        width="40"
-                                                                                                        height="40"></a>
+                                  <a :href="'/other/user/' + item1.userId" target="_blank"><img class="avatar"
+                                                                                                :src="item1.userAvatar"
+                                                                                                width="40"
+                                                                                                height="40"></a>
                                 </div>
                                 <div class="t-u comment-author">
                                 <span>
-                                    <a href="/user/e73cbe9b3c21455ca55f371cf9efd0aa" class="fw" target="_blank"><span>夏金宇</span></a>
+                                    <a :href="'/other/user/' + item1.userId" class="fw"
+                                       target="_blank"><span>{{ item1.userNickname }}</span></a>
 
 
-                                    <span class="touser_sp">@<a href="/user/cedb811f43074a41a01141d9c52b85af"
-                                                                target="_blank">天天搬砖</a></span>
+                                    <span class="touser_sp">@<a :href="'/other/user/' + item1.replyUserId"
+                                                                target="_blank">{{ item1.replyUserNickname }}</a></span>
                                     <span class="layui-badge"></span>
                                 </span>
                                   <div class="pt-1">
                                 <span class="t-btn">
                                     <a href="javascript:void(0)"
-                                       data-opid="e5bf14f58112444c8457d2f44505075c" data-nickname="夏金宇"
-                                       data-avatar="/assert/images/avatar/1.jpg"
-                                       data-ruid="e73cbe9b3c21455ca55f371cf9efd0aa" rel="nofollow"
-                                       class="ksd-reply-link"  @click="replayPreview"><i class="iconfont icon-fenxiang "></i>回复</a>
-                                    <a data-commentid="437f5e2b694442448dabe9d949c4432a"
-                                       class="ksd-comment-deletelink rpl-red" href="javascript:void(0);" @click="deletePreview"><i
-                                      class="iconfont icon-shanchu1"></i>删除</a>
-                                    <span class="t-g">2022-01-16 18:53:03</span>
+                                       :data-userId="item1.userId"
+                                       :data-nickname="item1.userNickname"
+                                       :data-avatar="item1.userAvatar"
+                                       :data-replyUserId="item1.replyUserId"
+                                       :data-replyNickname="item1.replyUserNickname"
+                                       :data-fatherId="item.id"
+                                       :data-fatherIndex="index"
+                                       rel="nofollow"
+                                       class="ksd-reply-link" @click="replayPreview($event, 2)"><i
+                                      class="iconfont icon-fenxiang "></i>回复</a>
+                                    <a :data-commentid="item1.id" v-show="$store.state.myUserInfoVo.id == item1.userId"
+                                       class="ksd-comment-deletelink rpl-red" href="javascript:void(0);"
+                                       @click="deleteReview($event, index, index1)"><i
+                                      class="iconfont icon-chahao"></i>删除</a>
+                                    <span class="t-g">{{ item1.gmtCreate }}</span>
                                 </span></div>
                                   <div><b></b></div>
-                                  <div class="t-s"><p>666</p></div>
+                                  <div class="t-s"><p>{{ item1.content }}</p></div>
                                 </div>
                               </div>
                             </li>
@@ -112,60 +139,58 @@
                     </ol>
                   </div>
                 </div>
-                <div class="mt-5 mt-5 text-center ksd-empty-box-c" style="display: none;">
-                  <div class="ksd-noempty none" style="background: rgb(255, 255, 255) !important; display: block;">
-                  <span class="font-weight-bold"><img
-                    src="https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqLDCEthzsJEicIU4uEzW0Rr1QZfzvCRXVib0g3KIcnyaNM9ibloCTwbTpTkTMza5iaicuGt2MibSOqVfYQ/132"
-                    alt="" width="200"></span>
-                    <p>坐等您的评论...</p>
-                  </div>
-                </div>
+
                 <div class="loadmore" style=""><a href="javascript:void(0);"><span class="msg">加载更多评论</span>
-                  (共<span class="totalcount fw">104</span>条 / 当前<span class="fw pages">1</span>页)</a></div>
+                  (共<span class="totalcount fw">{{ reviewTotal }}</span>条 / 当前<span
+                    class="fw pages">{{ this.current }}</span>页)</a></div>
+              </div>
+              <!--                没评论显示-->
+              <div v-show="this.reviewTotal == 0" class="mt-5 mt-5 text-center ksd-empty-box-c" style="">
+                <div class="ksd-noempty none" style="background: rgb(255, 255, 255) !important; display: block;">
+                  <span class="font-weight-bold"><img :src="this.img" alt="" width="200"></span>
+                  <p>坐等您的评论...</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="tipoff-box js-tipoff-box animated bounceInDown" :class="{show: this.accusation}">
+    <div class="tipoff-box js-tipoff-box animated bounceInDown" v-show="this.accusation">
       <div class="tipoff-top-box clearfix">
         <p class="l tipoff-title">举报</p>
         <span class="r tipoff-close-btn icon-close2 js-tipoff-close"></span>
       </div>
       <div class="tipoff-type-box js-tipoff-typebox clearfix">
-        <div class="item l" title="广告或垃圾信息"><i class="l icon-weixuanze iconfont" data-type="1"></i>
-          <p class="l">广告或垃圾信息</p></div>
-        <div class="item l" title="辱骂"><i class="l icon-weixuanze iconfont" data-type="2"></i>
-          <p class="l">辱骂</p></div>
-        <div class="item l" title="涉政或违法"><i class="l icon-weixuanze iconfont" data-type="3"></i>
-          <p class="l">涉政或违法</p></div>
-        <div class="item l" title="抄袭"><i class="l icon-weixuanze iconfont" data-type="4"></i>
-          <p class="l">抄袭</p></div>
-        <div class="item l" title="不合适内容"><i class="l iconfont icon-weixuanze" data-type="5"></i>
-          <p class="l">不合适内容</p></div>
+        <div class="item l" v-for="(item, index) in accusationList" :key="index" :title="item.title">
+          <i class="l icon-weixuanze iconfont" :id="'accuItem-'+item.type" :data-type="item.type"
+             @click="addAccusationInfo($event)"></i>
+          <p class="l">{{ item.title }}</p>
+        </div>
       </div>
       <div class="tipoff-content">
-        <textarea name="tipoff-content" id="tipoff-content" class="tipoff-desc js-tipoff-desc" placeholder="写下举报理由"></textarea>
+        <textarea name="tipoff-content" id="tipoff-content" class="tipoff-desc js-tipoff-desc"
+                  placeholder="写下举报理由"></textarea>
         <div class="tipoff-text"><span class="js-tipoff-text" style="color: rgb(147, 153, 159);">0</span>/150</div>
       </div>
       <div class="tipoff-btn-box clearfix">
-        <div class="r tipoff-submit-btn js-tipoff-submit" @click="submitBtn">提交
+        <div class="r tipoff-submit-btn js-tipoff-submit" @click="submitAccusation">提交
         </div>
         <div class="r tipoff-cancel-btn js-tipoff-close" @click="cancelBtn">取消</div>
       </div>
     </div>
-    <div class="tipoff-block js-tipoff-block" :class="{show: this.accusation}"></div>
+    <div class="tipoff-block js-tipoff-block" v-show="this.accusation"></div>
   </div>
 </template>
 
 <script>
 
 import EditorMarkdown from "./EditorMarkdown";
-import {createEditor, mkImageShow, loadToc, backToTop, easeInOutQuad} from "../../../common/utils";
+import {backToTop, createEditor, easeInOutQuad, loadToc, mkImageShow} from "../../../common/utils";
 import PreviewTitle from "./PreviewTitle";
 import MarkdownToHtml from "./MarkdownToHtml";
 import Toc from "./Toc";
+import bbsApi from "../../../network/bbs";
 
 export default {
   name: "Preview",
@@ -173,6 +198,7 @@ export default {
   data() {
     return {
       editor: null,
+      markFlag: false,
       time: 500,
       config: {
         width: "98%",
@@ -208,334 +234,330 @@ export default {
         onload: function () {
         }
       },
-      markdownValue: `### 主要特性
-
-
-> 引用文本 Blockquotes
-
-引用的行内混合 Blockquotes
-
-> 引用：如果想要插入空白换行\`即<br />标签\`，在插入处先键入两个以上的空格然后回车即可，[普通链接](http://localhost/)。
-
-### 锚点与链接 Links
-
-[普通链接](http://localhost/)
-
-[普通链接带标题](http://localhost/ "普通链接带标题")
-
-直接链接：<https://github.com>
-
-[锚点链接][anchor-id]
-
-[anchor-id]: http://www.this-anchor-link.com/
-
-GFM a-tail link @pandao
-
-> @pandao
-
-### 多语言代码高亮 Codes
-
-#### 行内代码 Inline code
-
-执行命令：\`npm install marked\`
-
-#### 缩进风格
-
-即缩进四个空格，也做为实现类似\`<pre>\`预格式化文本(Preformatted Text)的功能。
-
-    <?php
-        echo "Hello world!";
-    ?>
-
-预格式化文本：
-
-    | First Header  | Second Header |
-    | ------------- | ------------- |
-    | Content Cell  | Content Cell  |
-    | Content Cell  | Content Cell  |
-
-#### JS代码　
-
-\`\`\`javascript
-function test(){
-\tconsole.log("Hello world!");
-}
-
-(function(){
-    var box = function(){
-        return box.fn.init();
-    };
-
-    box.prototype = box.fn = {
-        init : function(){
-            console.log('box.init()');
-
-\t\t\treturn this;
-        },
-
-\t\tadd : function(str){
-\t\t\talert("add", str);
-
-\t\t\treturn this;
-\t\t},
-
-\t\tremove : function(str){
-\t\t\talert("remove", str);
-
-\t\t\treturn this;
-\t\t}
-    };
-
-    box.fn.init.prototype = box.fn;
-
-    window.box =box;
-})();
-
-var testBox = box();
-testBox.add("jQuery").remove("jQuery");
-\`\`\`
-
-#### HTML代码 HTML codes
-
-\`\`\`html
-<!DOCTYPE html>
-<html>
-    <head>
-        <mate charest="utf-8" />
-        <title>Hello world!</title>
-    </head>
-    <body>
-        <h1>Hello world!</h1>
-    </body>
-</html>
-\`\`\`
-
-### 图片 Images
-
-Image:
-
-![](https://pandao.github.io/editor.md/examples/images/4.jpg)
-
-> Follow your heart.
-
-![](https://pandao.github.io/editor.md/examples/images/8.jpg)
-
-> 图为：厦门白城沙滩
-
-图片加链接 (Image + Link)：
-
-![](https://pandao.github.io/editor.md/examples/images/7.jpg)(https://pandao.github.io/editor.md/examples/images/7.jpg "李健首张专辑《似水流年》封面")
-
-> 图为：李健首张专辑《似水流年》封面
-
-----
-
-### 列表 Lists
-
-#### 无序列表（减号）Unordered Lists (-)
-
-- 列表一
-- 列表二
-- 列表三
-
-#### 无序列表（星号）Unordered Lists (*)
-
-* 列表一
-* 列表二
-* 列表三
-
-#### 无序列表（加号和嵌套）Unordered Lists (+)
-
-+ 列表一
-+ 列表二
-    + 列表二-1
-    + 列表二-2
-    + 列表二-3
-+ 列表三
-    * 列表一
-    * 列表二
-    * 列表三
-
-#### 有序列表 Ordered Lists (-)
-
-1. 第一行
-2. 第二行
-3. 第三行
-
-#### GFM task list
-
-- [x] GFM task list 1
-- [x] GFM task list 2
-- [ ] GFM task list 3
-    - [ ] GFM task list 3-1
-    - [ ] GFM task list 3-2
-    - [ ] GFM task list 3-3
-- [ ] GFM task list 4
-    - [ ] GFM task list 4-1
-    - [ ] GFM task list 4-2
-
-----
-
-### 绘制表格 Tables
-
-| 项目        | 价格   |  数量  |
-| --------   | -----:  | :----:  |
-| 计算机      | $1600   |   5     |
-| 手机        |   $12   |   12   |
-| 管线        |    $1    |  234  |
-
-First Header  | Second Header
-------------- | -------------
-Content Cell  | Content Cell
-Content Cell  | Content Cell
-
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
-
-| Function name | Description                    |
-| ------------- | ------------------------------ |
-| \`help()\`      | Display the help window.       |
-| \`destroy()\`   | **Destroy your computer!**     |
-
-| Left-Aligned  | Center Aligned  | Right Aligned |
-| :------------ |:---------------:| -----:|
-| col 3 is      | some wordy text | $1600 |
-| col 2 is      | centered        |   $12 |
-| zebra stripes | are neat        |    $1 |
-
-| Item      | Value |
-| --------- | -----:|
-| Computer  | $1600 |
-| Phone     |   $12 |
-| Pipe      |    $1 |
-
-----
-
-#### 特殊符号 HTML Entities Codes
-
-&copy; &  &uml; &trade; &iexcl; &pound;
-&amp; &lt; &gt; &yen; &euro; &reg; &plusmn; &para; &sect; &brvbar; &macr; &laquo; &middot;
-
-X&sup2; Y&sup3; &frac34; &frac14;  &times;  &divide;   &raquo;
-
-18&ordm;C  &quot;  &apos;
-
-### Emoji表情 :smiley:
-
-> Blockquotes :star:
-
-#### GFM task lists & Emoji & fontAwesome icon emoji & editormd logo emoji :editormd-logo-5x:
-
-- [x] :smiley: @mentions, :smiley: #refs, [links](), **formatting**, and <del>tags</del> supported :editormd-logo:;
-- [x] list syntax required (any unordered or ordered list supported) :editormd-logo-3x:;
-- [x] [ ] :smiley: this is a complete item :smiley:;
-- [ ] []this is an incomplete item [test link](#) :fa-star: @pandao;
-- [ ] [ ]this is an incomplete item :fa-star: :fa-gear:;
-    - [ ] :smiley: this is an incomplete item [test link](#) :fa-star: :fa-gear:;
-    - [ ] :smiley: this is  :fa-star: :fa-gear: an incomplete item [test link](#);
-
-#### 反斜杠 Escape
-
-\\*literal asterisks\\*
-
-### 科学公式 TeX(KaTeX)
-
-$$E=mc^2$$
-
-行内的公式$$E=mc^2$$行内的公式，行内的$$E=mc^2$$公式。
-
-$$\\(\\sqrt{3x-1}+(1+x)^2\\)$$
-
-$$\\sin(\\alpha)^{\\theta}=\\sum_{i=0}^{n}(x^i + \\cos(f))$$
-
-多行公式：
-
-\`\`\`math
-\\displaystyle
-\\left( \\sum\\_{k=1}^n a\\_k b\\_k \\right)^2
-\\leq
-\\left( \\sum\\_{k=1}^n a\\_k^2 \\right)
-\\left( \\sum\\_{k=1}^n b\\_k^2 \\right)
-\`\`\`
-
-\`\`\`katex
-\\displaystyle
-    \\frac{1}{
-        \\Bigl(\\sqrt{\\phi \\sqrt{5}}-\\phi\\Bigr) e^{
-        \\frac25 \\pi}} = 1+\\frac{e^{-2\\pi}} {1+\\frac{e^{-4\\pi}} {
-        1+\\frac{e^{-6\\pi}}
-        {1+\\frac{e^{-8\\pi}}
-         {1+\\cdots} }
-        }
-    }
-\`\`\`
-
-\`\`\`latex
-f(x) = \\int_{-\\infty}^\\infty
-    \\hat f(\\xi)\\,e^{2 \\pi i \\xi x}
-    \\,d\\xi
-\`\`\`
-
-### 绘制流程图 Flowchart
-
-\`\`\`flow
-st=>start: 用户登陆
-op=>operation: 登陆操作
-cond=>condition: 登陆成功 Yes or No?
-e=>end: 进入后台
-
-st->op->cond
-cond(yes)->e
-cond(no)->op
-\`\`\`
-
-### 绘制序列图 Sequence Diagram
-
-\`\`\`seq
-Andrew->China: Says Hello
-Note right of China: China thinks\\nabout it
-China-->Andrew: How are you?
-Andrew->>China: I am good thanks!
-\`\`\`
-
-### End`,
-      collectFlag: true,
-      accusation: true,
+      markdownValue:``,
+      isCollection: false,
+      accusation: false,
       flag: false,
-      id: 'preview'
+      id: 'preview',
+      img: './static/bg/nodata.png',
+      article: {
+        // id: '',
+        // title: '',
+        // isExcellentArticle: true,
+        // isRelease: true,
+        // userId: '',
+        // avatar: '',
+        // nickname: '',
+        // vipLevel: '',
+        // categoryName: '',
+        // views: '',
+        // content: '',
+        // gmtModified: '',
+        // gmtCreate: ''
+      },
+      current: 0,
+      limit: 20,
+      reviewFlag: 1,
+      labelList: [
+
+      ],
+      commentNumber: 100,
+      fatherId: '',
+      fatherIndex: '',
+      commentList: [
+        // {
+        //   id: 1,
+        //   userId: 2,
+        //   userAvatar: './static/avatar/1.jpg',
+        //   userNickname: '往事随风',
+        //   content: '666',
+        //   vipLevel: 'vip',
+        //   gmtCreate: '2022-01-16 18:52:44',
+        //   childList: [
+        //     {
+        //       id: 3,
+        //       userId: 4,
+        //       userAvatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJS118lQTRSw9pWrKYX3LlRXtDjaJkM48oS2wZ9N82iaPoJicKowzIYDF2q2drtwWbVC6jatrQQzEJg/132',
+        //       userNickname: '过往云烟',
+        //       content: '777',
+        //       vipLevel: 'svip',
+        //       replyUserId: 1,
+        //       replyUserNickname: '往事随风',
+        //       gmtCreate: '2022-01-16 18:52:44'
+        //     },
+        //   ]
+        // }
+      ],
+      reviewTotal: 10,
+      accusationList: [
+        {
+          title: '广告或垃圾信息',
+          type: 1
+        },
+        {
+          title: '辱骂',
+          type: 2
+        },
+        {
+          title: '涉政或违法',
+          type: 3
+        },
+        {
+          title: '抄袭',
+          type: 4
+        },
+        {
+          title: '不合适内容',
+          type: 5
+        }
+      ],
+      userAccusationList: [],
+      nickname: '',
+      avatar: '',
+      replyUserId: '',
+      replyUserNickname: '',
+      reviewId: 100,
+      leftTocFlag: false
     }
   },
   methods: {
+    //展开左侧目录
+    displayLeftToc() {
+      this.leftTocFlag = !this.leftTocFlag
+    },
     createEditor,
-    showAccusation() {
+    cancelBtn() {
       this.accusation = false
     },
-    cancelBtn() {
-      this.accusation = true
+    //展示举报页面
+    showAccusation(res) {
+      this.accusation = res
     },
-    submitBtn() {
-      this.accusation = true
+    //举报文章
+    submitAccusation() {
+      if(this.userAccusationList.length == 0) {
+        layer.msg('请输入或者选择举报内容!')
+      } else {
+        this.accusation = false
+        let articleId = this.$route.params.bbsId
+      }
+
+
+      //调教举报信息
+      // bbsApi.reportArticle(articleId, content).then(response => {
+      //
+      // })
     },
-    replayPreview() {
-      alert('回复用户')
+    //添加评论
+    submitBtn(e) {
+      let articleId = this.$route.params.bbsId
+      let content = this.editor.txt.text()
+      // console.log(articleId)
+      // console.log(content)
+      // console.log('那个以及评论下==》'+this.fatherId)
+      // console.log('评论人昵称==》'+this.nickname)
+      // console.log('评论人头像==》'+this.avatar)
+      // console.log('回复人昵称==》'+this.replyUserNickname)
+      // console.log('回复人id==》'+this.replyUserId)
+      if (this.reviewFlag == 1) {
+        this.firstReview(articleId, content, this.nickname, this.avatar)
+      } else if (this.reviewFlag == 2) {
+        this.secondReview(articleId, content, this.fatherId, this.replyUserId, this.replyUserNickname, this.$store.state.myUserInfoVo.nickname, this.$store.state.myUserInfoVo.avatar)
+      }
+      this.reviewFlag = 1
+      this.editor.txt.text('')
     },
-    deletePreview() {
+    replayPreview(e, flag) {
+      this.reviewFlag = flag
+      this.nickname = e.currentTarget.dataset.nickname
+      this.avatar = e.currentTarget.dataset.avatar;
+
+      if (flag == 2) {
+        //父亲id
+        this.replyUserId = e.currentTarget.dataset.replyuserid
+        //父亲名称
+        this.replyUserNickname = e.currentTarget.dataset.replynickname
+        //那个以及评论下的
+        this.fatherId = e.currentTarget.dataset.fatherid;
+        this.fatherIndex = e.currentTarget.dataset.fatherindex
+      }
+      $(e.currentTarget).parents(".comment-author").append($("#respond-post"));
+      // 取消回复
+      $("#cancel-comment-reply-link").show().off("click").on("click", function () {
+        $('#submit-comment')
+          .removeData("pid")
+          .removeData("nickname")
+          .removeData("avatar")
+          .removeData("ruid");
+        $("#commentbox-post").append($("#respond-post"))
+        $("#cancel-comment-reply-link").hide()
+      })
+    },
+    deleteReview(e, index, index1) {
+      let commentId = e.currentTarget.dataset.commentid
+      console.log('index==>' + index, 'index1==>'+index1)
       layer.confirm('你确定删除吗?', {
         title: '提示',
-        btn:['点击删除', '放弃删除'],
+        btn: ['点击删除', '放弃删除'],
+        data: {
+          _commentId: commentId,
+          _this: this,
+          _index: index,
+          _index1: index1
+        }
       }, function (index) {
-        layer.close(index); //如果设定了yes回调，需进行手工关闭
+        if (!this.data._index1 && this.data._index1 != 0) {
+          $("#li-comment-" + this.data._this.commentList[this.data._index].id).removeClass("animated fadeInUpBig")
+            .addClass("animated fadeOutDown").fadeOut(1000, function () {
+            this.data._this.remove();
+          })
+          layer.close(index)
+        } else {
+          let id = 'comment-list-children-' + this.data._this.commentList[this.data._index].childList[this.data._index1].id
+          // $('#' + id).fadeOut(1000, function () {
+          //   this.data._this.commentList[this.data._index].childList.splice(this.data._index1, 1)
+          //   $('#' + id).remove()
+          // });
+          $("#li-comment-" + this.data._this.commentList[this.data._index].childList[this.data._index1].id).removeClass("animated fadeInUpBig")
+            .addClass("animated fadeOutDown").fadeOut(1000, function () {
+            this.data._this.remove();
+          })
+          console.log(id)
+
+          layer.close(index)
+        }
+        console.log('index==>' + this.data._index, 'index1==>' + this.data._index1)
+        bbsApi.deleteReview(this.data._commentId).then(response => {
+
+        })
+      }, function () {
+
       });
     },
     mkImageShow,
     loadToc,
     backToTop,
-    easeInOutQuad
+    easeInOutQuad,
+    firstReview(articleId, content) {
+      console.log(articleId)
+      console.log(content)
+      this.reviewId += 1
+      // let item = {
+      //   id: this.reviewId,
+      //   userId: this.$store.state.myUserInfoVo.id,
+      //   userAvatar: this.$store.state.myUserInfoVo.avatar,
+      //   userNickname: this.$store.state.myUserInfoVo.nickname,
+      //   content: content,
+      //   vipLevel: 'vip',
+      //   gmtCreate: '刚刚',
+      //   childList: []
+      // }
+      // this.commentList.unshift(item)
+      bbsApi.firstReview(articleId, content, this.$store.state.myUserInfoVo.nickname, this.$store.state.myUserInfoVo.avatar).then(response => {
+        // alert(response.data.data.commentId)
+        let item = {
+          id: response.data.data.commentId,
+          userId: this.$store.state.myUserInfoVo.id,
+          userAvatar: this.$store.state.myUserInfoVo.avatar,
+          userNickname: this.$store.state.myUserInfoVo.nickname,
+          content: content,
+          vipLevel: 'vip',
+          gmtCreate: '刚刚',
+          childList: []
+        }
+        this.commentList.unshift(item)
+      })
+    },
+    secondReview(articleId, content, fatherId, replyUserId, replyUserNickname, nickname, avatar) {
+      console.log(articleId)
+      console.log(content)
+      console.log(fatherId)
+      console.log(replyUserId)
+      console.log(replyUserNickname)
+      console.log(nickname)
+      console.log(avatar)
+      this.reviewId += 1
+      // let item = {
+      //   id: this.reviewId,
+      //   userId: this.$store.state.myUserInfoVo.id,
+      //   userAvatar: this.$store.state.myUserInfoVo.avatar,
+      //   userNickname: this.$store.state.myUserInfoVo.nickname,
+      //   content: content,
+      //   vipLevel: 'svip',
+      //   replyUserId: replyUserId,
+      //   replyUserNickname: replyUserNickname,
+      //   gmtCreate: '刚刚'
+      // }
+      // console.log(this.fatherIndex)
+      // this.commentList[this.fatherIndex].childList.unshift(item)
+
+      // console.log(.unshift(item))
+      bbsApi.secondReview(articleId, content, fatherId, replyUserId, replyUserNickname, nickname, avatar).then(response => {
+        alert(response.data.data.commentId)
+        let item = {
+          id: response.data.data.commentId,
+          userId: this.$store.state.myUserInfoVo.id,
+          userAvatar: this.$store.state.myUserInfoVo.avatar,
+          userNickname: this.$store.state.myUserInfoVo.nickname,
+          content: content,
+          vipLevel: 'svip',
+          replyUserId: replyUserId,
+          replyUserNickname: replyUserNickname,
+          gmtCreate: '刚刚'
+        }
+        this.commentList[this.fatherIndex].childList.unshift(item)
+      })
+    },
+    getArticle(articleId) {
+      bbsApi.getArticle(articleId).then(response => {
+        // alert(response.data.data.isCollection)
+        // $("#markdownValue").attr("value",response.data.data.article.content)
+        this.markdownValue = response.data.data.article.content
+        // alert(this.markdownValue)
+        this.isCollection = response.data.data.isCollection
+        this.article = response.data.data.article
+        // alert(this.article.isRelease)
+        this.labelList = response.data.data.labelList
+        this.commentNumber = response.data.data.commentNumber
+        this.markFlag = false
+      })
+    },
+    findReview(articleId) {
+      this.current += 1
+      bbsApi.findArticleReview(articleId, this.current, this.limit).then(response => {
+        this.commentList = response.data.data.commentList
+        this.reviewTotal = response.data.data.total
+      })
+    },
+    addAccusationInfo(e) {
+      let className = $("#accuItem-" + this.accusationList[e.currentTarget.dataset.type - 1].type).prop('class')
+      if (className == 'l icon-weixuanze iconfont') {
+        $("#accuItem-" + this.accusationList[e.currentTarget.dataset.type - 1].type).removeClass("l icon-weixuanze iconfont")
+          .addClass("l icon-xuanze iconfont")
+        let info = '#' + this.accusationList[e.currentTarget.dataset.type - 1].title
+        this.userAccusationList.push(info)
+      } else if (className == 'l icon-xuanze iconfont') {
+        $("#accuItem-" + this.accusationList[e.currentTarget.dataset.type - 1].type).removeClass("l icon-xuanze iconfont")
+          .addClass("l icon-weixuanze iconfont")
+        console.log('userAccusationList==>' + this.userAccusationList)
+        let info = '#' + this.accusationList[e.currentTarget.dataset.type - 1].title
+        let index = this.userAccusationList.findIndex((item) => item === info)
+        console.log('info==>' + info)
+        console.log('index==>' + index)
+        this.userAccusationList.splice(index, 1)
+      }
+      $('#tipoff-content').val(this.userAccusationList)
+    }
   },
   mounted() {
     this.createEditor()
+  },
+  beforeMount() {
+    //查找文章详情
+    // alert('获取content')
+    this.getArticle(this.$route.params.bbsId)
+    //查找文章评论
+    this.findReview(this.$route.params.bbsId)
   },
   created() {
     setTimeout(this.mkImageShow, this.time);
@@ -544,6 +566,8 @@ Andrew->>China: I am good thanks!
     } else {
       window.name = 'isReload'
     }
+
+
   }
 }
 </script>
@@ -884,17 +908,19 @@ ol ol, ol ul, ul ol, ul ul {
   width: 450px;
   height: 336px;
   background: #fff;
-  box-shadow: 0 8px 16px 0 rgba(7,17,27,.2);
+  box-shadow: 0 8px 16px 0 rgba(7, 17, 27, .2);
   border-radius: 8px;
   box-sizing: border-box;
   z-index: 901;
 }
+
 .animated {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
 }
+
 .tipoff-box .tipoff-top-box {
   margin-bottom: 24px;
   width: 100%;
@@ -902,15 +928,18 @@ ol ol, ol ul, ul ol, ul ul {
   color: #07111b;
   line-height: 24px;
 }
+
 .tipoff-box .tipoff-type-box {
   width: 100%;
   height: 48px;
   overflow: hidden;
   margin-bottom: 24px;
 }
+
 .clearfix {
   *zoom: 1;
 }
+
 .tipoff-box .tipoff-type-box .item {
   width: 33.3%;
   font-size: 12px;
@@ -919,17 +948,20 @@ ol ol, ol ul, ul ol, ul ul {
   overflow: hidden;
   cursor: pointer;
 }
+
 .tipoff-box .tipoff-type-box .item i {
   display: inline-block;
   margin-right: 4px;
   font-size: 16px;
   line-height: 24px;
 }
+
 .tipoff-box .tipoff-type-box .item p {
   max-width: 108px;
   height: 24px;
   overflow: hidden;
 }
+
 .tipoff-box .tipoff-content {
   position: relative;
 }
@@ -942,10 +974,12 @@ ol ol, ol ul, ul ol, ul ul {
   color: #93999f;
   line-height: 12px;
 }
+
 .tipoff-box .tipoff-btn-box {
   width: 100%;
   margin-top: 24px;
 }
+
 .tipoff-box .tipoff-content .tipoff-desc {
 
   padding: 12px;
@@ -960,6 +994,7 @@ ol ol, ol ul, ul ol, ul ul {
   resize: none;
 
 }
+
 .tipoff-box .tipoff-btn-box .tipoff-submit-btn {
   width: 76px;
   height: 36px;
@@ -971,6 +1006,7 @@ ol ol, ol ul, ul ol, ul ul {
   text-align: center;
   cursor: pointer;
 }
+
 .tipoff-box .tipoff-btn-box .tipoff-cancel-btn {
   margin-right: 8px;
   width: 76px;
@@ -984,4 +1020,115 @@ ol ol, ol ul, ul ol, ul ul {
   cursor: pointer;
 }
 
+.copy-text {
+  color: #666;
+  padding: 0 20px;
+}
+
+.text, .copy-text, .page-text, .comment-text, .tags-text {
+  overflow: hidden;
+}
+
+.mb-4, .my-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+.mt-4, .my-4 {
+  margin-top: 1.5rem !important;
+}
+
+.ksd-topic-tags {
+  position: relative;
+  top: -1px;
+  background: #bababa;
+  color: #fff;
+  padding: 2px 10px;
+  margin-right: 4px;
+  border-radius: 16px;
+  font-size: 12px;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: hidden;
+  font-style: normal;
+  vertical-align: middle;
+}
+
+.ftp2 {
+  top: -2px !important;
+}
+
+.ksd-topic-tags:hover {
+  background-color: #76c489;
+}
+
+.pinglun .cancel-comment-reply {
+  background: #f05050;
+  padding: 2px 5px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.pinglun .cancel-comment-reply a {
+  color: #fff;
+}
+
+.touser_sp {
+  color: #31bc31;
+  padding-left: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  position: relative;
+  top: -1px;
+  left: -4px;
+}
+
+.touser_sp a:hover {
+  color: #31bc31;
+}
+
+.fadeOutDown {
+  -webkit-animation-name: fadeOutDown;
+  animation-name: fadeOutDown;
+}
+
+.bounceInDown {
+  -webkit-animation-duration: 0.75s;
+  animation-duration: 0.75s;
+  -webkit-animation-name: bounceInDown;
+  animation-name: bounceInDown;
+}
+.fadeInUpBig {
+  -webkit-animation-duration: 0.75s;
+  animation-duration: 0.75s;
+  -webkit-animation-name: fadeInUpBig;
+  animation-name: fadeInUpBig;
+}
+.pinglun li:hover {
+  background: #F8F8F8;
+  box-shadow: 0 0 1em #d3d3d3;
+}
+
+.layui-container.ksd-content-fixed {
+  margin-left: 332px;
+  margin-top: 84px;
+}
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

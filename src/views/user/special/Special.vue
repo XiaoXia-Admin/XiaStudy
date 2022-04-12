@@ -1,50 +1,59 @@
 <template>
-  <main class="ksd-book-box flex" style="position: relative;
+  <div v-cloak>
+    <main  v-if="!this.permissionFlag" class="ksd-book-box flex" style="position: relative;
     bottom: -20px;height: 730px;margin-bottom: -66px;background: rgb(255, 255, 255);margin-top: -30px;margin-left: -9px;">
-    <div id="ksd-zl-loading" style="position: fixed;top:50px;right:0;left:10rem;z-index:110;"></div>
-    <aside class="book-menu ksd-book-menu">
-      <span class="ksd-expand-zl ksd-expand-zl-right" style="top:130px"><i class="iconfont icon-xiangzuo1 pr ftp1"></i></span>
-      <span class="ksd-expand-zl ksd-expand-zl-left" style="top:130px"><i
-        class="iconfont icon-xiangyou1 pr ftp1"></i></span>
+      <!--      <div id="ksd-zl-loading" style="position: fixed;top:50px;right:0;left:10rem;z-index:110;"></div>-->
+      <aside class="book-menu ksd-book-menu">
+        <span class="ksd-expand-zl ksd-expand-zl-right" style="top:130px"><i
+          class="iconfont icon-xiangzuo1 pr ftp1"></i></span>
+        <span class="ksd-expand-zl ksd-expand-zl-left" style="top:130px"><i
+          class="iconfont icon-xiangyou1 pr ftp1"></i></span>
 
-      <nav class="pr" style="box-shadow: 0 0 1em #e6ecef;z-index: 10;background-color: white;margin-bottom: -66px;">
-        <h2 title="12345" class="book-brand fz16  book-brand-ell fw editspan" id="ksd-book-brand-tlt"
-            style="margin-left: -135px;">
-          <a href="javascript:void(0)"><span>fanfajdfja;fkdja;flj</span></a>
-        </h2>
-        <a class="ksd-zl-link-edit fz12" href="javascript:void(0);" @click="editSpecial"><i
-          class="iconfont icon-tianxie pr-2 fz12 pr tp4"></i></a>
+        <nav class="pr" style="box-shadow: 0 0 1em #e6ecef;z-index: 10;background-color: white;margin-bottom: -66px;">
+          <!--        待定-->
+          <h2 :title="this.columnDetail.title" @click="showPage"
+              class="book-brand fz16  book-brand-ell fw editspan  xjy-left" id="ksd-book-brand-tlt">
+            <a href="javascript:void(0)"><span>{{ this.columnDetail.title }}</span></a>
+          </h2>
 
-        <ul>
-          <li style="overflow:hidden;">
-            <a v-show="this.add" class="fl ksd-addzl-link mr-3 fz12" href="javascript:void(0);" @click="addDialog"><i
-              class="iconfont icon-jia pr-1"></i><span>添加文章</span></a>
-            <a v-show="!this.add" class="fl ksd-addzl-link mr-3 fz12" href="javascript:void(0);" @click="addDialog"><i
-              class="iconfont pr-1 pr tp1 icon-chahao"></i><span>关闭编辑</span></a>
-            <a class="fl fz12" href="javascript:void(0);" @click="editzldialog(this)"><i
-              class="iconfont icon-jia pr-1"></i><span>解析</span></a>
-            <a class="fl ml-3 ksd-editzl-link fz12" v-show="this.editMode" href="javascript:void(0);"
-               @click="editListMode"><i
-              class="iconfont icon-chanpin-copy pr-1"></i><span>编辑模式</span></a>
-            <a class="fl ml-3 ksd-editzl-link fz12" v-show="!this.editMode" href="javascript:void(0);"
-               @click="editListMode"><i
-              class="iconfont icon-chahao pr-1"></i><span>关闭操作</span></a>
-          </li>
-        </ul>
-        <hr>
-        <div class="book-search ksd-book-parsebox pr" style="display: none">
-          <input type="text" id="book-search-input-link" class="fz12" placeholder="输入KuangStudy平台文章链接[含https]"
-                 aria-label="搜索" maxlength="100" data-hotkeys="s/">
-          <button class="ksd-parse-link" @click="parseLink(this)"><i
-            class="iconfont iconsetlocation mr-1 fz12"></i>解析
-          </button>
-        </div>
-        <ul id="ksd-zl-itemlist" v-show="!this.add || !this.editMode || this.articleList.length != 0">
-          <!--          关闭页面-->
-          <li v-for="(item, index) in articleList" :key="item.id" class="ksd-zl-item ksd-zl-item-1494627662873108482"
-              :id="'ksd-zl-item-c' + (index + 1)" style="text-align: left;margin-left: 10px;" data-sort="1"
-              :title="item.title"
-              :data-opid="item.id" :class="{'editmode': !editMode}">
+          <a
+            v-show="this.authorList.findIndex((item) => {return item.userId == this.$store.state.myUserInfoVo.id}) != -1"
+            class="ksd-zl-link-edit fz12" href="javascript:void(0);" @click="editSpecial"><i
+            class="iconfont icon-tianxie pr-2 fz12 pr tp4"></i></a>
+
+          <ul
+            v-show="this.authorList.findIndex((item) => {return item.userId == this.$store.state.myUserInfoVo.id}) != -1">
+            <li style="overflow:hidden;">
+              <a v-show="this.add" class="fl ksd-addzl-link mr-3 fz12" href="javascript:void(0);" @click="addDialog"><i
+                class="iconfont icon-jia pr-1"></i><span>添加文章</span></a>
+              <a v-show="!this.add" class="fl ksd-addzl-link mr-3 fz12" href="javascript:void(0);" @click="addDialog"><i
+                class="iconfont pr-1 pr tp1 icon-chahao"></i><span>关闭编辑</span></a>
+              <a class="fl fz12" href="javascript:void(0);"><i
+                class="iconfont icon-jia pr-1"></i><span>解析</span></a>
+              <a class="fl ml-3 ksd-editzl-link fz12" v-show="this.editMode" href="javascript:void(0);"
+                 @click="editListMode"><i
+                class="iconfont icon-chanpin-copy pr-1"></i><span>编辑模式</span></a>
+              <a class="fl ml-3 ksd-editzl-link fz12" v-show="!this.editMode" href="javascript:void(0);"
+                 @click="editListMode"><i
+                class="iconfont icon-chahao pr-1"></i><span>关闭操作</span></a>
+            </li>
+          </ul>
+          <hr>
+          <div class="book-search ksd-book-parsebox pr" style="display: none">
+            <input type="text" id="book-search-input-link" class="fz12" placeholder="输入KuangStudy平台文章链接[含https]"
+                   aria-label="搜索" maxlength="100" data-hotkeys="s/">
+            <button class="ksd-parse-link"><i
+              class="iconfont iconsetlocation mr-1 fz12"></i>解析
+            </button>
+          </div>
+          <ul id="ksd-zl-itemlist" v-show="!this.add || !this.editMode || this.columnArticleList.length != 0">
+            <!--          关闭页面-->
+            <li v-for="(item, index) in columnArticleList" :key="item.articleId"
+                class="ksd-zl-item ksd-zl-item-1494627662873108482"
+                :id="'ksd-zl-item-c' + (index + 1)" style="text-align: left;margin-left: 10px;" :data-sort="item.sort"
+                @click="findZlArticle($event, index)"
+                :title="item.title"
+                :data-opid="item.articleId" :class="{'editmode': !editMode,'active': index == clickFlag}">
             <span v-show="!editMode" class="fl pr ftp1 sorteditbox mr-2" title="设置排序，升序"><input
               @blur="editSort(index,$event)" class="ksd-sortinp"
               :data-sort="item.sort"
@@ -52,259 +61,213 @@
               style="border:1px solid #009688;width: 2rem;text-align: center;padding:2px;"
               type="text"
               :value="item.sort"
-              :data-opid="item.id"></span>
-            <span class="editsp editspan3">
+              :data-opid="item.articleId"></span>
+              <span class="editsp editspan3">
                         <span v-show="editMode" class="editnum" style="">0{{ index + 1 }}、</span>
 
-                        <span :id="'ksd-zl-item-tlt-' + item.id" class="title">{{ item.title }}</span>
+                        <span :id="'ksd-zl-item-tlt-' + item.articleId" class="title">{{ item.title }}</span>
 
                     </span>
-            <div class="fr">
-              <span v-show="!editMode" class="fr pr tp2 editbtn fz12" @click="removeItemReal($event)"
-                    :data-opid="item.id"
+              <div class="fr">
+              <span v-show="!editMode" class="fr pr tp2 editbtn fz12" @click="removeItemReal($event, index)"
+                    :data-articleId="item.articleId"
                     title="删除"><i class="iconfont fz12 icon-chahao pr tp1 mr-1"></i></span>
 
-              <span v-show="!editMode" class="fr pr tp2 editbtn copydata mr-2 fz12" @click="editItemReal($event)"
-                    :data-opid="item.id" title="编辑"><i
-                class="iconfont fz14 icon-tianxie pr tp1 mr-1"></i></span>
-            </div>
-          </li>
-          <li v-show="!this.add" data-mode="edit" class="ksd-zl-item active" id="ksd-zl-item-opedit">
+                <span v-show="!editMode" class="fr pr tp2 editbtn copydata mr-2 fz12"
+                      @click.stop="editZlArticle($route.params.zlId, item.articleId)"
+                      :data-articleId="item.articleId" title="编辑"><i
+                  class="iconfont fz14 icon-tianxie pr tp1 mr-1"></i></span>
+              </div>
+            </li>
+            <li v-show="!this.add && this.editArticleFlag" data-mode="edit" class="ksd-zl-item active"
+                id="ksd-zl-item-opedit">
             <span class="fl pr ftp1 sorteditbox mr-2" style="display: none" title="设置排序，升序"><input class="ksd-sortinp"
                                                                                                    style="border:1px solid #009688;width: 2rem;text-align: center;padding:2px;"
-                                                                                                   type="text"
-                                                                                                   value="1"></span>
-            <span class="editsp ">
-     <span class="editnum">0{{ this.articleList.length + 1 }}、</span>
-     <input type="text" style="width: 15rem;padding:5px;" onkeydown="toggleAdd(this)"
-            onkeyup="toggleAdd(this)" class="title" value="">
+                                                                                                   type="text"></span>
+              <span class="editsp ">
+     <span class="editnum">0{{ this.columnArticleList.length + 1 }}、</span>
+     <input type="text" style="width: 15rem;padding:5px;" id="zlLeftAddTitle" @keydown="bindTitle" @keyup="bindTitle"
+            ref="leftTitle"
+            class="title" value="">
 
  </span>
-            <div class="fr pr tp3">
+              <div class="fr pr tp3">
               <span @click="removeItem($event)" title="删除" class="fr"><i
                 class="iconfont icon-chahao"></i></span>
-            </div>
-          </li>
-        </ul>
-
-        <div v-show="this.add && this.editMode && this.articleList.length == 0" class="ksd-empty-al text-center mt-5"
-             style="display:block">
-          <img src="../../../assets/img/nodata.png" alt="" width="150">
-          <p style="color: #999;font-weight: bold" class="mt-3">暂无数据</p>
-        </div>
-      </nav>
-    </aside>
-
-    <div v-show="this.add" class="book-page book-page-main"
-         style="z-index: 5;height: 740px;margin-bottom: -66px;width: 100%;background: rgb(255, 255, 255) none repeat scroll 0% 0%;margin-top: -30px;margin-left: -9px;">
-      <!--      封面-->
-      <!--      <div id="ksd-zhuanlan-mainbox-c" class="ksd-zhuanlan-mainbox" style="padding-top: 120px;">-->
-      <!--        <div class="ksd-zhuanlan-mdj" style="  margin-top: 60px;">-->
-      <!--          <div class="imgbox text-center mb-4"><img onerror="imgErrorLogo(this)"-->
-      <!--                                                    src="../../../assets/img/index_topleft_logo_black.png" alt=""-->
-      <!--                                                    width="200"></div>-->
-      <!--          <h1 class="ksd-zhuanlan-mun ksd-zl-div-source-title  fw" :class="{'ksd-zl-div-source':this.flag}">-->
-      <!--            <span>12345</span></h1>-->
-      <!--          <div class="ksd-zl-edit" :class="{'ksd-zl-div-edit':this.edit}">-->
-      <!--            <input type="text" id="zlTitle" placeholder="请输入专栏名称..." maxlength="60" title="12345" value="12345">-->
-      <!--          </div>-->
-      <!--          <div class="mt-2 text-center ksd-zl-div-source-desc" :class="{'ksd-zl-div-source':this.flag}"-->
-      <!--               style="padding:0px 0 50px;color:#666;"></div>-->
-
-      <!--          <p class="ksd-zhuanlan-sumhrh mt-1" :class="{'ksd-zl-div-source':this.flag}">-->
-
-      <!--          </p>-->
-      <!--          <div class="ksd-zhuanlan-wgzr mt-4" :class="{'ksd-zl-div-source':this.flag}">-->
-      <!--            <div class="ksd-zhuanlan-module">-->
-
-      <!--            </div>-->
-      <!--            <p class="ksd-zhuanlan-sumhrh">共 <span class="ksd-zhuanlan-sumhrh-num">0</span> 位作者-->
-      <!--            </p>-->
-      <!--          </div>-->
-      <!--          <p class="ksd-zhuanlan-sumhrh mt-5" :class="{'ksd-zl-div-source':this.flag}">-->
-      <!--            可见性：-->
-      <!--            <span class="ksd-zhuanlan-sumhrh-status">-->
-
-
-      <!--                            <span>仅对自己可见</span>-->
-
-
-      <!--                        </span>-->
-      <!--            <span class="ml-4">浏览数：<span>0</span></span>-->
-      <!--          </p>-->
-      <!--          <div class="mt-2 mb-2 ksd-zl-edit" :class="{'ksd-zl-div-edit':this.edit}">-->
-      <!--            <textarea id="zlDescription" placeholder="请输入专栏描述,少于400字..." maxlength="400"></textarea>-->
-      <!--          </div>-->
-      <!--          <div class="mt-2 ksd-zl-edit" :class="{'ksd-zl-div-edit':this.edit}">-->
-      <!--            <input type="text" id="zlBackground" title="请输入专栏卡片背景色" placeholder="请输入专栏卡片背景色..." maxlength="100"-->
-      <!--                   value="background-image: linear-gradient(to right, rgb(130, 178, 242) 0%, rgb(51, 51, 51) 100%);">-->
-      <!--            <p class="text-center mt-2 fz12">渐变色参考网站1：<a href="https://webgradients.com/" target="_blank">https://webgradients.com/</a>&nbsp;&nbsp;渐变色参考网站2：<a-->
-      <!--              href="https://uigradients.com" target="_blank">https://uigradients.com</a></p>-->
-      <!--          </div>-->
-      <!--          <div class="mt-3 ksd-zl-edit text-center" :class="{'ksd-zl-div-edit':this.edit}">-->
-      <!--            <label><input type="radio" value="1" name="zlShow" title="所有人可见" class="mr-1">所有人可见</label>-->
-      <!--            <label class="mr-1 ml-3"><input type="radio" title="仅对会员可见" name="zlShow" value="2"-->
-      <!--                                            class="mr-1">仅对会员可见</label>-->
-      <!--            <label class="mr-1 ml-3"><input type="radio" value="3" name="zlShow" title="仅对自己可见" class="mr-1"-->
-      <!--                                            checked="checked">仅对自己可见</label>-->
-      <!--            <label class="mr-1 ml-3"><input type="radio" value="4" name="zlShow" title="仅对年会员可见"-->
-      <!--                                            class="mr-1">仅对年会员可见</label>-->
-      <!--            <label class="ml-3"><input type="radio" value="5" name="zlShow" title="仅对终身会员可见"-->
-      <!--                                       class="mr-1">仅对终身会员可见</label>-->
-      <!--          </div>-->
-
-
-      <!--          <div class="mt-3 text-center ksd-zl-edit" :class="{'ksd-zl-div-edit':this.edit}">-->
-      <!--            <label class="mr-3 ml-3"><input type="radio" name="zlStatus" value="0" class="mr-1">不发布</label>-->
-      <!--            <label><input type="radio" value="1" name="zlStatus" class="mr-1" checked="checked">发布</label>-->
-      <!--          </div>-->
-      <!--          <div class="text-center mt-3 ksd-zl-edit" :class="{'ksd-zl-div-edit':this.edit}"-->
-      <!--               style="padding:30px 0 300px;color:#666;">-->
-      <!--            <button class="fz12" data-opid="1484369401750142978"-->
-      <!--                    @click="deleteSpecial, removeZl(this)"><i-->
-      <!--              class="iconfont iconremove1 mr-1 pr tp1"></i> 删除专栏-->
-      <!--            </button>-->
-      <!--            <button class="fz12" data-opid="1484369401750142978"-->
-      <!--                    @click="updateSpecial, editZl(this)"><i-->
-      <!--              class="iconfont iconedit1 mr-1 pr tp1"></i> 保存修改-->
-      <!--            </button>-->
-      <!--          </div>-->
-
-      <!--          <div class="ksd-zhuanlan-wam ksd-product-desctext" :class="{'ksd-zl-div-source':this.flag}"-->
-      <!--               style="padding-top: 20px">-->
-      <!--            生活原本沉闷，但跑起来就有风-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <div class="book-page book-page-main" style="width: 1080px;background: #fff;overflow: hidden;margin-top: 76px;">
-        <div id="ksd-zhuanlan-mainbox-c" class="ksd-zhuanlan-mainbox" style="padding-top: 120px; display: none;">
-          <div class="ksd-zhuanlan-mdj">
-            <div class="imgbox text-center mb-4"><img onerror="imgErrorLogo(this)"
-                                                      src="https://www.kuangstudy.com/assert/images/index_topleft_logo_black.png"
-                                                      alt="" width="200"></div>
-            <h1 class="ksd-zhuanlan-mun ksd-zl-div-source ksd-zl-div-source-title fw"><span>904489</span></h1>
-            <div class="ksd-zl-div-edit">
-              <input type="text" id="zlTitle" placeholder="请输入专栏名称..." maxlength="60" title="904489" value="904489">
-            </div>
-            <div class="mt-2 text-center ksd-zl-div-source ksd-zl-div-source-desc"
-                 style="padding:0px 0 50px;color:#666;"></div>
-
-            <p class="ksd-zhuanlan-sumhrh ksd-zl-div-source mt-1">
-
-
-            </p>
-            <div class="ksd-zhuanlan-wgzr ksd-zl-div-source mt-4">
-              <div class="ksd-zhuanlan-module">
-                <div id="ksd-zhuanlan-itemezy-e73cbe9b3c21455ca55f371cf9efd0aa" class="ksd-zhuanlan-itemezy">
-                  <a href="/user/e73cbe9b3c21455ca55f371cf9efd0aa" target="_blank"><span
-                    class=" ksd-zhuanlan-inblock larkui-popover-trigger"><img data-testid="img-avatar"
-                                                                              src="/assert/images/avatar/6.jpg"
-                                                                              alt="夏金宇" title="夏金宇"
-                                                                              style="width: 32px; min-width: 32px; height: 32px; border-radius: 16px;vertical-align: -6px;"></span>
-                    <span class="fz12"
-                          style="text-overflow: ellipsis;max-width:100px;overflow: hidden;display: inline-block;white-space: nowrap;">夏金宇</span>
-                  </a>
-                </div>
               </div>
-              <p class="ksd-zhuanlan-sumhrh">共 <span class="ksd-zhuanlan-sumhrh-num">1</span> 位作者
+            </li>
+          </ul>
+
+          <div v-show="this.add && this.editMode && this.columnArticleList.length == 0"
+               class="ksd-empty-al text-center mt-5"
+               style="display:block">
+            <img src="../../../assets/img/nodata.png" alt="" width="150">
+            <p style="color: #999;font-weight: bold" class="mt-3">暂无数据</p>
+          </div>
+        </nav>
+      </aside>
+
+      <div class="book-page book-page-main"
+           style="z-index: 5;height: 740px;margin-bottom: -66px;width: 100%;background: rgb(255, 255, 255) none repeat scroll 0% 0%;margin-top: -30px;margin-left: -9px;">
+        <div class="book-page book-page-main" style="width: 1080px;background: #fff;margin-top: 76px;">
+          <!--            封面-->
+          <div v-show="this.add && this.zlFlag" id="ksd-zhuanlan-mainbox-c"
+               :class="{editClass: this.flag,'pd-120': this.edit}" class="ksd-zhuanlan-mainbox">
+            <div class="ksd-zhuanlan-mdj" style="  margin-top: 60px;">
+              <div class="imgbox text-center mb-4"><img onerror="imgErrorLogo(this)"
+                                                        src="../../../assets/img/index_topleft_logo_black.png" alt=""
+                                                        width="200"></div>
+              <h1 class="ksd-zhuanlan-mun ksd-zl-div-source-title  fw" :class="{'ksd-zl-div-source':this.flag}">
+                <span>{{ this.columnDetail.title }}</span></h1>
+              <div class="ksd-zl-edit" :class="{'ksd-zl-div-edit':this.edit}">
+                <input type="text" id="zlTitle" ref="zlTitle" placeholder="请输入专栏名称..." maxlength="60"
+                       :title="this.columnDetail.title" :value="this.columnDetail.title">
+              </div>
+              <div class="mt-2 text-center ksd-zl-div-source-desc" :class="{'ksd-zl-div-source':this.flag}"
+                   style="padding:0px 0 50px;color:#666;">
+                {{ this.columnDetail.description }}
+              </div>
+
+              <p class="ksd-zhuanlan-sumhrh mt-1" :class="{'ksd-zl-div-source':this.flag}">
+
               </p>
-            </div>
-            <p class="ksd-zhuanlan-sumhrh ksd-zl-div-source mt-5">
-              可见性：
-              <span class="ksd-zhuanlan-sumhrh-status">
+              <div class="ksd-zhuanlan-wgzr mt-4" :class="{'ksd-zl-div-source':this.flag}">
+                <div class="ksd-zhuanlan-module">
+                  <div :id="'ksd-zhuanlan-itemezy-' + item.userId" v-for="(item, index) in this.authorList"
+                       :key="item.userId" class="ksd-zhuanlan-itemezy">
+                    <a :href="'/other/user/' + item.userId" target="_blank"><span
+                      class=" ksd-zhuanlan-inblock larkui-popover-trigger"><img data-testid="img-avatar"
+                                                                                :src="item.avatar" :alt="item.nickname"
+                                                                                :title="item.nickname"
+                                                                                style="width: 32px; min-width: 32px; height: 32px; border-radius: 16px;vertical-align: -6px;"></span>
+                      <span class="fz12"
+                            style="text-overflow: ellipsis;max-width:100px;overflow: hidden;display: inline-block;white-space: nowrap;">{{
+                          item.nickname
+                        }}</span>
+                    </a>
+                  </div>
+                </div>
+                <p class="ksd-zhuanlan-sumhrh">共 <span
+                  class="ksd-zhuanlan-sumhrh-num">{{ this.authorList.length }}</span> 位作者
+                </p>
+              </div>
+              <p class="ksd-zhuanlan-sumhrh mt-5" :class="{'ksd-zl-div-source':this.flag}">
+                可见性：
+                <span class="ksd-zhuanlan-sumhrh-status">
 
 
-                            <span>仅对自己可见</span>
+                                  <span>{{ this.visibilityList[this.columnDetail.vsibility] }}</span>
 
 
-                        </span>
-              <span class="ml-4">浏览数：<span>6</span></span>
-            </p>
-            <div class="ksd-zl-div-edit mt-2 mb-2">
-              <textarea id="zlDescription" placeholder="请输入专栏描述,少于400字..." maxlength="400"></textarea>
-            </div>
-            <div class="ksd-zl-div-edit mt-2">
-              <input type="text" id="zlBackground" title="请输入专栏卡片背景色" placeholder="请输入专栏卡片背景色..." maxlength="100"
-                     value="background-image: linear-gradient(to right, rgb(130, 178, 242) 0%, rgb(51, 51, 51) 100%);">
-              <p class="text-center mt-2 fz12">渐变色参考网站1：<a href="https://webgradients.com/" target="_blank">https://webgradients.com/</a>&nbsp;&nbsp;渐变色参考网站2：<a
-                href="https://uigradients.com" target="_blank">https://uigradients.com</a></p>
-            </div>
-            <div class="ksd-zl-div-edit mt-3 text-center">
-              <label><input type="radio" value="1" name="zlShow" title="所有人可见" class="mr-1">所有人可见</label>
-              <label class="mr-1 ml-3"><input type="radio" title="仅对会员可见" name="zlShow" value="2"
-                                              class="mr-1">仅对会员可见</label>
-              <label class="mr-1 ml-3"><input type="radio" value="3" name="zlShow" title="仅对自己可见" class="mr-1"
-                                              checked="checked">仅对自己可见</label>
-              <label class="mr-1 ml-3"><input type="radio" value="4" name="zlShow" title="仅对年会员可见" class="mr-1">仅对年会员可见</label>
-              <label class="ml-3"><input type="radio" value="5" name="zlShow" title="仅对终身会员可见"
-                                         class="mr-1">仅对终身会员可见</label>
-            </div>
+                              </span>
+                <span class="ml-4">浏览数：<span>{{ this.columnDetail.views }}</span></span>
+              </p>
+              <div class="mt-2 mb-2 ksd-zl-edit" :class="{'ksd-zl-div-edit':this.edit}">
+              <textarea id="zlDescription" placeholder="请输入专栏描述,少于400字..." ref="zlDescription"
+                        v-model="this.columnDetail.description" maxlength="400"></textarea>
+              </div>
+              <div class="mt-2 ksd-zl-edit" :class="{'ksd-zl-div-edit':this.edit}">
+                <input type="text" id="zlBackground" title="请输入专栏卡片背景色" ref="zlColor" placeholder="请输入专栏卡片背景色..."
+                       maxlength="100"
+                       :value="this.columnDetail.color">
+                <p class="text-center mt-2 fz12">渐变色参考网站1：<a href="https://webgradients.com/" target="_blank">https://webgradients.com/</a>&nbsp;&nbsp;渐变色参考网站2：<a
+                  href="https://uigradients.com" target="_blank">https://uigradients.com</a></p>
+              </div>
+              <div class="mt-3 ksd-zl-edit text-center" :class="{'ksd-zl-div-edit':this.edit}">
+                <label v-for="(item, index) in visibilityList" class="mr-1 ml-3" :key="index"><input
+                  v-model="radioValue"
+                  @click.stop="chooseRadio(index)"
+                  type="radio"
+                  :value="index"
+                  name="zlShow"
+                  :title="item"
+                  class="mr-1">{{ item }}</label>
+              </div>
 
 
-            <div class="ksd-zl-div-edit mt-3 text-center">
-              <label class="mr-3 ml-3"><input type="radio" name="zlStatus" value="0" class="mr-1">不发布</label>
-              <label><input type="radio" value="1" name="zlStatus" class="mr-1" checked="checked">发布</label>
-            </div>
-            <div class="ksd-zl-div-edit text-center mt-3" style="padding:30px 0 300px;color:#666;">
-              <button class="fz12" onclick="ksdZlEdit.removeZl(this)" data-opid="1488780759778418689"><i
-                class="iconfont iconremove1 mr-1 pr tp1"></i> 删除专栏
-              </button>
-              <button class="fz12" onclick="ksdZlEdit.editZl(this)" data-opid="1488780759778418689"><i
-                class="iconfont iconedit1 mr-1 pr tp1"></i> 保存修改
-              </button>
-            </div>
-            <div class="ksd-zhuanlan-wam ksd-zl-div-source  ksd-product-desctext" style="padding-top: 20px">
-              屏幕前的你一定是个很温柔的人吧
-            </div>
-          </div>
+              <div class="mt-3 text-center ksd-zl-edit" :class="{'ksd-zl-div-edit':this.edit}">
+                <label v-for="(item, index) in publishList" :key="index" class="mr-3 ml-3"><input type="radio"
+                                                                                                  v-model="publishValue"
+                                                                                                  @click.stop="choosePublishRadio(index)"
+                                                                                                  name="zlStatus"
+                                                                                                  :value="index"
+                                                                                                  class="mr-1">{{
+                    item
+                  }}</label>
+              </div>
+              <div class="text-center mt-3 ksd-zl-edit" :class="{'ksd-zl-div-edit':this.edit}"
+                   style="color:#666;">
+                <button class="fz12" data-opid="1484369401750142978"
+                        @click="deleteSpecial"><i
+                  class="iconfont iconremove1 mr-1 pr tp1"></i> 删除专栏
+                </button>
+                <button class="fz12"
+                        @click="updateSpecial"><i
+                  class="iconfont iconedit1 mr-1 pr tp1"></i> 保存修改
+                </button>
+              </div>
 
-        </div>
-        <div id="ksd-book-mainbox">
-
-          <div id="ksd-book-mainbox-cnt">
-            <div class="layui-container ksd-layui-container water-mark" id="preview_article"
-                 style="padding:0;max-width: 100%;background:#fff;min-height: 93vh">
-<!--              <div class="ksd-layout-bbs-main layui-row layui-col-space10 main pr">-->
-<!--                <div id="zl_article" class="layui-col-md12 layui-col-lg12">-->
-<!--                  &lt;!&ndash;                  <preview-title>&ndash;&gt;-->
-<!--                  &lt;!&ndash;                  </preview-title>&ndash;&gt;-->
-<!--                  &lt;!&ndash;                  <markdown-to-html :target="this.target" :id="this.id" :markdown-value="this.markdownValue"></markdown-to-html>&ndash;&gt;-->
-
-<!--                  &lt;!&ndash;                  加载动画&ndash;&gt;-->
-<!--                </div>-->
-
-<!--              </div>-->
-              <div id="loadingbox" style="padding: 30px 0px; text-align: center;display: none" >
-
+              <div class="ksd-zhuanlan-wam ksd-product-desctext" :class="{'ksd-zl-div-source':this.flag}"
+                   style="padding-top: 20px">
+                生活原本沉闷，但跑起来就有风
               </div>
             </div>
           </div>
+          <!--        文章展示-->
+          <div v-show="!this.zlFlag" id="ksd-book-mainbox" style="width: 85%;margin-left: 84px;">
+
+            <div id="ksd-book-mainbox-cnt">
+
+              <div class="layui-container ksd-layui-container water-mark" id="preview_article"
+                   style="padding:0;max-width: 100%;background:#fff;min-height: 93vh">
+                <div class="ksd-layout-bbs-main layui-row layui-col-space10 main pr">
+                  <div id="zl_article" class="layui-col-md12 layui-col-lg12">
+                    <preview-title v-show="!this.loadingFlag" :article="this.article" @editZlArticle="editZlArticle">
+                    </preview-title>
+                    <markdown-to-html v-show="!this.loadingFlag" :target="this.target" :id="this.id"
+                                      :markdown-value="this.article.content"></markdown-to-html>
+                    <!--                  加载动画-->
+
+                  </div>
+
+                </div>
+                <loading :loading-flag="this.loadingFlag"></loading>
+
+              </div>
+
+            </div>
+          </div>
+          <!--        添加文章-->
+          <div id="iframeDiv" v-show="!this.add" class="book-pagex book-page-editbox"
+               style="width: 100%;margin-left: -23px;">
+            <div style="width: 100%;">
+              <iframe id="iframebox" ref="mainIframe" border="0" style="height: 685px;"
+                      frameborder="no">
+                <!--              <message :article-list="this.columnArticleList"></message>-->
+              </iframe>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div v-show="!this.add" class="book-pagex book-page-editbox" style="width: 100%; margin-top: 50px;">
-      <div style="width: 100%;padding:20px;">
-        <iframe id="iframebox" border="0" style="height: 685px;"
-                frameborder="no">
-          <message></message>
-        </iframe>
-      </div>
-    </div>
-    <aside v-show="this.add" class="book-toc ksd-book-toc book-menu" :class="{'ksd-zl-div-source':this.flag}">
-      <span class="ksd-expand-zl-toc ksd-expand-zl-right-toc"><i class="iconfont icon-xiangzuo1 pr ftp1"></i></span>
-      <span class="ksd-expand-zl-toc ksd-expand-zl-left-toc"><i class="iconfont icon-xiangyou1 pr ftp1"></i></span>
-      <nav id="ksd-chapterlist"
-           style="margin-left: -18px;box-shadow: 0 0 1em #e6ecef;z-index: 10;background-color: white;margin-bottom: -66px;"></nav>
-    </aside>
+      <aside v-show="this.rightFlag" class="book-toc ksd-book-toc book-menu" :class="{'ksd-zl-div-source':this.flag}">
+        <span class="ksd-expand-zl-toc ksd-expand-zl-right-toc"><i class="iconfont icon-xiangzuo1 pr ftp1"></i></span>
+        <span class="ksd-expand-zl-toc ksd-expand-zl-left-toc"><i class="iconfont icon-xiangyou1 pr ftp1"></i></span>
+        <nav id="ksd-chapterlist"
+             style="margin-left: -18px;text-align: left;box-shadow: 0 0 1em #e6ecef;z-index: 10;background-color: white;margin-bottom: -66px;">
 
-    <a href="javascript:void(0);" class="ksd-nextbtn ksd-nextbtn-left" style="left: 385px;" v-show="this.add"><i
-      class="iconfont icon-xiangzuo1 fz20 fw"></i></a>
-    <a href="javascript:void(0);" class="ksd-nextbtn ksd-nextbtn-right" v-show="this.add"><i
-      class="iconfont icon-xiangyou1 fz20 fw"></i></a>
-    <!--    <preview-img :img="this.img"></preview-img>-->
+        </nav>
+      </aside>
 
-  </main>
+      <a href="javascript:void(0);" class="ksd-nextbtn ksd-nextbtn-left" style="left: 385px;" v-show="this.add"><i
+        class="iconfont icon-xiangzuo1 fz20 fw"></i></a>
+      <a href="javascript:void(0);" class="ksd-nextbtn ksd-nextbtn-right" v-show="this.add"><i
+        class="iconfont icon-xiangyou1 fz20 fw"></i></a>
+      <!--    <preview-img :img="this.img"></preview-img>-->
+
+    </main>
+    <permission  v-else :permission="permission"></permission>
+  </div>
 </template>
 
 <script>
@@ -313,428 +276,286 @@ import Message from "../../bbs/children/Message";
 import Preview from "../../bbs/children/Preview";
 import PreviewImg from "../../bbs/children/PreviewImg";
 import MarkdownToHtml from "../../bbs/children/MarkdownToHtml";
-import {init, loading, mkImageShow, backToTop, easeInOutQuad} from "../../../common/utils";
+import {backToTop, easeInOutQuad, init, loadChapterHead, mkImageShow} from "../../../common/utils";
 import scriptjs from "scriptjs";
-import ClipboardJS from "clipboard";
 import Toc from "../../bbs/children/Toc";
 import PreviewTitle from "../../bbs/children/PreviewTitle";
+import {defaultConfig} from "../../../config/editor.md";
+import Loading from "../../../components/common/load/Loading";
+import bbsApi from "../../../network/bbs";
+import Permission from "../common/Permission";
 
 export default {
   name: "Special",
-  components: {PreviewTitle, Toc, MarkdownToHtml, PreviewImg, Preview, Message, EditorMarkdown},
+  components: {Permission, Loading, PreviewTitle, Toc, MarkdownToHtml, PreviewImg, Preview, Message, EditorMarkdown},
   data() {
     return {
       edit: true,
       flag: false,
       add: true,
       editMode: true,
-      articleList: [
-        {
-          id: 1,
-          sort: 1,
-          title: '第一天'
-        },
-        {
-          id: 2,
-          sort: 1,
-          title: '第二天'
-        },
-        {
-          id: 3,
-          sort: 1,
-          title: '第三天'
-        },
-        {
-          id: 4,
-          sort: 1,
-          title: '第五天'
-        }
+      clickFlag: -1,
+      permissionFlag: '',
+      permission: {},
+      columnArticleList: [
+        // {
+        //   articleId: 1,
+        //   sort: 1,
+        //   title: '第一天'
+        // },
+        // {
+        //   articleId: 2,
+        //   sort: 1,
+        //   title: '第二天'
+        // },
+        // {
+        //   articleId: 3,
+        //   sort: 1,
+        //   title: '第三天'
+        // },
+        // {
+        //   articleId: 4,
+        //   sort: 1,
+        //   title: '第五天'
+        // }
       ],
+      columnDetail: {
+        // columnId: "1508008133925105665",
+        // title: "Spring Cloud Alibaba专栏",
+        // description: "Spring Cloud 的用法",
+        // vsibility: 0,
+        // views: 0,
+        // color: "background-image: linear-gradient(to right, rgb(130, 178, 242) 0%, rgb(51, 51, 51) 100%);",
+        // isRelease: true,
+        // authorList: [
+        //   {
+        //     userId: "1489885385067622401",
+        //     nickname: "天天搬砖",
+        //     avatar: "https://thirdwx.qlogo.cn/mmopen/vi_32/07VIZwpL6UkSTYaCUf2krXZs3FKtTIQnXNWjDhH8LRCPia62Dss7gTI4hFEGJ59w9eCUIjiaUzvR1vpa02lrmic1g/132"
+        //   },
+        //   {
+        //     userId: "1",
+        //     nickname: "天天搬砖",
+        //     avatar: "https://thirdwx.qlogo.cn/mmopen/vi_32/07VIZwpL6UkSTYaCUf2krXZs3FKtTIQnXNWjDhH8LRCPia62Dss7gTI4hFEGJ59w9eCUIjiaUzvR1vpa02lrmic1g/132"
+        //   }
+        // ]
+      },
+      visibilityList: ['所有人可见', '仅对会员可见', '仅对自己可见', '仅对年会员可见', '仅对终身会员可见'],
+      article: {
+        // articleId: 3,
+        // title: '第一天',
+        // isExcellentArticle: 1,
+        // userId: 123,
+        // avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/oJc2IiaoibeUm3HGMyHJ87JdLYwhvHqqcf2dETPwibotxaWGBE0vibrB8ibiazLiapBZClEHPBu3MCg7eXEicVDclFmI1A/132',
+        // nickname: '花开富贵',
+        // vipLevel: 'vip',
+        // categoryName: '教程',
+        // view: 12222,
+        // content: '',
+        // gmtModified: '2022/02/20 00:03',
+        // gmtCreate: '2022/02/20 00:03'
+      },
+      labelList: [],
       target: '\"#zl\"',
-      id: 'zl',
-      markdownValue: `### 主要特性
-
-- 支持“标准”Markdown / CommonMark和Github风格的语法，也可变身为代码编辑器；
-- 支持实时预览、图片（跨域）上传、预格式文本/代码/表格插入、代码折叠、搜索替换、只读模式、自定义样式主题和多语言语法高亮等功能；
-- 支持ToC（Table of Contents）、Emoji表情、Task lists、@链接等Markdown扩展语法；
-- 支持TeX科学公式（基于KaTeX）、流程图 Flowchart 和 时序图 Sequence Diagram;
-- 支持识别和解析HTML标签，并且支持自定义过滤标签解析，具有可靠的安全性和几乎无限的扩展性；
-- 支持 AMD / CMD 模块化加载（支持 Require.js & Sea.js），并且支持自定义扩展插件；
-- 兼容主流的浏览器（IE8+）和Zepto.js，且支持iPad等平板设备；
-- 支持自定义主题样式；
-
-# Editor.md
-
-![](https://pandao.github.io/editor.md/images/logos/editormd-logo-180x180.png)
-
-![](https://img.shields.io/github/stars/pandao/editor.md.svg) ![](https://img.shields.io/github/forks/pandao/editor.md.svg) ![](https://img.shields.io/github/tag/pandao/editor.md.svg) ![](https://img.shields.io/github/release/pandao/editor.md.svg) ![](https://img.shields.io/github/issues/pandao/editor.md.svg) ![](https://img.shields.io/bower/v/editor.md.svg)
-
-**目录 (Table of Contents)**
-
-[TOCM]
-
-[TOC]
-
-# Heading 1
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-# Heading 1 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-## Heading 2 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-### Heading 3 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-#### Heading 4 link [Heading link](https://github.com/pandao/editor.md "Heading link") Heading link [Heading link](https://github.com/pandao/editor.md "Heading link")
-##### Heading 5 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-###### Heading 6 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-
-#### 标题（用底线的形式）Heading (underline)
-
-This is an H1
-=============
-
-This is an H2
--------------
-
-### 字符效果和横线等
-
-----
-
-~~删除线~~ <s>删除线（开启识别HTML标签时）</s>
-*斜体字*      _斜体字_
-**粗体**  __粗体__
-***粗斜体*** ___粗斜体___
-
-上标：X<sub>2</sub>，下标：O<sup>2</sup>
-
-**缩写(同HTML的abbr标签)**
-
-> 即更长的单词或短语的缩写形式，前提是开启识别HTML标签时，已默认开启
-
-The <abbr title="Hyper Text Markup Language">HTML</abbr> specification is maintained by the <abbr title="World Wide Web Consortium">W3C</abbr>.
-
-### 引用 Blockquotes
-
-> 引用文本 Blockquotes
-
-引用的行内混合 Blockquotes
-
-> 引用：如果想要插入空白换行\`即<br />标签\`，在插入处先键入两个以上的空格然后回车即可，[普通链接](http://localhost/)。
-
-### 锚点与链接 Links
-
-[普通链接](http://localhost/)
-
-[普通链接带标题](http://localhost/ "普通链接带标题")
-
-直接链接：<https://github.com>
-
-[锚点链接][anchor-id]
-
-[anchor-id]: http://www.this-anchor-link.com/
-
-GFM a-tail link @pandao
-
-> @pandao
-
-### 多语言代码高亮 Codes
-
-#### 行内代码 Inline code
-
-执行命令：\`npm install marked\`
-
-#### 缩进风格
-
-即缩进四个空格，也做为实现类似\`<pre>\`预格式化文本(Preformatted Text)的功能。
-
-    <?php
-        echo "Hello world!";
-    ?>
-
-预格式化文本：
-
-    | First Header  | Second Header |
-    | ------------- | ------------- |
-    | Content Cell  | Content Cell  |
-    | Content Cell  | Content Cell  |
-
-#### JS代码　
-
-\`\`\`javascript
-function test(){
-\tconsole.log("Hello world!");
-}
-
-(function(){
-    var box = function(){
-        return box.fn.init();
-    };
-
-    box.prototype = box.fn = {
-        init : function(){
-            console.log('box.init()');
-
-\t\t\treturn this;
-        },
-
-\t\tadd : function(str){
-\t\t\talert("add", str);
-
-\t\t\treturn this;
-\t\t},
-
-\t\tremove : function(str){
-\t\t\talert("remove", str);
-
-\t\t\treturn this;
-\t\t}
-    };
-
-    box.fn.init.prototype = box.fn;
-
-    window.box =box;
-})();
-
-var testBox = box();
-testBox.add("jQuery").remove("jQuery");
-\`\`\`
-
-#### HTML代码 HTML codes
-
-\`\`\`html
-<!DOCTYPE html>
-<html>
-    <head>
-        <mate charest="utf-8" />
-        <title>Hello world!</title>
-    </head>
-    <body>
-        <h1>Hello world!</h1>
-    </body>
-</html>
-\`\`\`
-
-### 图片 Images
-
-Image:
-
-![](https://pandao.github.io/editor.md/examples/images/4.jpg)
-
-> Follow your heart.
-
-![](https://pandao.github.io/editor.md/examples/images/8.jpg)
-
-> 图为：厦门白城沙滩
-
-###图片加链接 Images
-
-![](https://pandao.github.io/editor.md/examples/images/8.jpg)
-
-> 图为：李健首张专辑《似水流年》封面
-
-----
-
-### 列表 Lists
-
-#### 无序列表（减号）Unordered Lists (-)
-
-- 列表一
-- 列表二
-- 列表三
-
-#### 无序列表（星号）Unordered Lists (*)
-
-* 列表一
-* 列表二
-* 列表三
-
-#### 无序列表（加号和嵌套）Unordered Lists (+)
-
-+ 列表一
-+ 列表二
-    + 列表二-1
-    + 列表二-2
-    + 列表二-3
-+ 列表三
-    * 列表一
-    * 列表二
-    * 列表三
-
-#### 有序列表 Ordered Lists (-)
-
-1. 第一行
-2. 第二行
-3. 第三行
-
-#### GFM task list
-
-- [x] GFM task list 1
-- [x] GFM task list 2
-- [ ] GFM task list 3
-    - [ ] GFM task list 3-1
-    - [ ] GFM task list 3-2
-    - [ ] GFM task list 3-3
-- [ ] GFM task list 4
-    - [ ] GFM task list 4-1
-    - [ ] GFM task list 4-2
-
-----
-
-### 绘制表格 Tables
-
-| 项目        | 价格   |  数量  |
-| --------   | -----:  | :----:  |
-| 计算机      | $1600   |   5     |
-| 手机        |   $12   |   12   |
-| 管线        |    $1    |  234  |
-
-First Header  | Second Header
-------------- | -------------
-Content Cell  | Content Cell
-Content Cell  | Content Cell
-
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
-
-| Function name | Description                    |
-| ------------- | ------------------------------ |
-| \`help()\`      | Display the help window.       |
-| \`destroy()\`   | **Destroy your computer!**     |
-
-| Left-Aligned  | Center Aligned  | Right Aligned |
-| :------------ |:---------------:| -----:|
-| col 3 is      | some wordy text | $1600 |
-| col 2 is      | centered        |   $12 |
-| zebra stripes | are neat        |    $1 |
-
-| Item      | Value |
-| --------- | -----:|
-| Computer  | $1600 |
-| Phone     |   $12 |
-| Pipe      |    $1 |
-
-----
-
-#### 特殊符号 HTML Entities Codes
-
-&copy; &  &uml; &trade; &iexcl; &pound;
-&amp; &lt; &gt; &yen; &euro; &reg; &plusmn; &para; &sect; &brvbar; &macr; &laquo; &middot;
-
-X&sup2; Y&sup3; &frac34; &frac14;  &times;  &divide;   &raquo;
-
-18&ordm;C  &quot;  &apos;
-
-### Emoji表情 :smiley:
-
-> Blockquotes :star:
-
-#### GFM task lists & Emoji & fontAwesome icon emoji & editormd logo emoji :editormd-logo-5x:
-
-- [x] :smiley: @mentions, :smiley: #refs, [links](), **formatting**, and <del>tags</del> supported :editormd-logo:;
-- [x] list syntax required (any unordered or ordered list supported) :editormd-logo-3x:;
-- [x] [ ] :smiley: this is a complete item :smiley:;
-- [ ] []this is an incomplete item [test link](#) :fa-star: @pandao;
-- [ ] [ ]this is an incomplete item :fa-star: :fa-gear:;
-    - [ ] :smiley: this is an incomplete item [test link](#) :fa-star: :fa-gear:;
-    - [ ] :smiley: this is  :fa-star: :fa-gear: an incomplete item [test link](#);
-
-#### 反斜杠 Escape
-
-\\*literal asterisks\\*
-
-### 科学公式 TeX(KaTeX)
-
-$$E=mc^2$$
-
-行内的公式$$E=mc^2$$行内的公式，行内的$$E=mc^2$$公式。
-
-$$\\(\\sqrt{3x-1}+(1+x)^2\\)$$
-
-$$\\sin(\\alpha)^{\\theta}=\\sum_{i=0}^{n}(x^i + \\cos(f))$$
-
-多行公式：
-
-\`\`\`math
-\\displaystyle
-\\left( \\sum\\_{k=1}^n a\\_k b\\_k \\right)^2
-\\leq
-\\left( \\sum\\_{k=1}^n a\\_k^2 \\right)
-\\left( \\sum\\_{k=1}^n b\\_k^2 \\right)
-\`\`\`
-
-\`\`\`katex
-\\displaystyle
-    \\frac{1}{
-        \\Bigl(\\sqrt{\\phi \\sqrt{5}}-\\phi\\Bigr) e^{
-        \\frac25 \\pi}} = 1+\\frac{e^{-2\\pi}} {1+\\frac{e^{-4\\pi}} {
-        1+\\frac{e^{-6\\pi}}
-        {1+\\frac{e^{-8\\pi}}
-         {1+\\cdots} }
-        }
-    }
-\`\`\`
-
-\`\`\`latex
-f(x) = \\int_{-\\infty}^\\infty
-    \\hat f(\\xi)\\,e^{2 \\pi i \\xi x}
-    \\,d\\xi
-\`\`\`
-
-### 绘制流程图 Flowchart
-
-\`\`\`flow
-st=>start: 用户登陆
-op=>operation: 登陆操作
-cond=>condition: 登陆成功 Yes or No?
-e=>end: 进入后台
-
-st->op->cond
-cond(yes)->e
-cond(no)->op
-\`\`\`
-
-### 绘制序列图 Sequence Diagram
-
-\`\`\`seq
-Andrew->China: Says Hello
-Note right of China: China thinks\\nabout it
-China-->Andrew: How are you?
-Andrew->>China: I am good thanks!
-\`\`\`
-
-### End`,
-      img: 'https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2020/11/05/kuangstudy922adc10-910e-43d7-90fd-b5a7198f55db.jpg'
+      id: 'preview',
+      loadingFlag: true,
+      rightFlag: false,
+      zlFlag: true,
+      img: 'https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2020/11/05/kuangstudy922adc10-910e-43d7-90fd-b5a7198f55db.jpg',
+      i: 0,
+      radioValue: '',
+      publishValue: '',
+      publishList: [
+        '不发布', '发布'
+      ],
+      editArticleFlag: true,
+      stopFlag: true,
+      tempDescription: '',
+      authorList: []
     }
   },
   methods: {
+    choosePublishRadio(item) {
+      this.publishValue = item
+    },
+    chooseRadio(item) {
+      this.radioValue = item
+    },
+    showPage() {
+      this.rightFlag = false
+      this.zlFlag = true
+    },
     editSpecial() {
       this.edit = false
       this.flag = true
     },
+    getConfig() {
+      if (this.config) {
+        return this.config;
+      } else {
+        return defaultConfig
+      }
+    },
+    editZlArticle(zlId, articleId) {
+      // alert('ahah')
+      this.stopFlag = false
+      this.add = !this.add
+      this.editArticleFlag = false
+      this.zlFlag = true
+      this.rightFlag = false
+
+      this.clickFlag = this.columnArticleList.findIndex((item) => item.articleId == articleId)
+      // let a =  "/topic/zl/to-update" + zlId + '/' + articleId
+      // alert(a)
+      // alert(zlId)
+      // alert(articleId)
+      $("#iframebox").height($(window).height() - 100).attr("src", "/topic/zl/to-update/" + zlId + '/' + articleId);
+    },
     mkImageShow,
     addDialog() {
+      this.editArticleFlag = true
       this.add = !this.add
-      $("#iframebox").height($(window).height() - 100).attr("src", "/topic");
+      this.zlFlag = true
+      this.rightFlag = false
+      this.clickFlag = -1
+      $("#iframebox").height($(window).height() - 100).attr("src", "/topic/zl/add-article/" + this.$route.params.zlId);
       $('.ksd-zl-itemlist').append('')
+      // document.getElementById("iframebox").contentWindow.Message.publishZlArticle(123);
     },
-    removeItemReal() {
+    //删除专栏文章
+    removeItemReal(e, index) {
+      let articleId = e.currentTarget.dataset.articleid
+      // alert(articleId)
+      let zlId = this.$route.params.zlId
+      layer.confirm(`你确定删除吗？`, {
+        btn: ['确定移出', '放弃操作'], //按钮
+        data: {
+          _articleId: articleId,
+          _this: this,
+          _index: index,
+          _zlId: zlId
+        }
+      }, function () {
+        // this.data._this.remove()
+        this.data._this.columnArticleList.splice(this.data._index, 1)
+        // alert(this.data._articleId)
+        // alert(this.data._zlId)1513034774108938242
+        bbsApi.deleteZlArticle(this.data._articleId, this.data._zlId).then(response => {
+          layer.msg('删除成功', {time: 1000})
+        })
+      }, function () {
+
+      });
 
     },
     editItemReal() {
 
     },
+    bindTitle() {
+      $('#iframebox').contents().find('#addTitle').val(this.$refs.leftTitle.value)
+    },
     deleteDialog() {
+
+    },
+    //查询封面数据，和左边数据
+    findColumnDetail() {
+      let zlId = this.$route.params.zlId
+      this.radioValue = this.columnDetail.vsibility
+      this.publishValue = this.columnDetail.isRelease ? 1 : 0
+      bbsApi.findSpecialData(zlId).then(response => {
+        let level = this.$store.state.myUserInfoVo.vipLevel == null ? 0 : this.$store.state.vipList.findIndex((item) => {
+          return item == this.$store.state.myUserInfoVo.vipLevel
+        })
+        let myselfFlag = response.data.data.columnDetail.authorList.findIndex((item) => {
+          return item.userId == this.$store.state.myUserInfoVo.id
+        })
+        //说明你是专栏的作者，直接访问不用判断
+        if (myselfFlag != -1) {
+          // alert('hh')
+          this.columnArticleList = response.data.data.columnArticleList
+          this.columnDetail = response.data.data.columnDetail
+          this.authorList = response.data.data.columnDetail.authorList
+          this.tempDescription = this.columnDetail.description
+          this.radioValue = this.columnDetail.vsibility
+          this.publishValue = this.columnDetail.isRelease ? 1 : 0
+        } else { //说明你不是作者
+          //需要判断你是否符合专栏可见度的要求
+          //如果你是专栏的作者你也可以直接访问
+          if (myselfFlag != -1) {
+            // alert('hh')
+            this.columnArticleList = response.data.data.columnArticleList
+            this.columnDetail = response.data.data.columnDetail
+            this.authorList = response.data.data.columnDetail.authorList
+            this.tempDescription = this.columnDetail.description
+            this.radioValue = this.columnDetail.vsibility
+            this.publishValue = this.columnDetail.isRelease ? 1 : 0
+          } else if ((response.data.data.columnDetail.vsibility < level) && response.data.data.columnDetail.vsibility != 1) {
+            this.columnArticleList = response.data.data.columnArticleList
+            this.columnDetail = response.data.data.columnDetail
+            this.authorList = response.data.data.columnDetail.authorList
+            this.tempDescription = this.columnDetail.description
+            this.radioValue = this.columnDetail.vsibility
+            this.publishValue = this.columnDetail.isRelease ? 1 : 0
+          } else { //这里说明你没有权限
+            // alert('你没有权限哦')
+            // this.$router.push({name: 'Permission', params: {'zlId': this.zlId}})
+            // this.$router.replace('/permission');
+            this.permissionFlag = true
+            let item = {
+              title: response.data.data.columnDetail.title,
+              visibility: this.visibilityList[response.data.data.columnDetail.vsibility]
+            }
+
+            this.permission = item
+            // this.$router.push({name:'Permission',params:{zlId:this.zlId}});
+          }
+          // }
+          // if(response.data.data.columnDetail.vsibility == 2) {
+          //   alert('仅对自己可见')
+          // }
+          // // alert(response.data.data.columnDetail.vsibility)
+          // if((response.data.data.columnDetail.vsibility > level)) {
+          //   // alert('haha')
+          //   this.$router.push({name: 'Permission', params: {zlId: this.zlId}})
+          // } else {
+          //   // alert('hh')
+          //   this.columnArticleList = response.data.data.columnArticleList
+          //   this.columnDetail = response.data.data.columnDetail
+          //   this.authorList = response.data.data.columnDetail.authorList
+          //   this.tempDescription = this.columnDetail.description
+          //   this.radioValue = this.columnDetail.vsibility
+          //   this.publishValue = this.columnDetail.isRelease ? 1 : 0
+          // }
+        }
+      })
 
     },
     editListMode() {
       this.editMode = !this.editMode
-      this.sortItem(this.articleList)
+      this.sortItem(this.columnArticleList)
     },
     deleteSpecial() {
-      this.edit = true
-      this.flag = false
+      this.edit = false
+      this.flag = true
+      let zlId = this.$route.params.zlId //专栏id
+      layer.confirm(`你确定要移出该专栏吗？`, {
+        btn: ['确定移出', '放弃操作'], //按钮
+        data: {
+          _zlId: zlId
+        }
+      }, function () {
+        bbsApi.deleteSpecial(this.data._zlId).then(response => {
+          if (response.data.code == 20000) {
+            layer.msg('删除成功', {time: 1000})
+            setTimeout(() => {
+              window.location = 'http://localhost:8080/user'
+            }, 1000)
+          }
+        })
+      }, function () {
+
+      });
+
     },
     sortItem(item) {
       item.sort(function (a, b) {
@@ -751,27 +572,90 @@ Andrew->>China: I am good thanks!
       // let zlCntId = $(obj).data("opid");
       // let zlId = $("body").data("zlid");
       // let csort = $(obj).data("sort");
-      this.articleList[index].sort = obj.currentTarget.value
+      this.columnArticleList[index].sort = obj.currentTarget.value
+      // console.log(obj.currentTarget.value)
+      // console.log(index)
+      // console.log(this.columnArticleList[0])
+      // console.log(this.columnArticleList[index].articleId)
+      bbsApi.modifyZlSort(obj.currentTarget.value, this.columnArticleList[index].articleId).then(response => {
+        this.labelList = response.data.data.labelList
+        this.article = response.data.data.article
+      })
     },
     removeItem(event) {
       if (confirm("你确定移除吗?")) {
         $(event.currentTarget).parents("li").fadeOut("slow", function () {
-          $(event.currentTarget).remove();
+          $(event.currentTarget).hide();
           $(".book-page-main").show();
           $(".book-page-editbox").hide();
-          $("#ksd-zl-item-opedit").remove();
-          $(".ksd-addzl-link").find("span").text("添加文章");
+          $("#ksd-zl-item-opedit").hide();
+          $("#zlLeftAddTitle").val('')
           // //重新排序
-          // this.sortItem(this.articleList);
+          // this.sortItem(this.columnArticleList);
           // controlNoEmpty();
         });
+        this.add = true
+      } else {
+        this.add = false
       }
+    },
+    findZlArticle(e, index) {
+      this.clickFlag = index;
+      if (this.stopFlag) {
+        this.zlFlag = false;
+        this.rightFlag = true;
+        this.loadingFlag = true;
+        $('#preview_article').removeClass('animated fadeInDownBig')
+        let zlArticleId = e.currentTarget.dataset.opid;
+        let zlId = this.$route.params.zlId //专栏id
+        // alert(zlArticleId)
+        // alert(zlId)
+        bbsApi.findZlArticleDetail(zlId, zlArticleId).then(response => {
+          this.labelList = response.data.data.labelList
+          // console.log(response.data)
+          this.article = response.data.data.article
+          // alert(this.article.isRelease)
+          // alert(this.article.content)
+          $('#preview_article').addClass('animated fadeInDownBig')
+
+          this.loadChapterHead()
+          this.loadingFlag = false
+        })
+        // setTimeout(function () {
+        //   $('#loadingbox').hide().empty();
+        //   // this.loading = false
+        // },5000)
+      }
+      // loading()
+      // setTimeout(clear, 500)
     },
     backToTop,
     easeInOutQuad,
     updateSpecial() {
-      this.edit = true
-      this.flag = false
+      let columnId = this.$route.params.zlId;
+      let title = this.$refs.zlTitle.value;
+      let description = this.$refs.zlDescription.value
+      let color = this.$refs.zlColor.value
+      let vsibility = this.radioValue
+      let isRelease = this.publishValue == 1 ? true : false
+      // console.log(columnId)
+      // console.log(title)
+      // console.log(description)
+      // console.log(color)
+      // console.log(vsibility)
+      // console.log(isRelease)
+      bbsApi.modifySpecialData(columnId, title, description, color, vsibility, isRelease).then(response => {
+        if (response.data.code == 20000) {
+          layer.msg('修改成功!', {time: 700})
+          this.columnDetail.description = description
+          this.columnDetail.title = title
+          this.columnDetail.color = color
+          this.columnDetail.vsibility = vsibility
+          this.columnDetail.isRelease = isRelease
+          this.edit = true
+          this.flag = false
+        }
+      })
     },
     init,
     fetchScript(url) {
@@ -781,11 +665,14 @@ Andrew->>China: I am good thanks!
         })
       })
     },
-    loading,
-
+    closeIFrame() {
+      alert('haha')
+    },
+    loadChapterHead
   },
   mounted() {
     this.init(this.id)
+    editormd('editor', this.getConfig());
   },
   beforeCreate() {
     if (this.$route.path.indexOf('/zl') == 0) {
@@ -793,17 +680,18 @@ Andrew->>China: I am good thanks!
     } else {
       document.querySelector('body').className = 'bg-gray'
     }
+
   },
   created() {
     setTimeout(this.mkImageShow, 500);
-    setTimeout(function () {
-      loading()
-    }, 500)
     if (window.name == 'isReload') {
       this.backToTop('slide_bottom')
     } else {
       window.name = 'isReload'
     }
+    this.$nextTick(this.findColumnDetail())
+
+    // alert(this.$store.state.myUserInfoVo.vipLevel)
   }
 }
 </script>
@@ -830,6 +718,7 @@ main {
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block;
 }
+
 
 .ksd-zl-div-edit {
   display: none;
@@ -940,7 +829,8 @@ aside nav, .book-page, .book-header aside, .markdown {
 }
 
 .book-page {
-  margin: 0 auto;
+  /*margin: 0 auto;*/
+  margin: 0 -84px;
   padding: 1.5rem !important;
 }
 
@@ -1185,7 +1075,7 @@ li {
 }
 
 .book-page-editbox iframe {
-  width: 100%;
+  width: 1250px;
   broder: 0;
 }
 
@@ -1259,6 +1149,42 @@ li {
   clear: both;
 }
 
+.editClass {
+  padding-top: 4px;
+  margin-left: 167px;
+}
 
+.pd-120 {
+  padding-top: 0px;
 
+}
+
+.ksd-zhuanlan-itemezy {
+  margin: 8px 8px 0;
+}
+
+.ksd-zhuanlan-inblock {
+  display: inline-block;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+  border-style: none;
+}
+
+.ksd-zhuanlan-module {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
 </style>

@@ -2,7 +2,7 @@ import axios from "axios";
 import cookie from "js-cookie";
 
 export const information = axios.create({
-  baseURL: 'http://localhost:8006',
+  baseURL: 'http://1.15.188.107:8160',
   timeout: 2000
 })
 // 第三步http request 拦截器
@@ -65,7 +65,7 @@ export default {
   findOtherPeopleInfo(current, limit) {
     return information({
       url: '/message/reply/findAll',
-      method: 'get',
+      method: 'post',
       params: {
         'current': current,
         'limit': limit

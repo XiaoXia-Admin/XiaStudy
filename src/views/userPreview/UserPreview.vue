@@ -2,36 +2,36 @@
   <div class="ucenter_box">
     <div id="ucenterapp" class="container">
       <div class="user_top_bg position-relative xjy-left"
-           :style="{backgroundImage: 'url('+this.userDetail.bgImg+')',marginTop: '55px'}">
+           :style="{backgroundImage: 'url('+this.otherUserDetail.bgImg+')',marginTop: '55px'}">
         <div class="px-4 pb-4 row mx-0 "><span class="pr">
-          <img :src="this.userDetail.avatar" alt="" class="avatar-4"
+          <img :src="this.otherUserDetail.avatar" alt="" class="avatar-4"
                style="border: 2px solid rgb(239, 239, 239);"></span>
           <div class="col" style="align-self: center;"><h3 class="mb-2 text-white"><span class="username"
                                                                                          style="font-size: 20px; font-weight: bold; vertical-align: middle;">{{
-              this.userDetail.nickname
+              this.otherUserDetail.nickname
             }}
-          <span v-show="this.userDetail.sex == 0" style="padding:3px;position: relative;top:-1px;margin-right: 5px;"
+          <span v-show="this.otherUserDetail.sex == 0" style="padding: 3px;font-size:12px;position: relative;top: -1px;margin-right: 5px;border-radius: 1.25rem;display: inline-block;margin-bottom: 8px;"
                 class="badge cbadge-fz14 ksd-sex cbadge-sex-wm  badge-primary"><i style="padding: 0;"
                                                                                   class="iconfont icon-nvxing pr"></i></span>
 
-                  <span v-show="this.userDetail.sex == 1" class="badgelv cbadge-fz14 badge-primary"
+                  <span v-show="this.otherUserDetail.sex == 1" class="badgelv cbadge-fz14 badge-primary"
                         style="padding: 3px; position: relative; top: 1px;"><i
                     class="iconfont icon-nanxing pr" style="padding: 0px;"></i></span>
 
           </span>
             <span data-exp="2555" class="badgelv badge-danger cbadge-fz12 ksd-badge-exp fw" :class="this.displayLevel">Lv{{
-                this.getLevel(this.userDetail.experience)
+                this.getLevel(this.otherUserDetail.experience)
               }}</span>
           </h3>
-            <p :title="this.userDetail.sign" class="fz12 pellipsis cof">{{ this.userDetail.sign }} </p></div>
+            <p :title="this.otherUserDetail.sign" class="fz12 pellipsis cof">{{ this.otherUserDetail.sign }} </p></div>
           <div class="col text-right px-0" style="align-self: flex-end;"><input type="hidden"
                                                                                 value="e73cbe9b3c21455ca55f371cf9efd0aa">
             <input type="hidden" id="followId" value="e73cbe9b3c21455ca55f371cf9efd0aa">
             <span class="pl-3 text-white">
-              <a v-show="isAttention == 0" class="btn btn-0099ee  px-3 py-1 ksd-b-nav-link">
+              <a v-show="isAttention == 0" @click="attentionUser" class="btn btn-0099ee  px-3 py-1 ksd-b-nav-link">
                 <i class="iconfont tp1 pr icon-jia"></i> 关注TA
               </a>
-              <a v-show="isAttention == 1" class="btn btn-0099ee  px-3 py-1 ksd-b-nav-link"><i
+              <a v-show="isAttention == 1" @click="cancelAttentionUser" class="btn btn-0099ee  px-3 py-1 ksd-b-nav-link"><i
                 class="iconfont tp1 pr icon-zhengquewancheng"></i> 已关注TA </a>
             </span> <span class="pl-3 text-white">
               <a href="/user" class="btn px-3 py-1 ksd-b-nav-link btn-0099ee2">
@@ -45,18 +45,18 @@
         <ul class="nav nav-pills">
           <li data-href="say" class="nav-item ksd-nav-item"><a @click="bottomExchange('talk')" class="nav-link"
                                                                :class="{active:this.talk}">说说<span
-            class="fz12 ml-1">{{this.userDetail.dynamicNumber}}</span></a></li>
+            class="fz12 ml-1">{{this.otherUserDetail.dynamicNumber}}</span></a></li>
           <li data-href="topic" class="nav-item ksd-nav-item"><a @click="bottomExchange('article')" class="nav-link"
                                                                  :class="{active:this.article}">文章<span
-            class="fz12 ml-1">{{this.userDetail.articleNumber}}</span></a>
+            class="fz12 ml-1">{{this.otherUserDetail.articleNumber}}</span></a>
           </li>
           <li data-href="topic" class="nav-item ksd-nav-item"><a class="nav-link" @click="bottomExchange('special')"
                                                                  :class="{active:this.special}">专栏<span
-            class="fz12 ml-1">{{this.userDetail.columnNumber}}</span></a>
+            class="fz12 ml-1">{{this.otherUserDetail.columnNumber}}</span></a>
           </li>
           <li data-href="course" class="nav-item ksd-nav-item"><a class="nav-link" @click="bottomExchange('study')"
                                                                   :class="{active:this.study}">学习 <span
-            class="fz12 ml-1">{{this.userDetail.studyNumber}}</span></a>
+            class="fz12 ml-1">{{this.otherUserDetail.studyNumber}}</span></a>
           </li>
           <li data-href="content" class="nav-item ksd-nav-item"><a class="nav-link" @click="bottomExchange('home')"
                                                                    :class="{active:this.home}">简介</a></li>
@@ -66,11 +66,11 @@
             <a href="javascript:void(0);" class="py-1 ksd-nav-item-fans" style="color: rgb(255, 119, 73);"
                :class="{'nav-link-bold': this.follow}" @click="bottomExchange('follow')"><i
               class="iconfont icon-shoucang" style="position: relative; top: 1px;"></i> 关注（<span
-              class="ksd-guanzhunum-gg">{{this.userDetail.attentionNumber}}</span>）
+              class="ksd-guanzhunum-gg">{{this.otherUserDetail.attentionNumber}}</span>）
            </a> <span class="ksd-spspan" style="padding: 0px 5px;">|</span>
             <a href="javascript:void(0);" class="py-1 ksd-nav-item-fans" @click="bottomExchange('fans')" :class="{'nav-link-bold': this.fans}"><i
               class="iconfont icon-fensiguanli" style="position: relative; top: 2px;"></i> 粉丝（<span
-              class="ksd-fans-num">{{this.userDetail.fansNumber}}</span>）
+              class="ksd-fans-num">{{this.otherUserDetail.fansNumber}}</span>）
                             </a></span></div>
       </div>
     </div>
@@ -79,8 +79,8 @@
     <other-special v-show="this.special"></other-special>
     <other-study v-show="this.study"></other-study>
     <other-home v-show="this.home"></other-home>
-    <Follow :search-box="false" :user-list="this.userList" v-show="this.follow"></Follow>
-    <Follow :search-box="false" :user-list="this.userList" v-show="this.fans"></Follow>
+    <Follow :search-box="false" :user-follow-list="this.userFollowList" :total="this.followTotal" :follow-flag="true" :fans-flag="false" v-show="this.follow"></Follow>
+    <Follow :search-box="false" :user-follow-list="this.userFansList" :total="this.fansTotal" :follow-flag="false" :fans-flag="true" v-show="this.fans"></Follow>
 
   </div>
 </template>
@@ -93,7 +93,8 @@ import OtherSpecial from "./children/OtherSpecial";
 import OtherStudy from "./children/OtherStudy";
 import OtherHome from "./children/OtherHome";
 import HomePage from "../user/children/HomePage";
-import Follow from "../user/children/Follow";
+import Follow from "../user/common/Follow";
+import loginApi from "../../network/login";
 export default {
   name: "UserPreview",
   components: { OtherHome, OtherStudy, OtherSpecial, OtherArticle, OtherTalk, HomePage, Follow},
@@ -108,41 +109,132 @@ export default {
       setting: false,
       follow: false,
       fans: false,
-      isAttention: 0,
-      userDetail: {
-        id: 1,
-        bgImg: './static/bg/1.jpg',
-        avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83epURBSUSGSM0q0fGicY2cY4buicEPspibhcTuVPOmbKZRoibdD0KzxeEczApTIYZYIpdCOsh1PSptJzyQ/132',
-        nickname: '小夏同学',
-        sex: 1,
-        experience: 100000,
-        sign: '我还是从前那个少年，心中从未有改变!',
-        attentionNumber: 123,
-        fansNumber: 11,
-        articleNumber: 123321,
-        columnNumber: 213,
-        studyNumber: 3,
-        dynamicNumber: 323
+      isAttention: false,
+      otherUserDetail: {
+        // id: 1,
+        // bgImg: './static/bg/1.jpg',
+        // avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83epURBSUSGSM0q0fGicY2cY4buicEPspibhcTuVPOmbKZRoibdD0KzxeEczApTIYZYIpdCOsh1PSptJzyQ/132',
+        // nickname: '小夏同学',
+        // sex: 1,
+        // experience: 100000,
+        // sign: '我还是从前那个少年，心中从未有改变!',
+        // attentionNumber: 123,
+        // fansNumber: 11,
+        // articleNumber: 123321,
+        // columnNumber: 213,
+        // studyNumber: 3,
+        // dynamicNumber: 323
       },
+      userFollowList: [
+        // {
+        //   id: 1,
+        //   avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83epURBSUSGSM0q0fGicY2cY4buicEPspibhcTuVPOmbKZRoibdD0KzxeEczApTIYZYIpdCOsh1PSptJzyQ/132',
+        //   nickname: '往事随风',
+        //   sign: '我还是从前那个少年，心中从未有改变!',
+        //   vipLevel: 'svip',
+        //   gmtCreate: '2022/01/15 12:24',
+        // },
+        // {
+        //   id: 2,
+        //   avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83epURBSUSGSM0q0fGicY2cY4buicEPspibhcTuVPOmbKZRoibdD0KzxeEczApTIYZYIpdCOsh1PSptJzyQ/132',
+        //   nickname: '往事随风',
+        //   sign: ' 我们的征途是星辰大海！',
+        //   vipLevel: 'svip',
+        //   gmtCreate: '2022/01/15 12:24',
+        // }
+      ],
+      userFansList: [
+        // {
+        //   id: 1,
+        //   avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83epURBSUSGSM0q0fGicY2cY4buicEPspibhcTuVPOmbKZRoibdD0KzxeEczApTIYZYIpdCOsh1PSptJzyQ/132',
+        //   nickname: '往事随风',
+        //   sign: '我还是从前那个少年，心中从未有改变!',
+        //   vipLevel: 'svip',
+        //   gmtCreate: '2022/01/15 12:24',
+        // },
+        // {
+        //   id: 2,
+        //   avatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83epURBSUSGSM0q0fGicY2cY4buicEPspibhcTuVPOmbKZRoibdD0KzxeEczApTIYZYIpdCOsh1PSptJzyQ/132',
+        //   nickname: '往事随风',
+        //   sign: ' 我们的征途是星辰大海！',
+        //   vipLevel: 'svip',
+        //   gmtCreate: '2022/01/15 12:24',
+        // }
+      ],
+      followTotal: 0,
+      fansTotal: 0
     }
   },
   methods: {
     bottomExchange,
-    getLevel
+    //查询他人用户信息
+    findOtherUserInfo(userId) {
+      loginApi.findOtherUserContent(userId).then(response => {
+        this.isAttention = response.data.data.isAttention
+        // alert(response.data.data.isAttention)
+        this.otherUserDetail = response.data.data.otherUserDetail
+        console.log(response.data.data.otherUserDetail)
+      })
+    },
+    getLevel,
+    //关注用户
+    attentionUser() {
+
+      let otherUserId = this.$route.params.userId
+      if(otherUserId != this.$store.state.myUserInfoVo.id) {
+        this.isAttention = 1
+        loginApi.followUser(otherUserId).then(response => {
+          if(response.data.code == 20000) {
+            layer.msg('关注成功')
+          }
+        })
+      } else {
+        layer.msg('你时时刻刻都在关注自己哦!', {time: 1000})
+      }
+    },
+    //取消关注用户
+    cancelAttentionUser() {
+      this.isAttention = 0
+      let otherUserId = this.$route.params.userId
+
+      loginApi.cancelFollowUser(otherUserId).then(response => {
+        layer.msg('取消关注')
+      })
+
+    },
+    //查询其他用户关注
+    findOtherFollow(userId) {
+      loginApi.findFollow(this.current, this.limit, userId).then(response => {
+        this.followTotal = response.data.data.total
+        this.userFollowList = response.data.data.userFollowList
+      })
+    },
+    //查询其他用户粉丝
+    findOtherFans(userId) {
+      loginApi.findFans(this.current, this.limit, userId).then(response => {
+        this.fansTotal = response.data.data.total
+        this.userFansList = response.data.data.userFansList
+      })
+    }
   },
   computed: {
     displayLevel() {
-      return 'cbadge-exp-lv' + this.getLevel(this.userDetail.experience)
+      return 'cbadge-exp-lv' + this.getLevel(this.otherUserDetail.experience)
     }
   },
   mounted() {
-    if (window.name == 'isReload') {
-      let num = this.$route.path.lastIndexOf('/')
-      let route = this.$route.path.substring(0, num);
-      this.$router.replace(route);
-    } else {
-      window.name = 'isReload'
-    }
+    // if (window.name == 'isReload') {
+    //   let num = this.$route.path.lastIndexOf('/')
+    //   let route = this.$route.path.substring(0, num);
+    //   this.$router.replace(route);
+    // } else {
+    //   window.name = 'isReload'
+    // }
+  },
+  created() {
+    this.findOtherUserInfo(this.$route.params.userId)
+    this.findOtherFans(this.$route.params.userId)
+    this.findOtherFollow(this.$route.params.userId)
   }
 }
 </script>

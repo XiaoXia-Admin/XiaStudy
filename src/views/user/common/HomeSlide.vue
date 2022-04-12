@@ -41,7 +41,7 @@
             <path fill-rule="evenodd"
                   d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"></path>
           </svg>
-          昵称：<span>{{this.$store.state.loginInfo.nickname}}</span>
+          昵称：<span>{{this.homePage.nickname}}</span>
         </div>
         <div class="py-2">
           <svg class="bi bi-graph-up" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
@@ -52,7 +52,7 @@
             <path fill-rule="evenodd"
                   d="M10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4h-3.5a.5.5 0 0 1-.5-.5z"></path>
           </svg>
-          等级：<span class="ksd-user-exp" data-exp="2155">Lv{{this.getLevel(this.$store.state.loginInfo.experience)}}</span>
+          等级：<span class="ksd-user-exp" :data-exp="this.homePage.experience">Lv{{this.getLevel(this.homePage.experience)}}</span>
         </div>
         <div class="py-2">
           <svg class="bi bi-credit-card" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
@@ -89,7 +89,10 @@ export default {
   props: {
     homePage: {
       type: Object,
-      default: {}
+      default: () => {
+        return {
+        }
+      }
     }
   },
   methods: {

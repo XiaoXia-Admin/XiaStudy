@@ -2,7 +2,7 @@ import axios from 'axios'
 import cookie from 'js-cookie'
 
 export const download = axios.create({
-  baseURL: 'http://localhost:8004',
+  baseURL: 'http://1.15.188.107:8160',
   timeout: 2000
 })
 // 第三步http request 拦截器

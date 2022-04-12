@@ -9,7 +9,7 @@
           style="max-width: 120px; width: 120px; height: 78px;"></a></div>
         <div class="cont xjy-left" style="margin-left: 135px;">
           <div class="sec1">
-            <div class="time s-fc4">更新时间：{{item.gmtCreate}}&nbsp;<i class="u-icn u-icn-57"></i></div>
+            <div class="time s-fc4">更新时间：{{item.gmtModified}}&nbsp;<i class="u-icn u-icn-57"></i></div>
             <div class="mn"><a target="_blank" :href="'/course/detail/' + item.courseId" :title="item.title"
                                class="s-fc0 f-fs1 f-fw1 fw fz16">{{item.title}}</a>&nbsp;
               <sup class="u-icn u-icn-1 "></sup></div>
@@ -26,6 +26,7 @@
 
 <script>
 import MsgTitle from "../common/MsgTitle";
+import informationApi from "../../../network/information";
 
 export default {
   name: "CourseInformation",
@@ -36,37 +37,32 @@ export default {
       total: 100,
       courseNewList: [
         {
-          courseId: 123,
-          cover: './static/course/02.jpg',
-          title: 'RabbitMQ详解  ',
-          description: '消息队列',
-          teacher: '狂神说',
-          views: 14338,
-          videoNumber: 41,
-          gmtCreate: '2021-03-12 09:54:12'
+          courseId: '123',
+          cover: '',
+          title: '',
+          description: '',
+          teacher: '',
+          views: '',
+          videoNumber: '',
+          gmtModified: ''
         },
-        {
-          courseId: 2,
-          cover: './static/course/03.jpg',
-          title: '企业级的Https&Nginx实战配置    ',
-          description: '企业级的Https&Nginx实战配置',
-          teacher: '狂神说',
-          views: 2289,
-          videoNumber: 21,
-          gmtCreate: '2021-03-12 09:54:12'
-        },
-        {
-          courseId: 3,
-          cover: './static/course/05.jpg',
-          title: 'Nginx详解    ',
-          description: '高性能的HTTP和反向代理web服务器',
-          teacher: '狂神说',
-          views: 9198,
-          videoNumber: 7,
-          gmtCreate: '2021-03-12 09:54:12'
-        }
-      ]
+      ],
+      current: 0,
+      limit: 10
     }
+  },
+  methods: {
+    //查询课程通知消息
+    findCourseInfo() {
+      this.current += 1
+      informationApi.findCourseInfo(this.current, this.limit).then(response => {
+        this.total = response.data.data.total
+        this.courseNewList = response.data.data.courseNewList
+      })
+    },
+  },
+  created() {
+    this.findCourseInfo()
   }
 }
 </script>

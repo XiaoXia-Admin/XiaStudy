@@ -35,8 +35,8 @@
                       d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
               </svg>
             </th>
-            <td>绑定微信</td>
-            <td>{{ this.userSecurity.nickname }}</td>
+            <td>绑定手机号</td>
+            <td>{{ this.userSecurity.phontNumber }}</td>
             <td>
               <a href="javascript:void(0);" class="bluefont">已绑定</a>
             </td>
@@ -103,6 +103,7 @@
 <script>
 import {openEmail, editorBtn} from "../../../common/utils";
 import ClipboardJS from "clipboard";
+import loginApi from "../../../network/login";
 export default {
   name: "Security",
   data() {
@@ -111,11 +112,11 @@ export default {
       pwd: 900049,
       email: '123@163.com',
       userSecurity: {
-        id: 1,
-        account: '',
-        nickname: '往事随风',
-        email: '2500563965@qq.com',
-        password: '111'
+        // id: 1,
+        // account: '',
+        // nickname: '往事随风',
+        // email: '2500563965@qq.com',
+        // password: '111'
       }
     }
   },
@@ -136,7 +137,22 @@ export default {
     },
     receiveAccount() {
       layer.msg('  领取成功，领取的数字账号是：【933839】')
+    },
+    findSecurity() {
+      loginApi.findSecurityInfo()
+        .then(response => {
+          this.userSecurity = response.data.data.userSecurity
+        })
+    },
+    modifySecurity(email, password) {
+      loginApi.modifySecurityInfo(email, password)
+        .then(response => {
+
+        })
     }
+  },
+  created() {
+    this.findSecurity()
   }
 }
 </script>

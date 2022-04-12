@@ -115,7 +115,7 @@
   font-size: 13px;
 }
 
-.icon-xuanzeyixuanze:before {
+.icon-xuanze:before {
   content: "\e62d";
   font-size: 13px;
 }
@@ -134,6 +134,7 @@
 
 .icon-yinsi:before {
   content: "\e7c6";
+  font-weight: bold;
 }
 
 .icon-shijian:before {

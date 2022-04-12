@@ -4,9 +4,9 @@
       <div class=" bottom_content" style="display: block;">
         <div class="row mx-0 ">
           <div class="col-12 content_box blog-main bg-white mb-3 pb-4 pt-3" :class="{'col-md-9': !this.other}"
-               style="box-shadow: 0 1px 4px 0 rgba(0,0,0,.05)">
+               style="box-shadow: 0 1px 4px 0 rgba(0,0,0,.05);" ref="height">
             <div id="doc-content1" style="text-align: left" class="markdown-body editormd-html-preview">
-              <textarea  style="display:none;" v-model="this.markDown" placeholder="markdown"></textarea>
+<!--              <textarea  style="display:none;" v-model="this.home.content" placeholder="markdown"></textarea>-->
             </div>
           </div>
         </div>
@@ -18,7 +18,8 @@
 <script>
 import HomePage from "../../user/children/HomePage";
 import scriptjs from "scriptjs";
-import {indexOfFlag} from "../../../common/utils";
+import {indexOfFlag, mkImageShow} from "../../../common/utils";
+import loginApi from "../../../network/login";
 export default {
   name: "OtherHome",
   components: {HomePage},
@@ -26,19 +27,9 @@ export default {
     return {
       otherEditor: null,
       other: true,
-      markDown: `### 主要特性
-
-- 支持“标准”Markdown / CommonMark和Github风格的语法，也可变身为代码编辑器；
-- 支持实时预览、图片（跨域）上传、预格式文本/代码/表格插入、代码折叠、搜索替换、只读模式、自定义样式主题和多语言语法高亮等功能；
-- 支持ToC（Table of Contents）、Emoji表情、Task lists、@链接等Markdown扩展语法；
-- 支持TeX科学公式（基于KaTeX）、流程图 Flowchart 和 时序图 Sequence Diagram;
-- 支持识别和解析HTML标签，并且支持自定义过滤标签解析，具有可靠的安全性和几乎无限的扩展性；
-- 支持 AMD / CMD 模块化加载（支持 Require.js & Sea.js），并且支持自定义扩展插件；
-- 兼容主流的浏览器（IE8+）和Zepto.js，且支持iPad等平板设备；
-- 支持自定义主题样式；
-
-# Editor.md
-`
+      home: {
+        content: ''
+      }
     }
   },
   methods:{
@@ -52,6 +43,9 @@ export default {
         await this.fetchScript('./static/lib/editormd/lib/flowchart.min.js')
         await this.fetchScript('./static/lib/editormd/lib/jquery.flowchart.min.js')
         await this.fetchScript('./static/lib/editormd/editormd.min.js')
+        $("#doc-content1").html('<textarea id="appendTest"></textarea>');
+        // alert('mount' + this.content)
+        $("#appendTest").val(this.content);//将需要转换的内容加到转换后展示容器的textarea隐藏标签中
         await this.$nextTick(() => {
           this.otherEditor = window.editormd.markdownToHTML('doc-content1', {
             htmlDecode: "style,script,iframe",  // you can filter tags decode
@@ -61,6 +55,7 @@ export default {
             flowChart: true,  // 默认不解析
             sequenceDiagram: true,  // 默认不解析
           })
+          this.mkImageShow()
         })
 
       })()
@@ -73,11 +68,25 @@ export default {
         })
       })
     },
-    indexOfFlag
-
+    mkImageShow,
+    indexOfFlag,
+    findOtherIntro(userId) {
+      // alert('before')
+      loginApi.findUserIntroduce(userId).then(response => {
+        this.content = response.data.data.content
+        // alert('请求' + this.content)
+        // // alert(this.content)
+        // this.$set(this.home,'content',response.data.data.content)
+        // alert('content' + this.content)
+      })
+    }
+  },
+  beforeMount() {
+    //查询用户主页内容
+    this.findOtherIntro(this.$route.params.userId)
   },
   mounted() {
-    this.init()
+    setTimeout(this.init, 1000)
   },
   created() {
     this.other = this.indexOfFlag('/other')

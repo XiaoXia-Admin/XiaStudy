@@ -16,7 +16,7 @@
           class="iconfont icon-huiyuan2 tp2 pr pr-1 fz20"></i>&nbsp;&nbsp;会员</a>
         <div class="tipmessage-box" style="cursor: pointer" :class="{show:indexOfFlag('/login') || this.showLogin}"
              @click="information"><i
-          class="iconfont icon-xiaoxi11 tp1 pr pr-1" style="font-size: 21px;"></i><span>&nbsp;&nbsp;消息</span></div>
+          class="iconfont icon-xiaoxi11 tp1 pr pr-1" style="font-size: 21px;"></i><span>&nbsp;&nbsp;消息<span v-show="this.msgTotal != 0" class="im-notify im-number countMeMsgNum im-center none">{{this.msgTotal}}</span></span></div>
         <div @click="information" @mouseleave="leaveInfo" class="i-frame animated2 fadeInDown"
              :class="{show: this.info}">
           <div class="im-root animated2 fadeInDown">
@@ -40,7 +40,8 @@
 </template>
 <script>
 import {indexOfFlag, windowsIndexOf} from "../../../common/utils";
-
+import informationApi from "../../../network/information";
+import loginApi from "../../../network/login";
 export default {
   name: "NavContent",
   data() {
@@ -75,24 +76,23 @@ export default {
         },
         {
           link: '/document',
-          content: '官方文文档'
+          content: '官方文档'
         }
       ],
+      message:  {
+        myNewsNumber: 0,
+        friendFeedNumber: 0,
+        replyNumber: 0,
+        systemNumber: 0,
+        courseNumber: 0
+      },
+      msgTotal: 0
     }
   },
   props: {
     showLogin: {
       type: Boolean,
       default: false
-    },
-    total: {
-      type: Number,
-      default: 100
-    },
-    message: {
-      type: Object,
-      default: {
-      }
     }
   },
   methods: {
@@ -117,11 +117,43 @@ export default {
         this.boxList[3].isActive = true
       }
     },
-    windowsIndexOf
+    windowsIndexOf,
+    //查询用户各种未读消息数量
+    findUserUnreadInfo() {
+      informationApi.findUserUnreadInfo().then(response => {
+        // if(response.data.code == 20001) {
+        //   this.message = response.data.data.message
+        // }
+        this.message = response.data.data.message
+        this.msgTotal = this.message.courseNumber + this.message.myNewsNumber + this.message.systemNumber + this.message.replyNumber + this.message.friendFeedNumber
+
+      })
+      if (this.windowsIndexOf('/msg/friend')) {
+        this.message.friendFeedNumber = 0
+      } else if (this.windowsIndexOf('/msg/replay')) {
+        this.message.replyNumber = 0
+      } else if (this.windowsIndexOf('/msg/system')) {
+        this.message.systemNumber = 0
+      } else if (this.windowsIndexOf('/msg/course')) {
+        this.message.courseNumber = 0
+      } else {
+        this.message.myNewsNumber = 0
+      }
+
+
+    }
   },
   created() {
     this.navBtn()
-  }
+    if(!this.$route.path.indexOf('/login') != -1) {
+      this.findUserUnreadInfo()
+    }
+  },
+  watch:{
+    $route(to,from){
+      this.findUserUnreadInfo()
+    }
+  },
 }
 </script>
 

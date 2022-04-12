@@ -117,13 +117,17 @@ main {
 }
 .editormd, .blog-main input:hover, .blog-main select:hover {
   font-weight: bolder;
+  color: black;
 }
 .editormd, .blog-main input:focus, .blog-main select:focus {
   font-weight: bolder;
+  color: black;
+
 }
 input[type="text"], input[type="email"], input[type="url"], textarea {
   border: 1px solid #E9E9E9;
   width: 100%;
+
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;

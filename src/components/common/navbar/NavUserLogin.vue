@@ -1,38 +1,39 @@
 <template>
 
   <div class="ksd-logindrop" :class="{'userlogin':flag,'xjyshow':!flag,'xjy-header-items': after}" data-vip="1"
-       :style="userLoginBg" @click="userLogin"   @mouseleave="exchangeGrade">
+       :style="userLoginBg" @click="userLogin" @mouseleave="exchangeGrade">
     <a href="/user" class="ksd-home pr tp2" :style="userHead"><i
-        class="iconfont icon-home pr pr-1"></i>进入主页</a>
+      class="iconfont icon-home pr pr-1"></i>进入主页</a>
     <a style="margin-top: -9px" class="ksd-user-info" href="javascript:void(0);"
-       :class="{'dropdown-toggle':after,'dropdown-toggle-other':!after}" :title="this.$store.state.loginInfo.nickname" data-vip="1"
+       :class="{'dropdown-toggle':after,'dropdown-toggle-other':!after}"
+       :title="this.$store.state.myUserInfoVo.nickname" data-vip="1"
        id="navbarDropdown">
             <span class="pr">
                 <img class="ksd-avatar2 ksd-avatar-img"
-                     :src="this.$store.state.loginInfo.avatar"
+                     :src="this.$store.state.myUserInfoVo.avatar"
                      alt="">
             </span>
       &nbsp;
-      <span class="ksd-text" :style="userTextColor">{{ this.$store.state.loginInfo.nickname }}</span>
+      <span class="ksd-text" :style="userTextColor">{{ this.$store.state.myUserInfoVo.nickname }}</span>
     </a>
     <div class="ksd-login-items">
       <div class="ksd-header-items mt-3" :class="{'xjy-header-items': after}">
         <ul>
           <li class="ksd-num-items">
             <a href="/u#topic">
-              <span class="num ksd-num-count6">{{this.$store.state.loginInfo.articleNumber}}</span>
+              <span class="num ksd-num-count6">{{ this.$store.state.myUserInfoVo.bbsArticleNumber }}</span>
               <span class="ktext">文章</span>
             </a>
           </li>
           <li class="ksd-num-items">
             <a href="/u#fans">
-              <span class="num ksd-num-count1">{{this.$store.state.loginInfo.attentionNumber}}</span>
+              <span class="num ksd-num-count1">{{ this.$store.state.myUserInfoVo.attentionNumber }}</span>
               <span class="ktext">关注</span>
             </a>
           </li>
           <li class="ksd-num-items">
             <a href="/u#follow">
-              <span class="num ksd-num-count2">{{this.$store.state.loginInfo.fansNumber}}</span>
+              <span class="num ksd-num-count2">{{ this.$store.state.myUserInfoVo.fansNumber }}</span>
               <span class="ktext">粉丝</span>
             </a>
           </li>
@@ -40,8 +41,9 @@
       </div>
       <div>
         <div class="citems ksd-sign-items" :class="{'xjy-header-items': after}">
-          <a v-if="this.$store.state.loginInfo.isSignIn != 1" @click.stop="todaySign()" href="javascript:void(0);" data-num="904489" class=" ksd-uqtext ksd-user-qiandao"><i
-              class="iconfont icon-zhifeiji pr-2 pr tp1"></i>签到</a>
+          <a v-if="!this.$store.state.myUserInfoVo.isSign" @click.stop="todaySign()" href="javascript:void(0);"
+             data-num="904489" class=" ksd-uqtext ksd-user-qiandao"><i
+            class="iconfont icon-zhifeiji pr-2 pr tp1"></i>签到</a>
           <a v-else href="javascript:void(0);" data-num="904489" class=" ksd-uqtext ksd-user-qiandao"><i
             class="iconfont icon-zhengquewancheng pr-2 pr tp1"></i>今日已签到</a>
         </div>
@@ -51,32 +53,36 @@
       <ul>
         <li class="items">
           <a href="/user" style="width:126px;text-align:left" title="点击前往个人中心" class="fl flitems"><i
-              class="iconfont icon-home"></i>个人中心</a>
+            class="iconfont icon-home"></i>个人中心</a>
           <a href="/vip/pay" title="点击前往订购和续费" class="fr fritems pr">会员已过期</a>
         </li>
         <li class="items ksdcopylinknum" title="点击复制数字账号" data-clipboard-text="904489">
           <a href="/user/settings" style="width:160px;text-align:left" class="fl ksd-settings2 flitems"><i
-              class="iconfont icon-zhanghao"></i>账号</a>
-          <a href="javascript:void(0);" class="fr ksd-settings2 fritems">{{this.$store.state.loginInfo.account}}</a>
+            class="iconfont icon-zhanghao"></i>账号</a>
+          <a href="javascript:void(0);"
+             class="fr ksd-settings2 fritems">{{ this.$store.state.myUserInfoVo.account }}</a>
         </li>
-        <li class="items ksd-exp-itemboxs" @mouseover="exchangeExperience"   @mouseleave="leaveExperience">
+        <li class="items ksd-exp-itemboxs" @mouseover="exchangeExperience" @mouseleave="leaveExperience">
           <a href="javascript:void(0);" class="fl flitems"><i class="iconfont icon-dengji tp1 pr"></i>等级</a>
-          <a href="javascript:void(0);" class="fr fritems ksd-coin-exp ksd-coin-exp-text" data-exp="2155" :class="{show: !this.experienceFlag}">Lv1</a>
-          <a href="javascript:void(0);" class="fr fritems ksd-coin-exp show1" data-exp="2155" :class="{show: this.experienceFlag}"><span
-              class="ksd-num-exp">{{this.$store.state.loginInfo.experience}}</span>exp</a>
+          <a href="javascript:void(0);" class="fr fritems ksd-coin-exp ksd-coin-exp-text" data-exp="2155"
+             :class="{show: !this.experienceFlag}">Lv{{this.getLevel(this.$store.state.myUserInfoVo.experience)}}</a>
+          <a href="javascript:void(0);" class="fr fritems ksd-coin-exp show1" data-exp="2155"
+             :class="{show: this.experienceFlag}"><span
+            class="ksd-num-exp">{{ this.$store.state.myUserInfoVo.experience }}</span>exp</a>
         </li>
         <li class="items">
           <a href="javascript:void(0);" class="fl flitems"><i class="iconfont icon-jinbi"></i>K币</a>
           <a href="javascript:void(0);" class="fr fritems ksd-coin-coin" data-coin="5291"><span
-              class="ksd-coin-cointext ksd-num-coin">{{this.$store.state.loginInfo.money}}</span><span class="pr ftp2">币</span></a>
+            class="ksd-coin-cointext ksd-num-coin">{{ this.$store.state.myUserInfoVo.money }}</span><span
+            class="pr ftp2">币</span></a>
         </li>
         <li class="items" title="订购会员">
           <a href="/vip/pay" style="text-align:left" class="fl ksd-settings2 flitems"><i
-              class="iconfont icon-huiyuan"></i>会员续期</a>
+            class="iconfont icon-huiyuan"></i>会员续期</a>
         </li>
         <li class="items" title="个人设置">
           <a href="/user/setting" style="width:100%;text-align:left" class="fl flitems"><i
-              class="iconfont icon-gerenshezhi"></i>个人设置</a>
+            class="iconfont icon-gerenshezhi"></i>个人设置</a>
         </li>
       </ul>
     </div>
@@ -84,7 +90,7 @@
       <ul>
         <li class="items">
           <a href="javascript:void(0);" class="fl flitems ksd-logout" @click="loginOut"><i
-              class="iconfont icon-tcdl"></i>退出登录</a>
+            class="iconfont icon-tcdl"></i>退出登录</a>
         </li>
       </ul>
     </div>
@@ -92,9 +98,10 @@
 </template>
 
 <script>
-import {loginOut, indexOfFlag} from "../../../common/utils";
+import {loginOut, indexOfFlag, getLevel} from "../../../common/utils";
 import loginApi from "../../../network/login";
 import cookie from "js-cookie";
+
 export default {
   name: "NavUserLogin",
   props: {
@@ -122,6 +129,8 @@ export default {
     exchangeExperience() {
       this.experienceFlag = false
     },
+    //获取等级
+    getLevel,
     leaveExperience() {
       this.experienceFlag = true
     },

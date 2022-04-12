@@ -25,6 +25,7 @@
 
 <script>
 import MsgTitle from "../common/MsgTitle";
+import informationApi from "../../../network/information";
 export default {
   name: "Friend",
   components: {MsgTitle},
@@ -34,19 +35,34 @@ export default {
       title: '好友动态',
       dynamicNewList: [
         {
-          id: 1,
-          articleId: 123,
-          title: 'Mac翻墙记录帖  ',
-          description: 'Mac翻墙记录帖  ',
-          views: 636,
-          gmtCreate: '2022-02-04 23:35:03',
-          attationUserId: 123,
-          attationUserAvatar: 'https://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKqDS52H9hBBHHPibn4ty1MNmyAsLvWeVV4RXvJg7w4bR0CyX4blZU4BenEQVUmmMkCowVz0FhIZfA/132',
-          attationUserNickname: '赵子龙',
-          vipLevel: 'svip',
+          id: '',
+          articleId: '',
+          title: '  ',
+          description: '  ',
+          views: '',
+          gmtCreate: '',
+          attationUserId: '',
+          attationUserAvatar: '',
+          attationUserNickname: '',
+          vipLevel: '',
         }
-      ]
+      ],
+      current: 0,
+      limit: 10
     }
+  },
+  methods: {
+    //查询好友动态的消息
+    findFriendInfo() {
+      this.current += 1
+      informationApi.findFriendInfo(this.current, this.limit).then(response => {
+        this.total = response.data.data.total
+        this.dynamicNewList = response.data.data.dynamicNewList
+      })
+    },
+  },
+  created() {
+    this.findFriendInfo()
   }
 }
 </script>

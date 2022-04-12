@@ -2,8 +2,8 @@ import axios from 'axios'
 import cookie from 'js-cookie'
 
 export const course = axios.create({
-  baseURL: 'http://localhost:8001',
-  timeout: 2000
+  baseURL: 'http://1.15.188.107:8160',
+  timeout: 3000
 })
 // 第三步http request 拦截器
 course.interceptors.request.use(
@@ -35,7 +35,7 @@ export default {
       url: '/cms/index/findSecondLevelAndCourse',
       method: 'get',
       params: {
-        'firstLevelId': firstLevelId
+        'oneCategoryId': firstLevelId
       }
     })
   },
@@ -58,6 +58,52 @@ export default {
         'courseId': courseId
       }
 
+    })
+  },
+  //获取视频凭证
+  getVideoEvidence(id, videoSourceId) {
+    return course({
+      url: '/cms/video/getPlayAuth',
+      method: 'get',
+      params: {
+        'id': id,
+        'videoSourceId': videoSourceId
+      }
+    })
+  },
+  //查询用户历史记录
+  findHistory(userId, current, limit) {
+    return course({
+      url: '/cms/study/findUserStudy',
+      method: 'get',
+      params: {
+        'userId': userId,
+        'current': current,
+        'limit': limit,
+      }
+    })
+  },
+  //查询用户购买课程
+  findPurchaseCourse(current, limit) {
+    return course({
+      url: '/cms/bill/findUserBuyCourse',
+      method: 'get',
+      params: {
+        'current': current,
+        'limit': limit,
+      }
+    })
+  },
+  //查询他人在江湖发布的文章
+  findOtherPublishArticle(current, limit, userId) {
+    return course({
+      url: '/bbs/article/findOtherUserArticle',
+      method: 'get',
+      params: {
+        'current': current,
+        'limit': limit,
+        'userId': userId
+      }
     })
   }
 }

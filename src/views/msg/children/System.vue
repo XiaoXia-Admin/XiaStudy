@@ -21,6 +21,7 @@
 
 <script>
 import MsgTitle from "../common/MsgTitle";
+import informationApi from "../../../network/information";
 export default {
   name: "System",
   components: {MsgTitle},
@@ -30,19 +31,28 @@ export default {
       title: '系统消息',
       systemNewsList:[
         {
-          id: 1,
-          title: '净网2020 · 严打不良信息传播行为  ',
-          content: "为响应国家政策，净化网络环境，积极配合国家“扫黄打非”办公室部署开展“净网2020”“护苗2020”“秋风2020”专项行动，KuangStudy坚决严厉打击利用“KuangStudy”传播色情、淫秽、暴恐、盗版等侵权或不良信息，全站屏蔽色情、淫秽、暴恐、盗版等相关关键词！对于相关的不良信息及严重违规账号，将采取全面清理、永久封禁的措施。<br> <br>请广大用户加强自律与监督，合法、合规使用“KuangStudy”，与KuangStudy共同维护清朗的网络环境！",
-          gmtCreate: '2021-02-09 14:55:24',
-        },
-        {
-          id: 1,
-          title: '谷歌浏览器扫码登陆不上的情况，可以尝试切换其他浏览器登陆！   ',
-          content: '谷歌浏览器扫码登陆不上的情况，可以尝试切换其他浏览器登陆！',
-          gmtCreate: '2021-02-09 14:55:24',
+          id: '',
+          title: '',
+          content: "",
+          gmtCreate: '',
         }
-      ]
+      ],
+      current: 0,
+      limit: 10
     }
+  },
+  methods: {
+    //查询系统消息
+    findSystemInfo() {
+      this.current += 1
+      informationApi.findSystemInfo(this.current, this.limit).then(response => {
+        this.total = response.data.data.total
+        this.systemNewsList = response.data.data.systemNewsList
+      })
+    },
+  },
+  created() {
+    this.findSystemInfo()
   }
 }
 </script>
