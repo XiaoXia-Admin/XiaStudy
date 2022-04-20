@@ -21,16 +21,19 @@
           <router-view></router-view>
         </div>
       </div>
-      <div id="loadingbox" style="padding: 30px 0px; text-align: center; display: none;"></div>
+<!--      <div id="loadingbox" style="padding: 30px 0px; text-align: center; display: none;"></div>-->
+      <loading :loading-flag="this.$store.state.loadingFlag"></loading>
     </div>
   </div>
 </template>
 
 <script>
 import {pathHop} from "../../common/utils";
+import Loading from "../../components/common/load/Loading";
 
 export default {
   name: "Information",
+  components: {Loading},
   data() {
     return {
       me: true,

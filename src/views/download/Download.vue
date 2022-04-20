@@ -3,7 +3,7 @@
     <div class="download_box_head">
       <div class="download_inner_box">
         <div class="download_box_head_left">
-          <div v-for="(item, index) in categoryList" :id="item.id" :key="item.id" class="download_box_head_btn_size download_box_head_btn" :class="{'btn-dark-active':boxList[index].isActive}" @click="downloadResource(item.categoryName)"><span>{{item.categoryName}}</span></div>
+          <div v-for="(item, index) in categoryList" :id="item.id" :key="item.id" class="download_box_head_btn_size download_box_head_btn" :class="{'btn-dark-active':boxList[index].isActive}" @click="downloadResource(item.id, item.categoryName)"><span>{{item.categoryName}}</span></div>
 <!--          <div class="download_box_head_btn_size download_box_head_btn" :class="{'btn-dark-active':boxList[1].isActive}"  @click="downloadResource('vip')"><span>vip课程</span></div>-->
 <!--          <div class="download_box_head_btn_size download_box_head_btn" :class="{'btn-dark-active':boxList[2].isActive}"  @click="downloadResource('note')"><span>配套笔记</span></div>-->
 <!--          <div class="download_box_head_btn_size download_box_head_btn" :class="{'btn-dark-active':boxList[3].isActive}"  @click="downloadResource('code')"><span>配套代码</span></div>-->
@@ -65,156 +65,15 @@ export default {
         },
       ],
       categoryList: [
-        {
-          id: 1,
-          categoryName: '全部'
-        },
-        {
-          id: 2,
-          categoryName: 'vip课程'
-        },
-        {
-          id: 4,
-          categoryName: '配套课程',
-        },
-        {
-          id: 5,
-          categoryName: '配套笔记'
-        }
       ],
       fileList: [
-        {
-          id: 1,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 2,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 3,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 1,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 2,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 3,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 1,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 2,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 3,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 1,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 2,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 3,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 1,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 2,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 3,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 1,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 2,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        },
-        {
-          id: 3,
-          name: '【vip】微信支付课程素材代码',
-          categoryName: 'vip课程',
-          size: '3.275',
-          price: '5600'
-        }
+
       ],
       boxIndex: 0
     }
   },
   methods: {
-    downloadResource(path) {
+    downloadResource(categoryId, path) {
       this.boxList.forEach(el => {
         el.isActive = false
       })
@@ -222,13 +81,13 @@ export default {
         this.boxList[0].isActive = true
       } else if(path == 'vip课程') {
         this.boxList[1].isActive = true
-      } else if(path == '配套课程') {
+      } else if(path == '夏金宇笔记') {
         this.boxList[2].isActive = true
-      } else if(path == '配套笔记') {
+      }else if(path == '张龙笔记') {
         this.boxList[3].isActive = true
       }
-      // this.$router.replace('/download/' + path);
-      // 异步请求根据id获取响应的下载问价
+      let searchName = this.$refs.fileSearch.value ? this.$refs.fileSearch.value : ''
+      this.findFile(categoryId, searchName)
 
     },
     fileSearch() {
@@ -236,12 +95,14 @@ export default {
         if(el.isActive) {
           this.boxIndex = index;
         }
+        let searchName = this.$refs.fileSearch.value
+        this.findFile(this.categoryList[this.boxIndex].id, searchName)
       })
       //类型的参数
-      alert(this.categoryList[this.boxIndex].categoryName)
+      // alert(this.categoryList[this.boxIndex].categoryName)
       if(this.$refs.fileSearch.value != '') {
         //输入框的参数
-        alert(this.$refs.fileSearch.value)
+        // alert(this.$refs.fileSearch.value)
       } else {
         layer.msg('不能为空哦！',{time: 2000})
       }
@@ -249,6 +110,12 @@ export default {
     findFileCategory() {
       downloadApi.findFileCategory().then(response => {
         this.categoryList = response.data.data.categoryList
+        let item = {
+          id: '',
+          categoryName: '全部'
+        }
+        this.categoryList.unshift(item)
+        this.findFile(this.categoryList[0].id, '')
       })
     },
     findFile(categoryId, fileName) {

@@ -1,6 +1,6 @@
 <template>
 
-  <div class="ksd-logindrop" :class="{'userlogin':flag,'xjyshow':!flag,'xjy-header-items': after}" data-vip="1"
+  <div class="ksd-logindrop" style="z-index: 500" :class="{'userlogin':flag,'xjyshow':!flag,'xjy-header-items': after}" data-vip="1"
        :style="userLoginBg" @click="userLogin" @mouseleave="exchangeGrade">
     <a href="/user" class="ksd-home pr tp2" :style="userHead"><i
       class="iconfont icon-home pr pr-1"></i>进入主页</a>
@@ -41,7 +41,7 @@
       </div>
       <div>
         <div class="citems ksd-sign-items" :class="{'xjy-header-items': after}">
-          <a v-if="!this.$store.state.myUserInfoVo.isSign" @click.stop="todaySign()" href="javascript:void(0);"
+          <a v-if="!this.$store.state.myUserInfoVo.isSign" @click.stop="todaySign" href="javascript:void(0);"
              data-num="904489" class=" ksd-uqtext ksd-user-qiandao"><i
             class="iconfont icon-zhifeiji pr-2 pr tp1"></i>签到</a>
           <a v-else href="javascript:void(0);" data-num="904489" class=" ksd-uqtext ksd-user-qiandao"><i
@@ -136,12 +136,14 @@ export default {
     },
     indexOfFlag,
     todaySign() {
-      layer.msg('K币 +50')
       this.flag = true;
-      this.$store.commit("editIsSing", 1)
-      loginApi.getLoginUserInfo()
+      // alert('haha')
+      loginApi.userSignIn()
         .then(response => {
-
+          if(response.data.code == 20000) {
+            layer.msg('经验值 +' + response.data.data.signExperience)
+          }
+          this.$store.commit("editIsSing", true)
         })
     }
   },

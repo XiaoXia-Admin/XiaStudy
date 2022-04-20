@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div v-show="!this.$store.state.loadingFlag">
     <msg-title :total="this.total" :title="this.title"></msg-title>
-    <div class="xjy-left n-msgnt n-msgnt-1 n-msgnt-hvr j-flag">
+    <div v-show="this.total != 0" class="xjy-left n-msgnt n-msgnt-1 n-msgnt-hvr j-flag">
       <div  v-for="(item,index) in systemNewsList" :key="item.id" class="item f-cb ">
         <div class="cont" style="margin-left: 0px;">
           <div class="sec1">
@@ -16,6 +16,7 @@
         </div>
       </div>
     </div>
+    <div v-show="this.total == 0">暂无信息</div>
   </div>
 </template>
 
@@ -48,6 +49,7 @@ export default {
       informationApi.findSystemInfo(this.current, this.limit).then(response => {
         this.total = response.data.data.total
         this.systemNewsList = response.data.data.systemNewsList
+        this.$store.commit("editLoadingFlag", false)
       })
     },
   },

@@ -60,8 +60,9 @@ export default {
     //     })
     // },
     userAccountLogin() {
-      cookie.set('wx_login', {domain: 'localhost'})
       loginApi.getLoginUserInfo().then(response => {
+        // alert(response.data.data.myUserInfoVo.isSign)
+        alert(response.data.data.myUserInfoVo.vipLevel)
         this.$store.commit("editLoginUserInfo", response.data.data.myUserInfoVo)
         // this.$store.commit("editLoginUserInfo", response.data.data.myUserInfoVo)
         this.isActive = false;

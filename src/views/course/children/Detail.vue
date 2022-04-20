@@ -135,7 +135,8 @@
 
 <script>
 import courseApi from "../../../network/course";
-
+import cookie from "js-cookie";
+import {layuiOpen} from "../../../common/utils";
 export default {
   name: "Detail",
   data() {
@@ -186,13 +187,20 @@ export default {
       }
     },
     play(id, videoId) {
-      courseApi.getVideoEvidence(id, videoId).then(response => {
-        let playAuth = response.data.data.playAuth
-        let route = '/course/play/' + videoId +'/' + playAuth
-        this.$router.replace(route)
-      })
+      if(cookie.get('wx_token')) {
+        courseApi.getVideoEvidence(id, videoId).then(response => {
+          let playAuth = response.data.data.playAuth
+          // alert(playAuth)
+          let route = '/course/play/' + videoId +'/' + playAuth
+          this.$router.replace(route)
+        })
+      } else {
+        this.layuiOpen()
+      }
+
 
     },
+    layuiOpen,
     expendSelect (){
       this.expend = !this.expend
     },

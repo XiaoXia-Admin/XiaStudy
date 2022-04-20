@@ -206,9 +206,10 @@
               //这是我个人写法
               var formData = new FormData();
               formData.append("editormd-image-file",$("#editormd-image-file")[0].files[0]);
-              var action = settings.imageUploadURL + (settings.imageUploadURL.indexOf("?") >= 0 ? "&" : "?") + "guid=" + guid;
+              // var action = settings.imageUploadURL + (settings.imageUploadURL.indexOf("?") >= 0 ? "&" : "?") + "guid=" + guid;
+              var action = settings.imageUploadURL
               //console.log(formData);
-
+              alert(action)
               $.ajax({
                 type:"post",
                 url:action,
@@ -227,6 +228,7 @@
                   }
                 },
                 error: function (res) {
+                  alert('hahah')
                   alert(res.responseText);
                 }
               });

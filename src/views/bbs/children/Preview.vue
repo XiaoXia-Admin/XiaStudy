@@ -19,6 +19,7 @@
         <div class="layui-col-md12 layui-col-lg12" style="padding:10px 25px;">
           <div class="comment-text layui-form">
             <div id="comments">
+<!--              添加评论-->
               <div id="commentbox-post">
                 <div id="respond-post" class="respond">
                   <div class="cancel-comment-reply">
@@ -39,7 +40,8 @@
                   </div>
                 </div>
               </div>
-              <div v-show="this.reviewTotal > 0" id="commentbox" data-topicid="1363074625050828802">
+<!--              用户评论-->
+              <div v-show="this.reviewTotal > 0 && !this.loadingFlag" id="commentbox" data-topicid="1363074625050828802">
                 <br>
                 <h3>总共已有 <span class="totalcount1">{{ reviewTotal }}</span> 条评论</h3>
                 <br>
@@ -145,17 +147,19 @@
                     class="fw pages">{{ this.current }}</span>页)</a></div>
               </div>
               <!--                没评论显示-->
-              <div v-show="this.reviewTotal == 0" class="mt-5 mt-5 text-center ksd-empty-box-c" style="">
+              <div v-show="this.reviewTotal == 0 && !this.loadingFlag" class="mt-5 mt-5 text-center ksd-empty-box-c" style="">
                 <div class="ksd-noempty none" style="background: rgb(255, 255, 255) !important; display: block;">
                   <span class="font-weight-bold"><img :src="this.img" alt="" width="200"></span>
                   <p>坐等您的评论...</p>
                 </div>
               </div>
             </div>
+            <loading :loading-flag="this.loadingFlag"></loading>
           </div>
         </div>
       </div>
     </div>
+<!--    举报-->
     <div class="tipoff-box js-tipoff-box animated bounceInDown" v-show="this.accusation">
       <div class="tipoff-top-box clearfix">
         <p class="l tipoff-title">举报</p>
@@ -186,20 +190,23 @@
 <script>
 
 import EditorMarkdown from "./EditorMarkdown";
-import {backToTop, createEditor, easeInOutQuad, loadToc, mkImageShow} from "../../../common/utils";
+import {backToTop, createEditor, easeInOutQuad, loadToc, mkImageShow, layuiOpen} from "../../../common/utils";
 import PreviewTitle from "./PreviewTitle";
 import MarkdownToHtml from "./MarkdownToHtml";
 import Toc from "./Toc";
 import bbsApi from "../../../network/bbs";
+import cookie from "js-cookie";
+import Loading from "../../../components/common/load/Loading";
 
 export default {
   name: "Preview",
-  components: {Toc, MarkdownToHtml, PreviewTitle, EditorMarkdown},
+  components: {Loading, Toc, MarkdownToHtml, PreviewTitle, EditorMarkdown},
   data() {
     return {
       editor: null,
       markFlag: false,
       time: 500,
+      loadingFlag: true,
       config: {
         width: "98%",
         height: 440,
@@ -261,7 +268,7 @@ export default {
       labelList: [
 
       ],
-      commentNumber: 100,
+      commentNumber: 0,
       fatherId: '',
       fatherIndex: '',
       commentList: [
@@ -288,7 +295,7 @@ export default {
         //   ]
         // }
       ],
-      reviewTotal: 10,
+      reviewTotal: 0,
       accusationList: [
         {
           title: '广告或垃圾信息',
@@ -316,7 +323,6 @@ export default {
       avatar: '',
       replyUserId: '',
       replyUserNickname: '',
-      reviewId: 100,
       leftTocFlag: false
     }
   },
@@ -340,13 +346,17 @@ export default {
       } else {
         this.accusation = false
         let articleId = this.$route.params.bbsId
+        let params = new URLSearchParams()
+        params.append('articleId', articleId);
+        params.append('content', this.userAccusationList)
+
+        //调教举报信息
+        bbsApi.reportArticle(params).then(response => {
+          layer.msg('举报成功，我们会及时查看的哦！')
+        })
       }
 
 
-      //调教举报信息
-      // bbsApi.reportArticle(articleId, content).then(response => {
-      //
-      // })
     },
     //添加评论
     submitBtn(e) {
@@ -359,14 +369,19 @@ export default {
       // console.log('评论人头像==》'+this.avatar)
       // console.log('回复人昵称==》'+this.replyUserNickname)
       // console.log('回复人id==》'+this.replyUserId)
-      if (this.reviewFlag == 1) {
-        this.firstReview(articleId, content, this.nickname, this.avatar)
-      } else if (this.reviewFlag == 2) {
-        this.secondReview(articleId, content, this.fatherId, this.replyUserId, this.replyUserNickname, this.$store.state.myUserInfoVo.nickname, this.$store.state.myUserInfoVo.avatar)
+      if(cookie.get('wx_token')){
+        if (this.reviewFlag == 1) {
+          this.firstReview(articleId, content, this.nickname, this.avatar)
+        } else if (this.reviewFlag == 2) {
+          this.secondReview(articleId, content, this.fatherId, this.replyUserId, this.replyUserNickname, this.$store.state.myUserInfoVo.nickname, this.$store.state.myUserInfoVo.avatar)
+        }
+        this.reviewFlag = 1
+        this.editor.txt.text('')
+      } else {
+        this.layuiOpen()
       }
-      this.reviewFlag = 1
-      this.editor.txt.text('')
     },
+    layuiOpen,
     replayPreview(e, flag) {
       this.reviewFlag = flag
       this.nickname = e.currentTarget.dataset.nickname
@@ -407,12 +422,14 @@ export default {
         }
       }, function (index) {
         if (!this.data._index1 && this.data._index1 != 0) {
+          // alert('删除一级评论')
           $("#li-comment-" + this.data._this.commentList[this.data._index].id).removeClass("animated fadeInUpBig")
             .addClass("animated fadeOutDown").fadeOut(1000, function () {
             this.data._this.remove();
           })
           layer.close(index)
         } else {
+          // alert('删除二级评论')
           let id = 'comment-list-children-' + this.data._this.commentList[this.data._index].childList[this.data._index1].id
           // $('#' + id).fadeOut(1000, function () {
           //   this.data._this.commentList[this.data._index].childList.splice(this.data._index1, 1)
@@ -426,6 +443,7 @@ export default {
 
           layer.close(index)
         }
+        // alert(this.data._commentId)
         console.log('index==>' + this.data._index, 'index1==>' + this.data._index1)
         bbsApi.deleteReview(this.data._commentId).then(response => {
 
@@ -441,7 +459,7 @@ export default {
     firstReview(articleId, content) {
       console.log(articleId)
       console.log(content)
-      this.reviewId += 1
+      this.reviewTotal += 1
       // let item = {
       //   id: this.reviewId,
       //   userId: this.$store.state.myUserInfoVo.id,
@@ -476,7 +494,7 @@ export default {
       console.log(replyUserNickname)
       console.log(nickname)
       console.log(avatar)
-      this.reviewId += 1
+      // this.reviewId += 1
       // let item = {
       //   id: this.reviewId,
       //   userId: this.$store.state.myUserInfoVo.id,
@@ -493,7 +511,6 @@ export default {
 
       // console.log(.unshift(item))
       bbsApi.secondReview(articleId, content, fatherId, replyUserId, replyUserNickname, nickname, avatar).then(response => {
-        alert(response.data.data.commentId)
         let item = {
           id: response.data.data.commentId,
           userId: this.$store.state.myUserInfoVo.id,
@@ -527,6 +544,7 @@ export default {
       bbsApi.findArticleReview(articleId, this.current, this.limit).then(response => {
         this.commentList = response.data.data.commentList
         this.reviewTotal = response.data.data.total
+        this.loadingFlag = false
       })
     },
     addAccusationInfo(e) {

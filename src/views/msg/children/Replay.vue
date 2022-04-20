@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div v-show="!this.$store.state.loadingFlag">
     <msg-title :title="this.title" :total="this.total"></msg-title>
-    <div class="n-msgnt n-msgnt-1 n-msgnt-hvr j-flag">
+    <div v-show="this.total != 0" class="n-msgnt n-msgnt-1 n-msgnt-hvr j-flag">
       <div class="item f-cb xjy-left" v-for="(item, index) in replyNewsList" :key="item.id">
         <div class="cont load-topics-page mn" style="margin-left: 0px;">
           <div class="sec1">
@@ -43,6 +43,7 @@
         </div>
       </div>
     </div>
+    <div v-show="this.total == 0">暂无回复</div>
   </div>
 </template>
 
@@ -92,6 +93,7 @@ export default {
         // console.log(response.data.data.replyNewsList)
         this.total = response.data.data.total
         this.replyNewsList = response.data.data.replyNewsList
+        this.$store.commit("editLoadingFlag", false)
       })
     },
     deleteReplay(e, index){

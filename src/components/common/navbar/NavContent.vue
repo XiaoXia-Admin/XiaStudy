@@ -11,10 +11,10 @@
     </ul>
     <div id="ksdloginbox">
       <div style="position: relative;top:-18px">
-        <a href="/vip/pay" title="点击前往升级会员" :class="{show:indexOfFlag('/login') || this.showLogin}"
+        <a href="/vip/pay" title="点击前往升级会员" v-if="!this.showLogin && this.isToken && !this.indexOfFlag('/login')"
            class="ktipmessage-boxc" target="_blank"><i
           class="iconfont icon-huiyuan2 tp2 pr pr-1 fz20"></i>&nbsp;&nbsp;会员</a>
-        <div class="tipmessage-box" style="cursor: pointer" :class="{show:indexOfFlag('/login') || this.showLogin}"
+        <div class="tipmessage-box" style="cursor: pointer" v-if="!this.showLogin && this.isToken && !this.indexOfFlag('/login')"
              @click="information"><i
           class="iconfont icon-xiaoxi11 tp1 pr pr-1" style="font-size: 21px;"></i><span>&nbsp;&nbsp;消息<span v-show="this.msgTotal != 0" class="im-notify im-number countMeMsgNum im-center none">{{this.msgTotal}}</span></span></div>
         <div @click="information" @mouseleave="leaveInfo" class="i-frame animated2 fadeInDown"
@@ -42,6 +42,7 @@
 import {indexOfFlag, windowsIndexOf} from "../../../common/utils";
 import informationApi from "../../../network/information";
 import loginApi from "../../../network/login";
+import cookie from "js-cookie";
 export default {
   name: "NavContent",
   data() {
@@ -143,15 +144,22 @@ export default {
 
     }
   },
+  computed: {
+    isToken() {
+      return cookie.get('wx_token')
+    }
+  },
   created() {
     this.navBtn()
-    if(!this.$route.path.indexOf('/login') != -1) {
+    if(!this.$route.path.indexOf('/login') != -1 && cookie.get('wx_token')) {
       this.findUserUnreadInfo()
     }
   },
   watch:{
     $route(to,from){
-      this.findUserUnreadInfo()
+      if(cookie.get('wx_token')){
+        this.findUserUnreadInfo()
+      }
     }
   },
 }

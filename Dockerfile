@@ -1,22 +1,8 @@
-FROM nginx
-WORKDIR /urs/share/nginx/html/
-USER root
+FROM nginx:latest
 
-COPY dist/ /usr/share/nginx/html/
+MAINTAINER Jounghu <2500563965@qq.com>
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+RUN rm /etc/nginx/conf.d/default.conf
 
-EXPOSE 8080
-
-CMD ["nginx", "-g", "daemon off;"]
-#FROM nginx
-##COPY ./ /app
-##WORKDIR /app
-#RUN npm install && npm run build
-#
-#
-##RUN mkdir /app
-##COPY --from=0 /app/dist /app
-##COPY nginx.conf /etc/nginx/nginx.conf
-#COPY dist/ /usr/share/nginx/html/
-#COPY nginx.conf /etc/nginx/conf.d/default.conf
+ADD ./app /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf

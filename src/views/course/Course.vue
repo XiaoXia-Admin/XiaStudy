@@ -2,7 +2,7 @@
   <div class="course">
     <div class="course_img">
       <div class="course_img_item">
-        <h2 class="course_img_item_title">KuangStudy,以学相伴，一生相伴</h2>
+        <h2 class="course_img_item_title">KeepStudy,以学相伴，一生相伴</h2>
         <p class="course_img_context">须知少年凌云志，曾许人间第一流</p>
         <ul class="course_nav course_auto">
           <li class="course_nav_item course_position_relative"  v-for="(item) in categoryFirstList" :key="item.id">

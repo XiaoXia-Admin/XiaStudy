@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div v-show="!this.$store.state.loadingFlag">
     <msg-title :title="this.title" :total="this.total"></msg-title>
-    <div class="xjy-left n-msgnt n-msgnt-1 n-msgnt-hvr j-flag">
+    <div v-show="this.total != 0" class="xjy-left n-msgnt n-msgnt-1 n-msgnt-hvr j-flag">
       <div v-for="(item, index) in dynamicNewList" :key="item.id" class="item f-cb ">
         <div class="cont load-topics-page" style="margin-left: 0px;">
           <div class="sec1">
@@ -20,6 +20,7 @@
         </div>
       </div>
     </div>
+    <div v-show="this.total == 0">暂无动态</div>
   </div>
 </template>
 
@@ -31,7 +32,7 @@ export default {
   components: {MsgTitle},
   data() {
     return {
-      total: 100,
+      total: 0,
       title: '好友动态',
       dynamicNewList: [
         {
@@ -54,10 +55,20 @@ export default {
   methods: {
     //查询好友动态的消息
     findFriendInfo() {
-      this.current += 1
-      informationApi.findFriendInfo(this.current, this.limit).then(response => {
+      let current = this.current + 1
+      let limit = this.limit
+      let params = new URLSearchParams()
+      params.append('current', current);
+      params.append('limit', limit);
+      // alert(current)
+      // alert(limit)
+      informationApi.friendInfo(params).then(response => {
+        // console.log(response.data)
+        // alert(response.data.data.total)
+        // alert('haha')
         this.total = response.data.data.total
         this.dynamicNewList = response.data.data.dynamicNewList
+        this.$store.commit("editLoadingFlag", false)
       })
     },
   },

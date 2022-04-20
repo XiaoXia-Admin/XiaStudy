@@ -14,6 +14,11 @@ bbs.interceptors.request.use(
       //吧获取的token放在头部headers中
       config.headers['token'] = cookie.get('wx_token');
     }
+    // else {
+    //   alert('哈哈')
+    //
+    //   // this.$router.push('/')
+    // }
     return config
   },
   err => {
@@ -22,14 +27,11 @@ bbs.interceptors.request.use(
 
 export default {
   //举报文章接口
-  reportArticle(articleId, content) {
+  reportArticle(params) {
     return bbs({
       url: '/bbs/article/report',
       method: 'post',
-      params: {
-        'articleId': articleId,
-        'content': content
-      }
+      data: params
     })
   },
   //查询文章详细数据
@@ -43,20 +45,11 @@ export default {
     })
   },
   //文章的发布
-  bbsArticlePublish(title, description, categoryId, content, labelList, isRelease, avatar, nickname) {
+  bbsArticlePublish(params) {
     return bbs({
       url: '/bbs/article/create',
       method: 'post',
-      params: {
-        'title': title,
-        'description': description,
-        'categoryId': categoryId,
-        'content': content,
-        'labelList': labelList,
-        'isRelease': isRelease,
-        'avatar': avatar,
-        'nickname': nickname
-      }
+      data: params
     })
   },
   //文章的查询（配合文章的修改）

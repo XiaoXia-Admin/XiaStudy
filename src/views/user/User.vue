@@ -100,6 +100,7 @@
 <script>
 import {backToTop, bottomExchange, cancelSign, easeInOutQuad, getLevel, userPage} from "../../common/utils";
 import loginApi from "../../network/login";
+import cookie from "js-cookie";
 
 export default {
   name: "User",
@@ -158,21 +159,25 @@ export default {
     }
   },
   created() {
-    this.home = this.$route.path.indexOf('/homepage') !== -1;
-    this.article = this.$route.path.indexOf('/article') !== -1;
-    this.follow = this.$route.path.indexOf('/follow') !== -1;
-    this.fans = this.$route.path.indexOf('/fans') !== -1;
-    this.special = this.$route.path.indexOf('/special') !== -1;
-    this.study = this.$route.path.indexOf('/study') !== -1;
-    this.talk = this.$route.path.indexOf('/talk') !== -1;
-    this.setting = this.$route.path.indexOf('/setting') !== -1;
-    if (this.$route.params.userId) {
-      this.user = false
+    if(cookie.get('wx_token')){
+      this.home = this.$route.path.indexOf('/homepage') !== -1;
+      this.article = this.$route.path.indexOf('/article') !== -1;
+      this.follow = this.$route.path.indexOf('/follow') !== -1;
+      this.fans = this.$route.path.indexOf('/fans') !== -1;
+      this.special = this.$route.path.indexOf('/special') !== -1;
+      this.study = this.$route.path.indexOf('/study') !== -1;
+      this.talk = this.$route.path.indexOf('/talk') !== -1;
+      this.setting = this.$route.path.indexOf('/setting') !== -1;
+      if (this.$route.params.userId) {
+        this.user = false
+      } else {
+        this.user = true
+      }
+      //获取用户主页详情信息
+      this.getUserDetail()
     } else {
-      this.user = true
+      this.$router.push('/')
     }
-    //获取用户主页详情信息
-    this.getUserDetail()
   },
   mounted() {
     if (window.name == 'isReload') {

@@ -4,7 +4,7 @@
       <div class="layui-col-md9 layui-col-lg9" style="min-height: 790px;">
         <nav class="bbs-nav">
           <ol class="breadcrumb fl animated fadeIn">
-            <li class=""><a href="/bbs">全部 <span class="bbs-total">( {{ this.total }} )</span></a></li>
+            <li class=""><a href="/bbs">全部 <span class="bbs-total">( {{ this.articleNumber }} )</span></a></li>
           </ol>
           <div class="fr" style="padding: 7px;">
             <div class="fl">
@@ -23,6 +23,7 @@
             热门关键词：<a href="/bbs?searchKey=学相伴">学相伴</a>&nbsp;&nbsp;<a href="/bbs?searchKey=java">Java</a>
           </div>
         </nav>
+<!--        展示文章-->
         <div class="bbs-page" data-total="11920">
 <!--          v-show="this.articleList[0].id != ''"-->
           <div v-for="(item,index) in articleList" :data-userId="item.userId" :key="item.id"
@@ -32,10 +33,10 @@
             <span v-show="item.isExcellentArticle == 1" title="精品推荐"
                   class="iconfont icon-tuijian ksd-iconstar-blue fz24"></span>
             <a target="_blank" :id="item.userId" :href="'bbs/preview/'+item.id" class="hlink">
-              <h1>{{ item.title }}</h1>
+              <h1 v-html="item.title"></h1>
             </a>
             <a target="_blank" :href="'bbs/preview/'+item.id" class="hlink2">
-              <p>{{ item.description }}</p>
+              <p v-html="item.description"></p>
             </a>
             <div class="bbs-title-msg">
               <span>
@@ -53,6 +54,10 @@
                       height="32"><path
                       d="M649.142857 402.285714l-18.285714 0c-10.112 0-18.285714 8.192-18.285714 18.285714l0 182.857143c0 10.093714 8.173714 18.285714 18.285714 18.285714l18.285714 0c10.112 0 18.285714-8.192 18.285714-18.285714L667.428571 420.571429C667.428571 410.477714 659.254857 402.285714 649.142857 402.285714zM539.428571 402.285714l-36.571429 0c0 0 0 106.276571 0 128 0.566857 29.147429-36.571429 36.571429-36.571429 36.571429s-36.571429-7.424-36.571429-36.571429c0-25.142857 0-128 0-128l-36.571429 0c-10.093714 0-18.285714 8.192-18.285714 18.285714l0 128c0.566857 1.901714 64.384 73.709714 73.142857 73.142857l36.571429 0c10.477714 0 73.142857-73.526857 73.142857-73.142857l0-128C557.714286 410.477714 549.540571 402.285714 539.428571 402.285714zM841.142857 402.285714l-54.857143 0c-6.345143 0-12.342857 1.206857-18.102857 2.925714C765.403429 403.510857 762.331429 402.285714 758.857143 402.285714l-18.285714 0c-10.112 0-18.285714 8.192-18.285714 18.285714l0 182.857143c0 10.112 8.173714 18.285714 18.285714 18.285714l18.285714 0c10.112 0 18.285714-8.173714 18.285714-18.285714l0-55.789714C780.16 548.096 783.158857 548.571429 786.285714 548.571429l54.857143 0c35.346286 0 64-28.653714 64-64l0-18.285714C905.142857 430.939429 876.489143 402.285714 841.142857 402.285714zM850.285714 493.714286c0 10.093714-8.192 18.285714-18.285714 18.285714l-54.857143 0 0-73.142857 54.857143 0c10.093714 0 18.285714 8.173714 18.285714 18.285714L850.285714 493.714286zM284.507429 475.428571l19.382857 0c6.729143 0 12.635429-3.236571 16.109714-8.137143 0-13.732571-2.706286-22.619429-6.820571-28.434286l0.420571 0c-10.294857-21.558857-32.109714-36.571429-57.6-36.571429-3.145143 0-6.125714 0.621714-9.142857 1.097143L246.857143 402.285714l-54.857143 0 0 0.914286c-30.976 4.48-54.857143 30.866286-54.857143 63.085714 0 34.596571 27.483429 62.592 61.787429 63.780571-0.036571 0.073143-0.073143 0.146286-0.109714 0.219429L246.857143 530.285714c10.093714 0 18.285714 8.173714 18.285714 18.285714l0 18.285714c0 10.112-8.192 18.285714-18.285714 18.285714l-54.857143 0 0-18.285714c0-10.112-8.667429-18.285714-19.364571-18.285714l-19.382857 0C146.541714 548.571429 140.617143 551.808 137.142857 556.708571 137.088 570.605714 139.977143 579.456 144.347429 585.142857L143.542857 585.142857c10.294857 21.558857 32.128 36.571429 57.6 36.571429 3.145143 0 6.125714-0.621714 9.142857-1.097143L210.285714 621.714286l54.857143 0 0-0.932571c30.976-4.461714 54.857143-30.866286 54.857143-63.067429 0-34.450286-27.282286-62.336-61.385143-63.744 0.036571-0.073143 0.054857-0.182857 0.091429-0.256L210.285714 493.714286c-10.093714 0-18.285714-8.192-18.285714-18.285714l0-18.285714c0-10.093714 8.192-18.285714 18.285714-18.285714l54.857143 0 0 18.285714C265.142857 467.236571 273.810286 475.428571 284.507429 475.428571z"
                       p-id="2853" fill="#d81e06"></path></svg></span>
+
+                    <span class="vipicon" v-show="item.vipLevel == 'vip'" ><i class="iconfont iconvip11"></i></span>
+
+                    <span class="badgelv badge-vip cbadge-fz12 fw" v-show="item.vipLevel == 'zVip'">年会员</span>
                 &nbsp;&nbsp;
               </span>
               <span class="pr-2 pl-2 ksd-screen-time-no"><label
@@ -66,11 +71,11 @@
                         </span>
             </div>
           </div>
-          <div class="page-navigator">
+          <div v-show="this.total && !this.loadingFlag" class="page-navigator">
             <nav aria-label="Page navigation example" class="mt-4">
               <ul class="pagination justify-content-center pagination-sm">
                 <li class="page-item" :class="{show:this.page < 5}">
-                  <a class="page-link" href="/bbs?pageNo=0" tabindex="">首页</a>
+                  <a class="page-link" href="/bbs?pageNo=1" tabindex="">首页</a>
                 </li>
                 <li class="page-item" :class="{disabled: this.page<5}">
                   <a class="page-link" href="javascript:void(0);" @click="categorySearch(Number(page) - Number(1),'')"
@@ -99,16 +104,26 @@
                   <a class="page-link ksd-page-go" @click="categorySearch(-1, '')">跳转</a>
                 </li>
                 <li class="page-item">
-                  <a class="page-link" href="javascript:void(0);">{{ this.page }}/{{ Math.ceil(this.total / 15) }}</a>
+                  <a class="page-link" href="javascript:void(0);">{{ this.page }}/{{ Math.ceil(this.articleNumber / 15) }}</a>
                 </li>
               </ul>
             </nav>
           </div>
         </div>
+<!--        未搜索到用户-->
+        <div class="load-topics-page" v-show="!this.total && !this.loadingFlag" data-total="0">
+
+          <div class="title-article list-card text-center" style="padding:100px 0 150px;">
+            <span class="font-weight-bold"><img :src="this.img" alt="" width="200"></span>
+
+            <p>搜索关键词【{{this.searchName}}】暂无数据....</p>
+          </div>
+        </div>
+        <loading :loading-flag="this.loadingFlag"></loading>
       </div>
       <div class="layui-col-md3 layui-col-lg3 animated fadeIn" :class="{'ksd-fixed':this.slide}">
         <div class="send-article">
-          <a href="/topic/publish-article"
+          <a @click="addArticle"
              class="layui-btn nav-link-down nav-link-login layui-btn-normal" style="width: 100%;">
             <span class="layui-icon layui-icon-edit"></span>
             发布文章
@@ -158,10 +173,10 @@
 </template>
 <script>
 import Message from "./children/Message";
-import {slideTop, backToTop, easeInOutQuad} from "../../common/utils";
+import {easeInOutQuad, slideTop, layuiOpen} from "../../common/utils";
 import bbsApi from "../../network/bbs";
-import loginApi from "../../network/login";
 import cookie from "js-cookie";
+import Loading from "../../components/common/load/Loading";
 
 export default {
   name: "Bbs",
@@ -172,10 +187,12 @@ export default {
       page: 1, // 当前页码
       pageMax: 7, // 最大页数
       pageMin: 1, //首页
-      userNumber: 239687,
-      articleNumber: 12329,
-      commentNumber: 7785,
-      total: 12220,
+      userNumber: 0,
+      articleNumber: 0,
+      commentNumber: 0,
+      searchName: '',
+      img: './static/img/nodata.png',
+      loadingFlag: true,
       articleList: [
         // {
         //   id: '',
@@ -254,11 +271,20 @@ export default {
       limit: 10,
       categoryId: 1,
       isRecommend: 0,
-      searchKey: ''
+      searchKey: '',
+      total: 0,
     }
   },
-  components: {Message},
+  components: {Loading, Message},
   methods: {
+    addArticle() {
+      if(cookie.get('wx_token')) {
+        this.$router.push('/topic/publish-article')
+      } else {
+        this.layuiOpen()
+      }
+    },
+    layuiOpen,
     slideTop,
     easeInOutQuad,
     nameSearch() {
@@ -324,9 +350,12 @@ export default {
       console.log('page' + page)
       bbsApi.getArticleList(categoryId, isExcellentArticle, articleNameOrLabelName, page, this.limit)
         .then(response => {
-          console.log(response.data.data.articleList[0].isTop)
-
+          // console.log(response.data.data.articleList[0].isTop)
+          // alert(response.data.data.total)
+          this.searchName = articleNameOrLabelName
+          this.total = response.data.data.total
           this.articleList = response.data.data.articleList
+          this.loadingFlag = false
         })
     },
   },
@@ -526,6 +555,74 @@ input {
 
 .fz24 {
   font-size: 24px !important;
+}
+.vipicon {
+  color: #ffffff;
+  font-size: 12px;
+  position: relative;
+  background: linear-gradient(45deg,#db2121,#ff0000);
+  border-radius: 12px;
+  top: -1px;
+}
+.title-article .title-msg span {
+  margin-right: 3px;
+}
+.badgelv {
+  transform: scale(0.9);
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: .25em .32em;
+  font-size: 12px;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 1.25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.badge-vip {
+  background: #ff0000;
+  color: #fff;
+}
+.fw {
+  font-weight: 600 !important;
+}
+.title-article:hover {
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+}
+.markdown-body, .title-article {
+  padding: 15px;
+  text-align: left;
+}
+.text-center {
+  text-align: center !important;
+}
+.markdown-body, .title-article {
+  background: #fff;
+  overflow: hidden;
+  padding: 10px 20px;
+  position: relative;
+  text-align: center;
+}
+.font-weight-bold {
+  font-weight: 700 !important;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+  border-style: none;
+}
+.title-article p {
+  margin-bottom: 10px;
+  color: #888;
+  font-size: 12px;
+}
+.list-card p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>
 

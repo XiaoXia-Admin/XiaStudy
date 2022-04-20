@@ -33,7 +33,7 @@ export default {
   findMyselfInfo(current, limit) {
     return information({
       url: '/message/mynews/findAll',
-      method: 'get',
+      method: 'post',
       params: {
         'current': current,
         'limit': limit
@@ -51,14 +51,11 @@ export default {
     })
   },
   //查询用户好友动态信息
-  findFriendInfo(current, limit) {
+  friendInfo(params) {
     return information({
       url: '/message/friendsFeed/findAll',
-      method: 'get',
-      params: {
-        'current': current,
-        'limit': limit
-      }
+      method: 'post',
+      data: params
     })
   },
   //查询他人回复用户消息
@@ -97,18 +94,18 @@ export default {
   findSystemInfo(current, limit) {
     return information({
       url: '/message/system/findAll',
-      method: 'get',
+      method: 'post',
       params: {
         'current': current,
         'limit': limit
       }
     })
   },
-  //查询课程通知消息
+  //查询系统消息
   findCourseInfo(current, limit) {
     return information({
       url: '/message/course/findAll',
-      method: 'get',
+      method: 'post',
       params: {
         'current': current,
         'limit': limit

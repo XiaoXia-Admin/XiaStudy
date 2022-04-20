@@ -3,7 +3,7 @@ import cookie from 'js-cookie'
 
 export const download = axios.create({
   baseURL: 'http://1.15.188.107:8160',
-  timeout: 2000
+  timeout: 3000
 })
 // 第三步http request 拦截器
 download.interceptors.request.use(
@@ -25,7 +25,7 @@ export default {
   findFileCategory() {
     return download({
       url: '/dtm/category/findAllCategory',
-      method: 'get'
+      method: 'get',
     })
   },
 

@@ -1,7 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
-  <div>
+  <div v-show="!this.$store.state.loadingFlag">
     <msg-title :title="this.title" :total="this.total"></msg-title>
-    <div class="n-msgnt n-msgnt-1 n-msgnt-hvr j-flag">
+    <div v-show="this.total != 0" class="n-msgnt n-msgnt-1 n-msgnt-hvr j-flag">
       <div v-for="(item, index) in myNewsList" class="item f-cb" :key="item.id">
         <div class="cont" style="margin-left: 0px;">
           <div class="sec1">
@@ -25,6 +25,7 @@
         </div>
       </div>
     </div>
+    <div v-show="this.total == 0">暂无信息</div>
   </div>
 </template>
 
@@ -60,6 +61,7 @@ export default {
       informationApi.findMyselfInfo(this.current, this.limit).then(response => {
         this.total = response.data.data.total
         this.myNewsList = response.data.data.myNewsList
+        this.$store.commit("editLoadingFlag", false)
       })
     },
     //删除我的消息

@@ -1,5 +1,5 @@
 <template>
-  <div class="ksd-chapterlist-box"  :class="{fixed: this.leftTocFlag}">
+  <div class="ksd-chapterlist-box" v-show="this.tocLength != 0" :class="{fixed: this.leftTocFlag}">
     <a href="javascript:void(0);" class="expand-chapterlist mb-1">
       <span class="msg">展开目录</span>
       <span class="fr ksd-topic-add fz24 pr ftp4" style="color: #999">+</span>
@@ -22,13 +22,20 @@ export default {
   data() {
     return {
       unfold: true,
-      toc: []
+      toc: [],
+      tocLength: 0
     }
   },
   methods: {
     unfoldToc() {
       this.unfold = !this.unfold
     }
+  },
+  created() {
+    setTimeout(()=>{
+      let headList = [...document.getElementById("preview").querySelectorAll('h1,h2,h3,h4,h5,h6')];
+      this.tocLength = headList.length
+    }, 500)
   }
 }
 </script>

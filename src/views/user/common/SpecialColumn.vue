@@ -121,9 +121,10 @@ export default {
       let title = this.$refs.special_add.value
       let nickname = this.$store.state.myUserInfoVo.nickname
       let avatar = this.$store.state.myUserInfoVo.avatar
+      alert('haha')
       // 异步添加专栏
       bbsApi.createSpecial(title, nickname, avatar).then(response => {
-        // alert(response.data.data.columnId)
+        alert(response.data.data.columnId)
         let item = {
           id: response.data.data.columnId,
           title: title,

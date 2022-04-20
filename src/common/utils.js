@@ -101,38 +101,25 @@ export function layuiOpen() {
     <div id="wxLogin" style="display: block">
       <div class="login_title" style="">手机号验证码登录/注册</div>
        <div class="form-login">
+          <div class="usernameBox">
+          <input type="text" id="nickname" class="cyinput1 form-control ksd-account-pwd" maxlength="18" placeholder="请输入昵称">
+        </div>
         <div class="usernameBox">
           <input type="text" id="phone" class="cyinput1 form-control ksd-account-phone" autofocus="autofocus" maxlength="20" placeholder="请输入手机号">
         </div>
-        <div class="usernameBox">
-          <input type="text" id="nickname" class="cyinput1 form-control ksd-account-pwd" maxlength="18" placeholder="请输入昵称">
-        </div>
+
          <div class="usernameBox">
           <input type="text" id="code" class="cyinput1 form-control ksd-account-pwd" maxlength="18" placeholder="请输入验证码">
+          <button style="background: transparent;border:none;color: gray;cursor: pointer;position: absolute;top: 256px;right: 91px;width: 20%;height: 8%;" id="verifyCode">获取验证码</button>
         </div>
         <button class="cymyloginbutton goLogin account-login" id="phoneLogin">注册/登录</button>
         <div class="form-bottom" style="margin:20px 0">
           <p class="weixin-text">
-            <a class="weixin-login" data-index="0" href="javascript:void(0);" id="wxLoginLink">手机号注册/登录</a>
+            <a class="weixin-login" data-index="0" href="javascript:void(0);" id="wxLoginLink">账号登录</a>
           </p>
         </div>
 
       </div>
-<!--      <div class="wx-qr-code-img">-->
-<!--        <div>-->
-<!--          <div class="img">-->
-<!--&lt;!&ndash;           href="http://localhost:8160/user/wx/login"&ndash;&gt;-->
-<!--            <a class="weixin-login weixin-login-btn">-->
-<!--              <i class="iconfont icon-weixin1"></i>微信扫描注册/登录-->
-<!--            </a>-->
-<!--          </div>-->
-<!--          <div class="form-bottom" id="wxLoginLink">-->
-<!--            <p class="weixin-text">-->
-<!--              <a class="weixin-login ksd-login"  data-index="1" href="javascript:void(0);">账号登录</a>-->
-<!--            </p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
     </div>
     <div id="userLogin" style="display: none">
       <div class="login_title">账号登录</div>
@@ -143,6 +130,7 @@ export function layuiOpen() {
         <div class="usernameBox">
           <input type="password" id="loginPwd" class="cyinput1 form-control ksd-account-pwd" maxlength="18" placeholder="请输入6-18位密码">
         </div>
+
         <button class="cymyloginbutton goLogin account-login" id="userLoginBtn">登录</button>
         <div class="form-bottom" style="margin:20px 0">
           <p class="weixin-text">
@@ -155,6 +143,9 @@ export function layuiOpen() {
   </div>
   <script>
 $(function () {
+        let clock = '';//定时器对象，用于页面30秒倒计时效果
+        let nums = 30;
+        //手机号和账号两个页面切换
         $("#wxLoginLink").click(function () {
             $("#wxLogin").css("display","none")
             $("#userLogin").css("display","block")
@@ -166,20 +157,69 @@ $(function () {
         $(".weixin-login").click(function () {
             $("#wx_login_frame").height($(window).height() - 100).attr("src", "/wx/login");
         })
+        function checkTelephone(telephone) {
+            let reg=/^[1][3,4,5,7,8,9][0-9]{9}$/;
+            if (!reg.test(telephone)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        function doLoop() {
+            // alert($("#verifyCode"))
+            $("#verifyCode")[0].innerHTML = nums + '秒后重新获取';
+            $("#verifyCode").attr('disabled',true);  //将按钮置为不可点击
+            nums--;
+            if (nums > 0) {
+                $("#verifyCode")[0].innerHTML = nums + '秒后重新获取';
+            } else {
+                clearInterval(clock); //清除js定时器
+                $("#verifyCode").attr('disabled',false);  //按钮又可以点击了
+                $("#verifyCode")[0].innerHTML = '重新发送验证码';
+
+            }
+        }
+        //验证手机号并设置时间
+        $("#verifyCode").click(function () {
+            let phone = $.trim($("#phone").val());
+            if(!checkTelephone(phone)) {
+                 layer.tips('请输入正确的电话号', '#phone', {
+                    tips: [1, 'black'],
+                    time: 3000
+                   });
+                 return false;
+            } else {
+                let clock = window.setInterval(doLoop,1000);
+                nums = 30; //重置时间
+                $.ajax({
+                  url: "http://1.15.188.107:8160/user/msm/send",
+                  data: {
+                      "phone": phone
+                  },
+                  type: "get",
+                  dataType: "json",
+                  success: function (data) {
+
+                  }
+            })
+            }
+
+        })
+        //账号登录
         $("#userLoginBtn").click(function (){
             let loginAct = $.trim($("#loginAct").val());
             let loginPwd = $.trim($("#loginPwd").val());
             if (loginAct == "") {
                 layer.tips('用户名不能为空', '#loginAct', {
                     tips: [1, 'black'],
-                    time: 4000
+                    time: 3000
                    });
                 return false;
             }
             if(loginPwd == "") {
                     layer.tips('密码不能为空', '#loginPwd', {
                     tips: [1, 'black'],
-                    time: 4000
+                    time: 3000
                   });
                     return false;
              }
@@ -195,30 +235,117 @@ $(function () {
                 type: "post",
                 dataType: "json",
                 success: function (data) {
-
+                    // alert(data.code)
                     if (data.code == 20002) {
-                        layer.msg('输入的账号尚未注册，请用微信扫码登录', {icon: 2,time: 1500,offset: '200px'});
+                        // layer.msg('输入的账号尚未注册，请用微信扫码登录', {icon: 2,time: 1500,offset: '200px'});
+                         $("#loginAct").val("")
+                         layer.tips('账号尚未注册，请先用手机号注册', '#loginAct', {
+                              tips: [1, 'black'],
+                              time: 3000
+                             });
+                         layer.close(index)
+                          // return false;
                     }
                     if (data.code == 20003) {
                         $("#loginPwd").val("")
                         layer.tips('密码输入错误', '#loginPwd', {
                           tips: [1, 'black'],
-                          time: 4000
+                          time: 3000
                         });
-                    } else {
+                        layer.close(index)
+                    }
+                    if (data.code == 20000) {
                         let date = new Date()
                         date.setTime(date.getTime() + 24 * 60 * 60 * 1000)
-                        console.log(data.data.token)
-                        document.cookie = 'wx_token'+"="+data.data.token+";expires="+ data + ";path=/;";
+                        // alert(date)
+                        alert(data.data.token)
+                        document.cookie = 'wx_token'+"="+data.data.token+";expires="+ date + ";path=/;domain=localhost";
                         window.location = 'http://localhost:8080'
                         layer.msg('登录成功')
-                        layer.close(100002)
+                        layer.close(index)
                         layer.close(100001)
                     }
 
                     // if (data.code == 20002 || data.code == 20003) {
-                    //      // cookie.set('wx_token', this.$store.state.token, {domain: 'localhost', expires: 15})
-                    //     // cookie.set('wx_login', {domain: 'localhost'})
+                    //      // cookie.set('wx_token', this.$store.state.token, {domain: '124.221.71.253', expires: 15})
+                    //     // cookie.set('wx_login', {domain: '124.221.71.253'})
+                    //
+                    //     // let index = layer.load(3, '#userLoginBtn', {time: 1});
+                    //     // window.location.href = '/login?index='+index + '&account=' +loginAct;
+
+                    // }
+                }
+            })
+        })
+        //手机注册
+        $("#phoneLogin").click(function (){
+            let phone = $.trim($("#phone").val());
+            let nickname = $.trim($("#nickname").val());
+            let code = $.trim($("#code").val());
+            if(!checkTelephone(phone)) {
+                   layer.tips('请输入正确的电话号', '#phone', {
+                      tips: [1, 'black'],
+                      time: 3000
+                     });
+                   return false;
+              }
+            if (nickname == "") {
+                layer.tips('名字不能为空哦', '#nickname', {
+                    tips: [1, 'black'],
+                    time: 3000
+                   });
+                return false;
+            }
+
+            let index = layer.load(3, '#phoneLogin');
+            // alert(phone)
+            // alert(nickname)
+            // alert(code)
+            $.ajax({
+                url: "http://1.15.188.107:8160/user/account/register",
+                data: {
+                    "phoneNumber": phone,
+                    "code": code,
+                    "nickName": nickname
+                },
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data.code)
+                    // alert(data.code)
+                    if (data.code == 20005) {
+                        // layer.msg('输入的账号尚未注册，请用微信扫码登录', {icon: 2,time: 1500,offset: '200px'});
+                         $("#phone").val("")
+                         layer.tips('手机号不存在哦', '#phone', {
+                              tips: [1, 'black'],
+                              time: 3000
+                             });
+                         layer.close(index)
+                          // return false;
+                    }
+                    if (data.code == 20006) {
+                        $("#code").val("")
+                        layer.tips('请输入正确对的验证码', '#code', {
+                          tips: [1, 'black'],
+                          time: 3000
+                        });
+                        layer.close(index)
+                    }
+                    if (data.code == 20000) {
+                        let date = new Date()
+                        date.setTime(date.getTime() + 24 * 60 * 60 * 1000)
+                        // alert(date)
+                        alert(data.data.token)
+                        document.cookie = 'wx_token'+"="+data.data.token+";expires="+ date + ";path=/;domain=localhost";
+                        window.location = 'http://localhost:8080'
+                        layer.msg('注册成功')
+                        layer.close(index)
+                        layer.close(100001)
+                    }
+
+                    // if (data.code == 20002 || data.code == 20003) {
+                    //      // cookie.set('wx_token', this.$store.state.token, {domain: '124.221.71.253', expires: 15})
+                    //     // cookie.set('wx_login', {domain: '124.221.71.253'})
                     //
                     //     // let index = layer.load(3, '#userLoginBtn', {time: 1});
                     //     // window.location.href = '/login?index='+index + '&account=' +loginAct;
@@ -254,22 +381,6 @@ export function layuiBack(btn1, btn2, path) {
   }, function () {
 
   });
-}
-
-export function layuiDownload(btn1, btn2) {
-  if (typeof store.state.token == 'undefined') {
-    layuiOpen()
-  } else {
-    layer.confirm(`<span style="margin:auto 97px">点击下载将会扣除对应K币,且K币不会退还!</span>`, {
-      btn: [btn1, btn2] //按钮
-    }, function () {
-      layer.msg('正在请求资源', {icon: 1});
-    }, function () {
-      layer.msg('已取消下载', {
-        time: 5000, //20s后自动关闭
-      });
-    });
-  }
 }
 
 export function cancelSign() {
@@ -368,7 +479,7 @@ export function openEmail() {
                                 //请求的媒体类型
                                 contentType: "application/json;charset=UTF-8",
                                 //请求地址
-                                url : "http://localhost:8160/user/security/setUserSecurityData",
+                                url : "http://124.221.71.253:8160/user/security/setUserSecurityData",
                                 //数据，json字符串
                                 data : {
                                     email: value,
@@ -440,6 +551,10 @@ export function windowsIndexOf(str) {
 }
 
 export function pathHop(path) {
+  let currentPath = this.$route.path
+  if(currentPath == path) {
+    return ;
+  }
   this.me = false
   this.friend = false
   this.system = false
@@ -456,6 +571,7 @@ export function pathHop(path) {
   } else if (path == '/msg/course') {
     this.course = true
   }
+  this.$store.commit("editLoadingFlag", true)
   this.$router.push(path)
 }
 
@@ -991,7 +1107,7 @@ display: block;color: #4183c4;padding: 2px;text-decoration: none;background-colo
     });
     $("#ksd-chapterlist").find("li").off("click").on("click", function () {
       setTimeout(function () {
-        var scrollTop = $(window).scrollTop();
+        let scrollTop = $(window).scrollTop();
         $(window).scrollTop(scrollTop - 70);
       }, 1000);
     });

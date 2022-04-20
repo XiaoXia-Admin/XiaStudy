@@ -18,8 +18,9 @@ const store = new Vuex.Store({
       vipLevel: "",
       account: "",
       experience: 0,
-      money: 0
+      money: 0,
     },
+    loadingFlag: true,
     token: '',
     email: '123@163.com',
     reloadFlag: 0,
@@ -28,6 +29,9 @@ const store = new Vuex.Store({
   mutations: {
     editAvatar(state, avatar) {
       state.myUserInfoVo.avatar = avatar;
+    },
+    editLoadingFlag(state, flag) {
+      state.loadingFlag = flag;
     },
     editIsSing(state, isSignIn) {
       state.myUserInfoVo.isSign = isSignIn
@@ -40,6 +44,15 @@ const store = new Vuex.Store({
     },
     editReloadFlag(state, flag) {
       state.reloadFlag = flag;
+    },
+    addExperience(state, experience) {
+      state.myUserInfoVo.experience += experience;
+    },
+    addMoney(state, money) {
+      state.myUserInfoVo.money += money;
+    },
+    reduceMoney(state, money) {
+      state.myUserInfoVo.money -= money;
     }
   },
   actions: {},

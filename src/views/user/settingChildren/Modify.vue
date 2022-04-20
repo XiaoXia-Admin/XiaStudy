@@ -174,7 +174,7 @@ export default {
         }
       ],
       userInfo: {
-        id: 1,
+        // id: 1,
         experience: 10000,
         nickname: '往事随风',
         account: '999988',
@@ -207,6 +207,12 @@ export default {
           this.avatarList = response.data.data.avatarList
         })
     },
+    getUserDetail(){
+      loginApi.findUserInfo()
+        .then(response => {
+          this.userInfo = response.data.data.userDate
+        })
+    },
     //修改资料
     modifyUserInfo() {
       let nickname = this.$refs.nickname.value
@@ -231,6 +237,7 @@ export default {
   created() {
     this.selected = this.sexList[this.userInfo.sex].id
     this.findAvatar()
+    this.getUserDetail()
   }
 }
 </script>

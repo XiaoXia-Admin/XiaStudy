@@ -4,13 +4,13 @@
     <div v-show="!(this.$route.path.indexOf('/zl')!=-1)" class="xjy-topic-footer">
       <a href="javascript:void(0);" class="xjy-back float-left" @click="layuiBack('返回文章','继续操作','/bbs')"><i
         class="iconfont icon-fanhui pr tp1"></i>返回</a>
-      <span class="sendbtn" id="xjy-sendbtn-submit" @click="publishArticle()"><i class="iconfont icon-tianjia pr-2"></i><span
+      <span class="sendbtn" id="xjy-sendbtn-submit" @click="publishArticle(`发布文章成功`, true)"><i class="iconfont icon-tianjia pr-2"></i><span
         class="text">发布文章</span><span class="xjy-timer-bac"></span></span>
-      <span v-show="this.$route.path.indexOf('/topic/publish-article')!=-1" @click="preserveDraft" class="sendbtn"
+      <span v-show="this.$route.path.indexOf('/topic/publish-article')!=-1 && !this.previewFlag" @click="publishArticle(`保存文章成功`, false)" class="sendbtn"
             id="xjy-sendbtn-submit2"
             style="background: #4caf50;">
         <i class="iconfont icon-tianjia pr-2"></i><span class="text">保存草稿</span></span>
-      <a v-show="this.$route.path.indexOf('/topic/to-update')!=-1" :href="'/bbs/preview/'+ this.article.id">
+      <a v-show="this.$route.path.indexOf('/topic/to-update')!=-1 || this.previewFlag" :href="'/bbs/preview/'+ this.article.id">
         <span class="sendbtn" id="xjy-sendbtn-yulan">
           <i class="iconfont icon-icon_yulan pr-2"></i>
           <span class="text">预览</span>
@@ -21,7 +21,7 @@
     <div v-show="this.$route.path.indexOf('/topic/zl') !=-1" class="ksd-topic-footer"
          style="box-shadow: none;padding-right:18px;padding-top: 5px; ">
             <span style="position: absolute;top:24px;right: 342px;">
-                <label class="mr-3"><input type="checkbox" v-model="bbsCheck" class="togglemark"><span
+                <label class="mr-3"><input type="checkbox" @change="setMessage" v-model="bbsCheck" class="togglemark"><span
                   class="pr ftp1 pl-2" style="color: black">是否同步到江湖</span></label>
             </span>
       <span v-show="this.publishFlag" class="sendbtn" id="ksd-sendbtn-submit" @click="publishZlArticle"><i
@@ -48,7 +48,7 @@
               </div>
               <div class="col-md-3 blog-main">
                 <select name="topicCategoryId" style="text-indent: 1em;"
-                        class="custom-select bootstrap-tagsinput d-block w-100" v-model="couponSelected" id="category">
+                        class="custom-select bootstrap-tagsinput d-block w-100" @change="setMessage" v-model="couponSelected" id="category">
                   <option :value="span.id" v-for="span in categoryList">{{ span.categoryName }}</option>
                 </select>
               </div>
@@ -92,6 +92,7 @@ import {layuiBack,} from "../../../common/utils";
 import bbsApi from "../../../network/bbs";
 import {defaultConfig} from "../../../config/editor.md";
 import loginApi from "../../../network/login";
+import cookie from "js-cookie";
 
 export default {
   name: "Message",
@@ -110,6 +111,7 @@ export default {
   components: {EditorMarkdown},
   data() {
     return {
+      previewFlag: false,
       labelList: [],
       couponSelected: 1,
       articleId: '',
@@ -193,6 +195,7 @@ export default {
       this.article.content = this.editor.getMarkdown()
     },
     addSpan() {
+      // alert('haha')
       if (this.labelList.length < 3 && this.$refs.span.value.trim() != '') {
         this.labelList.push(this.$refs.span.value)
       } else if (this.$refs.span.value.trim() == '') {
@@ -257,7 +260,8 @@ export default {
       return true
     },
     //发布江湖文章
-    publishArticle() {
+    publishArticle(msg, isFlag) {
+      alert('haha')
       if (!this.checkTitleOrDes()) {
         return;
       }
@@ -268,21 +272,32 @@ export default {
       let nickname = this.$store.state.myUserInfoVo.nickname
       let avatar = this.$store.state.myUserInfoVo.avatar
       this.setMessage()
+      let params = new URLSearchParams()
+      params.append('title', title);
+      params.append('description', description);
+      params.append('categoryId', categoryId);
+      params.append('content', content);
+      params.append('labelList', this.labelList);
+      params.append('isRelease', isFlag);
+      params.append('avatar', avatar);
+      params.append('nickname', nickname);
       // console.log(title)
       // console.log(description)
       // console.log(categoryId)
       // console.log(content)
       // console.log(this.labelList)
       //title, description, categoryId, content, labelList, isRelease, avatar, nickname
-      bbsApi.bbsArticlePublish(title, description, categoryId, content, this.labelList, true, avatar, nickname)
+      bbsApi.bbsArticlePublish(params)
         .then(response => {
           this.articleId = response.data.data.articleId
-          layer.confirm(`发布文章成功`, {
+          layer.confirm(msg, {
             btn: ['点击查看', '继续编辑'],
             data: {
-              _articleId: this.articleId
+              _articleId: this.articleId,
+              _this: this
             }
           }, function () {
+            this.data._this.previewFlag = true
             window.location = 'http://localhost:8080/bbs/preview/' + this.data._articleId
           })
         })
@@ -362,7 +377,15 @@ export default {
       // console.log(bbsCheck)
       // console.log(labelList)
       let params = new URLSearchParams()
-      params.append('columnId', zlId);
+      // alert(zlId)
+      // alert(avatar)
+      // alert(nickname)
+      // alert(description)
+      // alert(categoryId)
+      // alert(content)
+      // alert(bbsCheck)
+      // alert(labelList)
+      params.append('conlumnId', zlId);
       params.append('avatar', avatar);
       params.append('nickname', nickname);
       params.append('title', title);
@@ -371,11 +394,12 @@ export default {
       params.append('content', content);
       params.append('isBbs', bbsCheck);
       params.append('labelList', labelList);
-      console.log(params)
+      // console.log(params)
       // qs.stringify({ids: [1, 2, 3]}, {arrayFormat:'repeat'})
       //形式： ids=1&ids=2&id=3
       bbsApi.publishZlArticle(params)
         .then(response => {
+          alert(response.data.code)
           if(response.data.code == 20000) {
             this.columnArticle = response.data.data.columnArticle
             // layer.msg('添加成功')
@@ -404,37 +428,6 @@ export default {
       //   // KsdCache.setCache("zlid", zlCntId);
       // }
       parent.location.href = "/zl/" + this.zlId;
-    },
-    //江湖文章的保存
-    preserveDraft() {
-      if (!this.checkTitleOrDes()) {
-        return;
-      }
-      //向后端保存草稿
-      layer.confirm(`保存草稿成功`, {
-        btn: ['点击查看', '返回编辑'],
-        data: {
-          _this: this
-        }
-      }, function () {
-        let categoryId = this.data._this.couponSelected
-        let title = this.data._this.$refs.addTitle.value
-        let description = this.data._this.$refs.addDescription.value
-        let content = this.data._this.editor.getMarkdown()
-        // console.log(title)
-        // console.log(description)
-        // console.log(categoryId)
-        // console.log(content)
-        // console.log(this.data._this.labelList)
-        //title, description, categoryId, content, labelList, isRelease, avatar, nickname
-        bbsApi.bbsArticlePublish(title, description, categoryId, content, this.data._this.labelList, false, this.data._this.$store.state.myUserInfoVo.avatar, this.data._this.$store.state.myUserInfoVo.nickname)
-          .then(response => {
-            window.location = 'http://localhost:8080/bbs/preview/1'
-          })
-
-      }, function () {
-
-      });
     },
     //文章的查询
     findArticleInfo(id) {
@@ -493,31 +486,41 @@ export default {
     // })
   },
   created() {
-    if (this.$route.path.indexOf('/topic/publish-article') != -1) {
-      this.findCategory()
-      this.findArticleCache()
-      // alert(this.article.categoryId)
+    if(cookie.get('wx_token')){
+      if (this.$route.path.indexOf('/topic/publish-article') != -1) {
+        this.findCategory()
+        // this.findArticleCache()
+        // alert(this.article.categoryId)
+        // let KsdCache = {
+        //   getCache: function (key, flag) {
+        //     return window[flag ? 'sessionStorage' : 'localStorage'].getItem("ksd_" + key);
+        //   }
+        // };
+        // let cacheContent = KsdCache.getCache("bbs_content");
 
-    } else if (this.$route.path.indexOf('/topic/to-update/') != -1) {
-      let id = this.$route.params.articleId
-      this.findArticleInfo(id)
-    } else if (this.$route.path.indexOf('/topic/zl/add-article/') != -1) {
-      this.article = {}
-      this.zlId = this.$route.params.zlId
-      this.findCategory()
-    } else if (this.$route.path.indexOf('/topic/zl/to-update/') != -1) {
-      this.zlId = this.$route.params.zlId
-      this.articleId = this.$route.params.zlArticleId
+      } else if (this.$route.path.indexOf('/topic/to-update/') != -1) {
+        let id = this.$route.params.articleId
+        this.findArticleInfo(id)
+      } else if (this.$route.path.indexOf('/topic/zl/add-article/') != -1) {
+        this.article = {}
+        this.zlId = this.$route.params.zlId
+        this.findCategory()
+      } else if (this.$route.path.indexOf('/topic/zl/to-update/') != -1) {
+        this.zlId = this.$route.params.zlId
+        this.articleId = this.$route.params.zlArticleId
 
-      this.publishFlag = false
-      // alert(this.publishFlag)
-      // alert(zlId)
-      // alert(articleId)
-      // alert('haha')
-      this.findCategory()
-      this.editZLArticle(this.zlId, this.articleId)
+        this.publishFlag = false
+        // alert(this.publishFlag)
+        // alert(zlId)
+        // alert(articleId)
+        // alert('haha')
+        this.findCategory()
+        this.editZLArticle(this.zlId, this.articleId)
+      }
+      this.couponSelected = this.article.categoryId == null ? '1492434355002302466' : this.article.categoryId
+    } else {
+      this.$router.push('/')
     }
-    this.couponSelected = this.article.categoryId == null ? '1492434355002302466' : this.article.categoryId
   }
 }
 </script>

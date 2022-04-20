@@ -1,7 +1,7 @@
 <template>
   <div :id="editorId" class="col-md-12 mb-3" style="padding-left: 1px; margin: auto auto;">
 <!--    <textarea>{{this.content}}</textarea>-->
-    <textarea></textarea>
+    <textarea :id="'text'+editorId"></textarea>
   </div>
 </template>
 
@@ -18,11 +18,11 @@ export default {
     config: { // 编辑器配置
       type: Object,
       default: null
+    },
+    content: {
+      type: String,
+      default: ``
     }
-    // content: {
-    //   type: String,
-    //   default: ``
-    // }
   },
   data() {
     return {

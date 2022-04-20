@@ -14,7 +14,7 @@
         </a>
       </div>
       <div class="liveimg" style="cursor: pointer;">
-        <a href="javascript:void(0);" @click="layuiDownload('下载','取消')" class="downloadlink">
+        <a href="javascript:void(0);" :data-money="item.price" @click="layuiDownload($event, item.id)" class="downloadlink">
           <i class="iconfont icon-xiazai fz12"></i>
           <span class="ml-1">{{ item.price }}K币</span>
         </a>
@@ -25,20 +25,76 @@
 </template>
 
 <script>
-import {layuiDownload} from "../../../common/utils";
-
 import cookie from 'js-cookie'
+import {layuiOpen} from "../../../common/utils";
+import oosApi from "../../../network/oos";
 
 export default {
   name: "AllCourse",
   props: {
     fileList: {
       type: Array,
-      default: []
+      default: () => {
+        return []
+      }
     }
   },
   methods: {
-    layuiDownload
+    layuiOpen,
+    layuiDownload(e, id) {
+      let money = e.currentTarget.dataset.money
+      let userMoney = this.$store.state.myUserInfoVo.money
+      let flag = userMoney > money ? true : false;
+      if (cookie.get('wx_token')) {
+
+        if(!flag) {
+          layer.msg('k币不够哦')
+        } else {
+          layer.confirm(`<span style="margin:auto 97px">点击下载将会扣除对应K币,且K币不会退还!</span>`, {
+            btn: ['下载', '取消'], //按钮,
+            data: {
+              _id: id,
+              _flag: flag,
+              _money: money,
+              _this: this
+            }
+          }, function () {
+            layer.msg('正在请求资源', {icon: 1});
+            let params = new URLSearchParams()
+            params.append('id', this.data._id);
+            alert(this.data._id)
+            oosApi.fileDownload(params).then(response => {
+              // alert('hahah')
+              layer.msg('请求成功', {icon: 1});
+              // this.$store.commit("reduceMoney",)
+              let blob = new Blob([response.data.data], { type: "application/zip" });
+              let url = window.URL.createObjectURL(blob);
+              const link = document.createElement("a"); // 创建a标签
+              link.href = url;
+              // link.download = "pic.zip"; // 重命名文件
+              link.setAttribute("download", 'pic.zip');
+              document.body.appendChild(link);
+              link.click();
+              // window.URL.revokeObjectURL(link.href);
+            })
+            // if(this.data._flag) {
+            //   this.data._this.$store.commit("reduceMoney", this.data._money)
+            //
+            // } else {
+            //   layer.msg('k币不够哦')
+            // }
+
+          }, function () {
+            layer.msg('已取消下载', {
+              time: 5000, //20s后自动关闭
+            });
+          });
+          this.$store.commit("reduceMoney", money)
+        }
+      } else {
+        this.layuiOpen()
+      }
+    }
   }
 }
 </script>

@@ -20,7 +20,7 @@ const User = () => import("../views/user/User");
 const Article = () => import("../views/user/children/Article");
 const Fans = () => import("../views/user/children/Fans");
 const FollowList = () => import("../views/user/children/FollowList");
-const Permission = () => import("../views/user/common/Permission");
+const VipPay = () => import("../views/vip/VipPay");
 
 const HomePage = () => import("../views/user/children/HomePage");
 const Setting = () => import("../views/user/children/Setting");
@@ -110,6 +110,7 @@ const routes = [
     component: Message,
     meta: {
       title: '发布文章',
+      keepAlive: true
     }
   },
   {
@@ -257,6 +258,13 @@ const routes = [
     }
   },
   {
+    path: '/vip/pay',
+    component: VipPay,
+    meta: {
+      title: '办理会员',
+    }
+  },
+  {
     path: '/msg',
     component: Information,
     children: [
@@ -310,6 +318,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   // console.log('to' + to.matched)
+  // console.log(to)
   document.title = to.matched[0].meta.title
   next()
 })

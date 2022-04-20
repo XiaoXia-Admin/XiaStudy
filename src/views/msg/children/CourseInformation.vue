@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div v-show="!this.$store.state.loadingFlag">
     <msg-title :title="this.title" :total="this.total"></msg-title>
-    <div class="n-msgnt n-msgnt-1 n-msgnt-hvr j-flag">
-      <div v-for="(item, index) in courseNewList" :key="item.courseId" class="item f-cb xjy-left">
+    <div v-show="this.total != 0" class="n-msgnt n-msgnt-1 n-msgnt-hvr j-flag">
+      <div v-for="(item, index) in courseNewsList" :key="item.courseId" class="item f-cb xjy-left">
         <div class="ava f-pr"><a :href="'/course/detail/' + item.courseId" target="_blank"
                                  :title="item.title"><img
           :src="item.cover"
@@ -21,6 +21,7 @@
         </div>
       </div>
     </div>
+    <div v-show="this.total == 0">暂无课程信息</div>
   </div>
 </template>
 
@@ -34,8 +35,8 @@ export default {
   data() {
     return {
       title: '课程通知:&nbsp;<small>您可以在这里看到我们最新发布的课程动态。</small>',
-      total: 100,
-      courseNewList: [
+      total: 0,
+      courseNewsList: [
         {
           courseId: '123',
           cover: '',
@@ -57,7 +58,8 @@ export default {
       this.current += 1
       informationApi.findCourseInfo(this.current, this.limit).then(response => {
         this.total = response.data.data.total
-        this.courseNewList = response.data.data.courseNewList
+        this.courseNewsList = response.data.data.courseNewsList
+        this.$store.commit("editLoadingFlag", false)
       })
     },
   },
